@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import perso.boulangerie.produit.models.ProduitsRecettes;
+import perso.boulangerie.fournisseur.models.IngredientEntree;
 
 @Data
 @Entity
@@ -16,15 +16,10 @@ public class ProductionDetails {
     private BigDecimal quantite;
 
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "idIngredient", referencedColumnName = "idIngredient"),
-        @JoinColumn(name = "idProduit", referencedColumnName = "idProduit")
-    })
-    private ProduitsRecettes recettesProduit;
-
-		
+    @JoinColumn(name = "IdIngredientEntree")
+    private IngredientEntree ingredientEntree;
 
     @ManyToOne
-    @JoinColumn(name = "idProduction")
+    @JoinColumn(name = "IdProduction")
     private Production production;
 }
