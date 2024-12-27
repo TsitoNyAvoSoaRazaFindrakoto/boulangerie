@@ -22,6 +22,8 @@ public class ProductionDetails {
     })
     private ProduitsRecettes recettesProduit;
 
+		
+
     @ManyToOne
     @JoinColumn(name = "idProduction")
     private Production production;
