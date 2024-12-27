@@ -101,17 +101,6 @@ CREATE TABLE Ingredients_Fournisseurs(
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient)
 );
 
-CREATE TABLE Production_Details(
-   Id_Production_Details SERIAL,
-   quantite NUMERIC(20,2)   NOT NULL,
-   Id_Ingredient INTEGER NOT NULL,
-   Id_Produit INTEGER NOT NULL,
-   Id_Production INTEGER NOT NULL,
-   PRIMARY KEY(Id_Production_Details),
-   FOREIGN KEY(Id_Ingredient, Id_Produit) REFERENCES Produits_Recettes(Id_Ingredient, Id_Produit),
-   FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production)
-);
-
 CREATE TABLE Ingredient_Entree(
    Id_Ingredient_Entree SERIAL,
    quantite NUMERIC(15,2)   NOT NULL,
@@ -123,3 +112,12 @@ CREATE TABLE Ingredient_Entree(
    FOREIGN KEY(Id_Fournisseur, Id_Ingredient) REFERENCES Ingredients_Fournisseurs(Id_Fournisseur, Id_Ingredient)
 );
 
+CREATE TABLE Production_Details(
+   Id_Production_Details SERIAL,
+   quantite NUMERIC(20,2)   NOT NULL,
+   Id_Ingredient_Entree INTEGER NOT NULL,
+   Id_Production INTEGER NOT NULL,
+   PRIMARY KEY(Id_Production_Details),
+   FOREIGN KEY(Id_Ingredient_Entree) REFERENCES Ingredient_Entree(Id_Ingredient_Entree),
+   FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production)
+);
