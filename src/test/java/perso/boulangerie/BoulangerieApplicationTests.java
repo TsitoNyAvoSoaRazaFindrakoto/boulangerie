@@ -8,6 +8,8 @@ class BoulangerieApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
+
 
 }
