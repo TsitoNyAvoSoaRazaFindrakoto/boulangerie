@@ -1,6 +1,7 @@
 package perso.boulangerie.produit.models;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,4 +24,7 @@ public class Produit {
     @ManyToOne
     @JoinColumn(name = "idProduitCategorie")
     private ProduitCategorie categorieProduit;
+
+		@Transient
+		List<ProduitsRecettes> recette;
 }

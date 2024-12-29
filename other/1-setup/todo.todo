@@ -1,6 +1,7 @@
 initialisation backend:
 	☐ configurer `application.properties`
-	☐ creer la base de donnees
-	☐ creer les classes entity
-	☐ lancer le projet 
-	☐ creer view stock produit
+	☐ creer est inserer la base de donnees
+	☐ lancer le projet
+
+		
+	

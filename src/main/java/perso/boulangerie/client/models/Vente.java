@@ -1,4 +1,4 @@
-package perso.boulangerie.client;
+package perso.boulangerie.client.models;
 
 import java.time.LocalDateTime;
 
