@@ -1,5 +1,6 @@
 package perso.boulangerie.fournisseur.services;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import perso.boulangerie.fournisseur.models.IngredientEntree;
 import perso.boulangerie.fournisseur.repos.IngredientEntreeRepo;
+import perso.boulangerie.produit.models.Ingredient;
+import perso.boulangerie.produit.repos.IngredientRepo;
 
 @Service
 public class IngredientEntreeService {
 	@Autowired private IngredientEntreeRepo IngredientEntreeRepo;
+	@Autowired private IngredientRepo IngredientRepo;
 
 	public IngredientEntree save(IngredientEntree IngredientEntree){
 		return IngredientEntreeRepo.save(IngredientEntree);
@@ -26,6 +30,14 @@ public class IngredientEntreeService {
 
 	public List<IngredientEntree> getStockIngredient(Integer idIngredient){
 		return IngredientEntreeRepo.findStockByIngredient(idIngredient);
+	}
+
+	public HashMap<Integer,List<IngredientEntree>> getStockGroupByIngrdient(){
+		HashMap<Integer,List<IngredientEntree>> stock = new HashMap<Integer,List<IngredientEntree>>();
+		for (Ingredient ingredient : IngredientRepo.findAll()){
+			stock.put(ingredient.getIdIngredient(), IngredientEntreeRepo.findStockByIngredient(ingredient.getIdIngredient()));
+		}
+		return stock;
 	}
 
 	public void deleteIngredientEntree(IngredientEntree IngredientEntree){
