@@ -27,4 +27,10 @@ public class Produit {
 
 		@Transient
 		List<ProduitsRecettes> recette;
+
+		public void setProduitRecette(){
+			for (ProduitsRecettes produitsRecettes : recette) {
+				produitsRecettes.setProduit(this);
+			}
+		}
 }

@@ -7,18 +7,21 @@ import org.springframework.stereotype.Service;
 
 import perso.boulangerie.produit.models.Produit;
 import perso.boulangerie.produit.repos.ProduitRepo;
+import perso.boulangerie.produit.repos.ProduitsRecettesRepo;
 
 @Service
 public class ProduitService {
-	@Autowired
-	private ProduitRepo ProduitRepo;
+	@Autowired private ProduitRepo ProduitRepo;
+	@Autowired private ProduitsRecettesRepo ProduitsRecettesRepo;
 
 	public List<Produit> getAllProduits() {
 		return ProduitRepo.findAll();
 	}
 
 	public Produit getProduitById(Integer id) {
-		return ProduitRepo.findById(id).orElseThrow(()-> new RuntimeException("Produit not found with id: "+id));
+		Produit p = ProduitRepo.findById(id).orElseThrow(()-> new RuntimeException("Produit not found with id: "+id));
+		p.setRecette(ProduitsRecettesRepo.findByProduit(p));
+		return p;
 	}
 
 	public Produit save(Produit Produit) {
@@ -27,5 +30,11 @@ public class ProduitService {
 
 	public void deleteProduit(Integer id) {
 		ProduitRepo.deleteById(id);
+	}
+
+	public Produit saveWithRecette(Produit p){
+		p.setIdProduit(save(p).getIdProduit());
+		ProduitsRecettesRepo.saveAll(p.getRecette());
+		return p;
 	}
 }

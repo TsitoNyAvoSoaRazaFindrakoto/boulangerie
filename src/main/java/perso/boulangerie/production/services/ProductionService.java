@@ -25,6 +25,10 @@ public class ProductionService {
 		return productionRepo.save(production);
 	}
 
+	public List<Production> getStockProduit(Integer idIngredient){
+		return productionRepo.findStockByIngredient(idIngredient);
+	}
+
 	public List<Production> findByDate(LocalDateTime dateProd){
 		return productionRepo.findByDateProduction(dateProd);
 	}

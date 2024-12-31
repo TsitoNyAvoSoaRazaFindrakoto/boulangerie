@@ -24,6 +24,10 @@ public class IngredientEntreeService {
 		return IngredientEntreeRepo.findById(id).orElseThrow(() -> new RuntimeException("IngredientsEntree not found with id: " + id));
 	}
 
+	public List<IngredientEntree> getStockIngredient(Integer idIngredient){
+		return IngredientEntreeRepo.findStockByIngredient(idIngredient);
+	}
+
 	public void deleteIngredientEntree(IngredientEntree IngredientEntree){
 		IngredientEntreeRepo.delete(IngredientEntree);
 	}
