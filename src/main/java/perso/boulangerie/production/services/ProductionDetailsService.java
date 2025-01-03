@@ -26,7 +26,18 @@ public class ProductionDetailsService {
 	@Autowired
 	private ProduitService produitService;
 
-	HashMap<Integer, List<IngredientEntree>> stockIngredient = ingredientEntreeService.getStockGroupByIngrdient();
+	HashMap<Integer, List<IngredientEntree>> stockIngredient;
+
+
+	
+
+	public ProductionDetailsService(ProductionDetailsRepo productionDetailsRepo,
+			IngredientEntreeService ingredientEntreeService, ProduitService produitService) {
+		this.productionDetailsRepo = productionDetailsRepo;
+		this.ingredientEntreeService = ingredientEntreeService;
+		this.produitService = produitService;
+		this.stockIngredient =  ingredientEntreeService.getStockGroupByIngrdient();
+	}
 
 	public List<ProductionDetails> getProductions() {
 		return productionDetailsRepo.findAll();

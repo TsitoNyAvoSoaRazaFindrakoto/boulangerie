@@ -18,7 +18,14 @@ public class VenteFactureDetailsService {
 	@Autowired private VenteFactureDetailsRepo venteFactureDetailsRepo;
 	@Autowired private ProductionService productionService;
 
-	private HashMap<Integer,List<Production>> stockProduit = productionService.getStockGroupByProduit();
+	private HashMap<Integer,List<Production>> stockProduit;
+
+	public VenteFactureDetailsService(VenteFactureDetailsRepo venteFactureDetailsRepo,
+			ProductionService productionService) {
+		this.venteFactureDetailsRepo = venteFactureDetailsRepo;
+		this.productionService = productionService;
+		this.stockProduit = productionService.getStockGroupByProduit();
+	}
 
 	public VenteFactureDetails save(VenteFactureDetails VenteDetails){
 		return venteFactureDetailsRepo.save(VenteDetails);

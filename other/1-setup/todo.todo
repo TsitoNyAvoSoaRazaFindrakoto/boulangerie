@@ -11,7 +11,7 @@ ajout des operation sur modeles en back ( seules les operations qui ont de speci
 		✔ :client possiblement nul @done(25-01-02 13:48)
 		✔ adresse livraison nul => date de livraison = date de vente et etat = 1 @done(25-01-02 17:24)
 		necessite insertion factures de vente:
-			☐ -> insertion 1+ detail(s) de facture de vente
-			☐ creation detail(s) de facture de vente nessecite regarder stock de produits
+			✔ -> insertion 1+ detail(s) de facture de vente @done(25-01-03 16:23)
+			✔ creation detail(s) de facture de vente nessecite regarder stock de produits @done(25-01-03 16:23)
 	insertion founisseur:
-		☐ -> insertion des ingredients qu'on peut trouver chez le fournisseur/qu'on achete frequement chez le founisseur
+		✔ -> insertion des ingredients qu'on peut trouver chez le fournisseur/qu'on achete frequement chez le founisseur @done(25-01-03 16:23)
