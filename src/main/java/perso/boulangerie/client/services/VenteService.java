@@ -42,7 +42,7 @@ public class VenteService {
 		return v;
 	}
 
-	public void deleteVente(Vente Vente){
-		venteRepo.delete(Vente);
+	public void deleteVente(Integer id){
+		venteRepo.deleteById(id);
 	}
 }
