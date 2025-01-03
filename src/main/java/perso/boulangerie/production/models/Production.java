@@ -24,12 +24,15 @@ public class Production {
 		@Transient
 		private List<ProductionDetails> productionDetails;
 
-		public void setProductionDetails(List<ProductionDetails> productionDetails){
-			this.productionDetails = productionDetails;
-			if (productionDetails != null) {
-				for (ProductionDetails details : productionDetails) {
+		public void setProductionDetails(List<ProductionDetails> productionDetailslist){
+			if (productionDetailslist != null && !productionDetailslist.isEmpty() && productionDetailslist.get(0).getProduction() != null || productionDetailslist==null) {
+				return;
+			}
+			if (productionDetailslist != null) {
+				for (ProductionDetails details : productionDetailslist) {
 					details.setProduction(this);
 				}
 			}
+			this.productionDetails = productionDetailslist;
 		}
 }

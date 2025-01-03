@@ -20,7 +20,7 @@ public class ProduitService {
 
 	public Produit getProduitById(Integer id) {
 		Produit p = ProduitRepo.findById(id).orElseThrow(()-> new RuntimeException("Produit not found with id: "+id));
-		p.setRecette(ProduitsRecettesRepo.findByProduit(p));
+		p.setRecettes(ProduitsRecettesRepo.findByProduit(p));
 		return p;
 	}
 
@@ -34,7 +34,7 @@ public class ProduitService {
 
 	public Produit saveWithRecette(Produit p){
 		p.setIdProduit(save(p).getIdProduit());
-		ProduitsRecettesRepo.saveAll(p.getRecette());
+		ProduitsRecettesRepo.saveAll(p.getRecettes());
 		return p;
 	}
 }

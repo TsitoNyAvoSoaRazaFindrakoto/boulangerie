@@ -26,11 +26,16 @@ public class Produit {
     private ProduitCategorie categorieProduit;
 
 		@Transient
-		List<ProduitsRecettes> recette;
+		List<ProduitsRecettes> recettes;
 
-		public void setProduitRecette(){
-			for (ProduitsRecettes produitsRecettes : recette) {
-				produitsRecettes.setProduit(this);
+		public void setRecettes(List<ProduitsRecettes> recetteslist) {
+			if (recetteslist != null && !recetteslist.isEmpty() && recetteslist.get(0).getProduit() != null || recetteslist==null) {
+				return;
 			}
+			for (ProduitsRecettes recette : recetteslist) {
+				recette.setProduit(this);
+			}
+			this.recettes = recetteslist;
 		}
+		
 }

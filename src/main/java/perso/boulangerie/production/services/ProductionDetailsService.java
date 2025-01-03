@@ -37,6 +37,7 @@ public class ProductionDetailsService {
 				.orElseThrow(() -> new RuntimeException("Production not found with id: " + id));
 	}
 
+
 	public ProductionDetails save(ProductionDetails productionDetails) {
 		return productionDetailsRepo.save(productionDetails);
 	}
@@ -90,10 +91,11 @@ public class ProductionDetailsService {
 		Produit produit = produitService.getProduitById(p.getProduit().getIdProduit());
 		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
-		for (ProduitsRecettes recette : produit.getRecette()) {
+		for (ProduitsRecettes recette : produit.getRecettes()) {
 			productionDetails.addAll(createForRecette(p, recette));
 		}
 
+		return productionDetails;
 	}
 
 	public void delete(Integer id) {

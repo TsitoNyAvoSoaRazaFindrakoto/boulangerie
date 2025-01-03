@@ -1,16 +1,17 @@
 initialisation backend:
-	☐ configurer `application.properties`
-	☐ creer est inserer la base de donnees
-	☐ lancer le projet
+	✔ configurer `application.properties` @done(25-01-02 17:36)
+	✔ creer est inserer la base de donnees @done(25-01-02 17:36)
+	✔ lancer le projet @done(25-01-02 17:36)
 
 ajout des operation sur modeles en back ( seules les operations qui ont de specificite/contraintes de regle de gestion y sont mentionees ):
 	insertion production :
-		☐ -> insertion production details
-		☐ creation production details nessecite regarder stock d'ingredient
+		✔ -> insertion production details @done(25-01-02 13:34)
+		✔ creation production details nessecite regarder stock d'ingredient @done(25-01-02 13:34)
 	insertion vente:
-		☐ :client possiblement nul
-		☐ -> insertion vente details
-		☐ adresse livraison nul => date de livraison = date de vente
-		☐ creation vente details nessecite regarder stock de produits
+		✔ :client possiblement nul @done(25-01-02 13:48)
+		✔ adresse livraison nul => date de livraison = date de vente et etat = 1 @done(25-01-02 17:24)
+		necessite insertion factures de vente:
+			☐ -> insertion 1+ detail(s) de facture de vente
+			☐ creation detail(s) de facture de vente nessecite regarder stock de produits
 	insertion founisseur:
-		☐ -> insertion des ingredient venant du fournisseur
+		☐ -> insertion des ingredients qu'on peut trouver chez le fournisseur/qu'on achete frequement chez le founisseur

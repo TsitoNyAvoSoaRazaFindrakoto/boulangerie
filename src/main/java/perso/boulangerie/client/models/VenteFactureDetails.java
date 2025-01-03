@@ -1,26 +1,23 @@
 package perso.boulangerie.client.models;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import perso.boulangerie.production.models.Production;
 
 @Data
 @Entity
-public class VenteDetails {
+public class VenteFactureDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDetailsCommande;
+    private Integer idVenteFactureDetails;
 
     private Integer quantite;
-    private BigDecimal prixUnitaire;
 
     @ManyToOne
     @JoinColumn(name = "idProduction")
     private Production production;
 
     @ManyToOne
-    @JoinColumn(name = "idVente")
-    private Vente vente;
+    @JoinColumn(name = "idVenteFacture")
+    private VenteFacture venteFacture;
 }

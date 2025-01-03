@@ -5,10 +5,14 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import perso.boulangerie.production.models.Production;
 import perso.boulangerie.production.repos.ProductionRepo;
+import perso.boulangerie.produit.models.Produit;
+import perso.boulangerie.produit.repos.ProduitRepo;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,6 +21,8 @@ public class ProductionService {
 	private ProductionRepo productionRepo;
 	@Autowired
 	private ProductionDetailsService productionDetailsService;
+	@Autowired
+	private ProduitRepo produitRepo;
 
 	public List<Production> getProductions() {
 		return productionRepo.findAll();
@@ -28,17 +34,25 @@ public class ProductionService {
 		return p;
 	}
 
+	public HashMap<Integer,List<Production>> getStockGroupByProduit(){
+		HashMap<Integer,List<Production>> stock = new HashMap<Integer,List<Production>>();
+		for (Produit Produit : produitRepo.findAll()){
+			stock.put(Produit.getIdProduit(), productionRepo.findStockByProduit(Produit.getIdProduit()));
+		}
+		return stock;
+	}
+
 	@Transactional
 	public Production save(Production production) {
 		production.setProductionDetails(productionDetailsService.createForProduction(production, true));
 		production.setIdProduction(productionRepo.save(production).getIdProduction());
 		productionDetailsService.saveAll(production.getProductionDetails());
 
-		return findProduction(production.getIdProduction());
+		return production;
 	}
 
-	public List<Production> getStockProduit(Integer idIngredient){
-		return productionRepo.findStockByIngredient(idIngredient);
+	public List<Production> getStockProduit(Integer idProduit){
+		return productionRepo.findStockByProduit(idProduit);
 	}
 
 	public List<Production> findByDate(LocalDateTime dateProd){

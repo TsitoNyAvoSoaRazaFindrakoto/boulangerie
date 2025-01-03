@@ -32,6 +32,16 @@ CREATE TABLE Unite(
    PRIMARY KEY(Id_Unite)
 );
 
+CREATE TABLE Vente(
+   Id_Vente SERIAL,
+   date_vente TIMESTAMP NOT NULL,
+   date_livree TIMESTAMP,
+   adresse_livraison VARCHAR(50) ,
+   Id_Client INTEGER NOT NULL,
+   PRIMARY KEY(Id_Vente),
+   FOREIGN KEY(Id_Client) REFERENCES Client(Id_Client)
+);
+
 CREATE TABLE Produit(
    Id_Produit SERIAL,
    nom VARCHAR(30)  NOT NULL,
@@ -71,27 +81,6 @@ CREATE TABLE Produits_Recettes(
    FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit)
 );
 
-CREATE TABLE Vente(
-   Id_Vente SERIAL,
-   date_vente TIMESTAMP NOT NULL,
-   date_livree TIMESTAMP,
-   adresse_livraison VARCHAR(50) ,
-   Id_Client INTEGER,
-   PRIMARY KEY(Id_Vente),
-   FOREIGN KEY(Id_Client) REFERENCES Client(Id_Client)
-);
-
-CREATE TABLE Vente_details(
-   Id_Details_Commande SERIAL,
-   quantite INTEGER NOT NULL,
-   prix_unitaire NUMERIC(10,2)   NOT NULL,
-   Id_Production INTEGER NOT NULL,
-   Id_Vente INTEGER NOT NULL,
-   PRIMARY KEY(Id_Details_Commande),
-   FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production),
-   FOREIGN KEY(Id_Vente) REFERENCES Vente(Id_Vente)
-);
-
 CREATE TABLE Ingredients_Fournisseurs(
    Id_Fournisseur INTEGER,
    Id_Ingredient INTEGER,
@@ -99,6 +88,17 @@ CREATE TABLE Ingredients_Fournisseurs(
    PRIMARY KEY(Id_Fournisseur, Id_Ingredient),
    FOREIGN KEY(Id_Fournisseur) REFERENCES Fournisseur(Id_Fournisseur),
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient)
+);
+
+CREATE TABLE Vente_Facture(
+   Id_Vente_Facture SERIAL,
+   quantite NUMERIC(20,2)   NOT NULL,
+   prix_unitaire VARCHAR(50)  NOT NULL,
+   Id_Vente INTEGER NOT NULL,
+   Id_Produit INTEGER NOT NULL,
+   PRIMARY KEY(Id_Vente_Facture),
+   FOREIGN KEY(Id_Vente) REFERENCES Vente(Id_Vente),
+   FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit)
 );
 
 CREATE TABLE Ingredient_Entree(
@@ -112,6 +112,16 @@ CREATE TABLE Ingredient_Entree(
    FOREIGN KEY(Id_Fournisseur, Id_Ingredient) REFERENCES Ingredients_Fournisseurs(Id_Fournisseur, Id_Ingredient)
 );
 
+CREATE TABLE Vente_Facture_Details(
+   Id_Vente_Facture_Details SERIAL,
+   quantite INTEGER NOT NULL,
+   Id_Production INTEGER NOT NULL,
+   Id_Vente_Facture INTEGER NOT NULL,
+   PRIMARY KEY(Id_Vente_Facture_Details),
+   FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production),
+   FOREIGN KEY(Id_Vente_Facture) REFERENCES Vente_Facture(Id_Vente_Facture)
+);
+
 CREATE TABLE Production_Details(
    Id_Production_Details SERIAL,
    quantite NUMERIC(20,2)   NOT NULL,
@@ -122,6 +132,7 @@ CREATE TABLE Production_Details(
    FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production)
 );
 
+
 CREATE
 OR REPLACE VIEW Stock_Produit AS
 SELECT
@@ -131,12 +142,12 @@ SELECT
 	pr.Id_Produit as Id_Produit
 FROM
 	Production pr
-	LEFT JOIN Vente_details vd ON pr.Id_Production = vd.Id_Production
+	LEFT JOIN Vente_Facture_Details vd ON pr.Id_Production = vd.Id_Production
 GROUP BY
 	pr.Id_Production
 HAVING
 	pr.quantite - COALESCE(SUM(vd.quantite), 0) > 0;
-
+	
 CREATE
 OR REPLACE VIEW Stock_Ingredient as
 SELECT

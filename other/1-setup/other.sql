@@ -8,7 +8,7 @@ SELECT
 	pr.Id_Produit as Id_Produit
 FROM
 	Production pr
-	LEFT JOIN Vente_details vd ON pr.Id_Production = vd.Id_Production
+	LEFT JOIN Vente_Facture_Details vd ON pr.Id_Production = vd.Id_Production
 GROUP BY
 	pr.Id_Production
 HAVING
