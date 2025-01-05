@@ -27,6 +27,11 @@ public class IngredientsFournisseursService {
 		return IngredientsFournisseursRepo.findById(id).orElseThrow(() -> new RuntimeException("IngredientsFournisseurs not found with founisseur-id: " + id.getFournisseur() + " and ingredient-id:" + id.getIngredient()));
 	}
 
+	public IngredientsFournisseurs findIngredientsFournisseurs(Integer idFournisseur, Integer idIngredient){
+		return IngredientsFournisseursRepo.findById(new IngredientsFournisseursId(idFournisseur, idIngredient)).orElseThrow(() -> new RuntimeException("IngredientsFournisseurs not found with founisseur-id: " + idFournisseur + " and ingredient-id:" + idIngredient));
+	}
+
+
 	public List<IngredientsFournisseurs> findByFournisseur(Fournisseur f){
 		return IngredientsFournisseursRepo.findByFournisseur(f);
 	}

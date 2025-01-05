@@ -24,7 +24,7 @@ public class ClientService {
 		return clientRepo.findById(id).orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
 	}
 
-	public void deleteClient(Client client){
-		clientRepo.delete(client);
+	public void deleteClient(Integer id){
+		clientRepo.deleteById(id);
 	}
 }
