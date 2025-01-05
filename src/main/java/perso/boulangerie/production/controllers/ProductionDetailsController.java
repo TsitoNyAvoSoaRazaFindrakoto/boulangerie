@@ -48,13 +48,13 @@ public class ProductionDetailsController {
 		return "productionDetails/edit";
 	}
 
-	@PostMapping("/update/{id}")
+	@PutMapping("/update/{id}")
 	public String updateProductionDetails(@ModelAttribute ProductionDetails productionDetails) {
 		productionDetailsService.save(productionDetails);
 		return "redirect:/productionDetails";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteProductionDetails(@PathVariable Integer id) {
 		productionDetailsService.delete(id);
 		return "redirect:/productionDetails";

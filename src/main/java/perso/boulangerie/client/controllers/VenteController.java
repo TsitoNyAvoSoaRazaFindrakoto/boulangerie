@@ -55,13 +55,13 @@ public class VenteController {
 		return "ventes/form";
 	}
 
-	@PostMapping("/update/{id}")
+	@PutMapping("/update/{id}")
 	public String updateVente(@ModelAttribute Vente vente, @RequestParam List<VenteFacture> venteDetails) {
 		venteService.saveWithDetails(vente, venteDetails);
 		return "redirect:/ventes";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteVente(@PathVariable Integer id) {
 		venteService.deleteVente(id);
 		return "redirect:/ventes";

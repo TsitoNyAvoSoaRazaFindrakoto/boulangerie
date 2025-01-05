@@ -46,13 +46,13 @@ public class IngredientEntreeController {
 		return "ingredientEntrees/update";
 	}
 
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	public String updateIngredientEntree(@ModelAttribute IngredientEntree ingredientEntree) {
 		ingredientEntreeService.save(ingredientEntree);
 		return "redirect:/ingredientEntrees";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteIngredientEntree(@PathVariable("id") Integer id) {
 		IngredientEntree ingredientEntree = ingredientEntreeService.findIngredientEntree(id);
 		ingredientEntreeService.deleteIngredientEntree(ingredientEntree);

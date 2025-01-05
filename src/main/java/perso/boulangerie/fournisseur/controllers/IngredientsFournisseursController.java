@@ -42,13 +42,13 @@ public class IngredientsFournisseursController {
 		return "ingredientsFournisseurs/edit";
 	}
 
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public String updateIngredientsFournisseurs(@ModelAttribute IngredientsFournisseurs ingredientsFournisseurs) {
 		ingredientsFournisseursService.save(ingredientsFournisseurs);
 		return "redirect:/ingredientsFournisseurs";
 	}
 
-	@GetMapping("/delete/{id-ingredient}/{id-fournisseur}")
+	@DeleteMapping("/delete/{id-ingredient}/{id-fournisseur}")
 	public String deleteIngredientsFournisseurs(@PathVariable("id-ingredient") Integer idIngredient, @PathVariable("id-fournisseur") Integer idFournisseur) {
 		IngredientsFournisseurs ingredientsFournisseurs = ingredientsFournisseursService.findIngredientsFournisseurs(idIngredient, idFournisseur);
 		ingredientsFournisseursService.deleteIngredientsFournisseurs(ingredientsFournisseurs);

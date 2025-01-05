@@ -48,14 +48,14 @@ public class VenteFactureController {
 		return "ventes/form";
 	}
 
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	public String updateVente(@PathVariable Integer id, @ModelAttribute VenteFacture venteFacture) {
 		venteFacture.setIdVenteFacture(id);
 		venteFactureService.save(venteFacture);
 		return "redirect:/ventes";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteVente(@PathVariable Integer id) {
 		venteFactureService.deleteFactureVente(id);
 		return "redirect:/ventes";

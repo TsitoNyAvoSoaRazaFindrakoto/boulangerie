@@ -49,13 +49,13 @@ public class FournisseurController {
 		return "fournisseurs/edit";
 	}
 
-	@PostMapping("/update/{id}")
+	@PutMapping("/update/{id}")
 	public String updateFournisseur(@ModelAttribute Fournisseur fournisseurDetails) {
 		fournisseurService.save(fournisseurDetails);
 		return "redirect:/fournisseurs";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteFournisseur(@PathVariable Integer id) {
 		Fournisseur fournisseur = fournisseurService.findFournisseur(id);
 		fournisseurService.deleteFournisseur(fournisseur);

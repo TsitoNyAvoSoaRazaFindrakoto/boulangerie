@@ -49,13 +49,13 @@ public class ProductionController {
 		return "productions/edit";
 	}
 
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	public String updateProduction(@PathVariable("id") Integer id, @ModelAttribute("production") Production production) {
 		productionService.save(production);
 		return "redirect:/productions";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteProduction(@PathVariable("id") Integer id) {
 		productionService.delete(id);
 		return "redirect:/productions";

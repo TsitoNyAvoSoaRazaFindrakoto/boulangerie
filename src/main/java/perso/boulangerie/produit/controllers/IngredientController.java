@@ -49,13 +49,13 @@ public class IngredientController {
 		return "ingredients/form";
 	}
 
-	@PostMapping("/update/{id}")
+	@PutMapping("/update/{id}")
 	public String updateIngredient(@ModelAttribute Ingredient ingredient) {
 		ingredientService.save(ingredient);
 		return "redirect:/ingredients";
 	}
 
-	@GetMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public String deleteIngredient(@PathVariable Integer id) {
 		ingredientService.deleteIngredient(id);
 		return "redirect:/ingredients";
