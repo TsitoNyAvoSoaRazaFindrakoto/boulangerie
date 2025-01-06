@@ -9,7 +9,7 @@ import perso.boulangerie.client.services.VenteFactureService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ventes")
+@RequestMapping("/venteFacture")
 public class VenteFactureController {
 
 	@Autowired
@@ -30,33 +30,33 @@ public class VenteFactureController {
 	}
 
 	@GetMapping("/new")
-	public String createVenteForm(Model model) {
+	public String createVenteFactureForm(Model model) {
 		model.addAttribute("venteFacture", new VenteFacture());
 		return "ventes/form";
 	}
 
 	@PostMapping
-	public String saveVente(@ModelAttribute VenteFacture venteFacture) {
+	public String saveVenteFacture(@ModelAttribute VenteFacture venteFacture) {
 		venteFactureService.save(venteFacture);
 		return "redirect:/ventes";
 	}
 
 	@GetMapping("/edit/{id}")
-	public String editVenteForm(@PathVariable Integer id, Model model) {
+	public String editVenteFactureForm(@PathVariable Integer id, Model model) {
 		VenteFacture venteFacture = venteFactureService.getVenteFacture(id);
 		model.addAttribute("venteFacture", venteFacture);
 		return "ventes/form";
 	}
 
 	@PutMapping("/{id}")
-	public String updateVente(@PathVariable Integer id, @ModelAttribute VenteFacture venteFacture) {
+	public String updateVenteFacture(@PathVariable Integer id, @ModelAttribute VenteFacture venteFacture) {
 		venteFacture.setIdVenteFacture(id);
 		venteFactureService.save(venteFacture);
 		return "redirect:/ventes";
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public String deleteVente(@PathVariable Integer id) {
+	public String deleteVenteFacture(@PathVariable Integer id) {
 		venteFactureService.deleteFactureVente(id);
 		return "redirect:/ventes";
 	}
