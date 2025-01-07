@@ -1,11 +1,11 @@
 package perso.boulangerie.client.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import perso.boulangerie.client.models.Vente;
 import perso.boulangerie.client.models.VenteFacture;
 import perso.boulangerie.client.services.ClientService;
 import perso.boulangerie.client.services.VenteService;
+import perso.boulangerie.produit.services.ProduitFormatService;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -15,10 +15,16 @@ import org.springframework.ui.Model;
 @RequestMapping("/ventes")
 public class VenteController {
 
-	@Autowired
 	private VenteService venteService;
-	@Autowired
 	private ClientService clientService;
+	private ProduitFormatService produitFormatService;
+
+	public VenteController(VenteService venteService, ClientService clientService,
+			ProduitFormatService produitFormatService) {
+		this.venteService = venteService;
+		this.clientService = clientService;
+		this.produitFormatService = produitFormatService;
+	}
 
 	@GetMapping
 	public String getAllVentes(Model model) {
@@ -38,6 +44,7 @@ public class VenteController {
 	public String showCreateForm(Model model) {
 		model.addAttribute("vente", new Vente());
 		model.addAttribute("clients", clientService.getClients());
+		model.addAttribute("produit_formats",produitFormatService.getProduitFormats());
 		return "ventes/form";
 	}
 

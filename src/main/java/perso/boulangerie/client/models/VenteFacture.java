@@ -15,7 +15,7 @@ public class VenteFacture {
     private Integer idVenteFacture;
 
     private Integer quantite;
-    private BigDecimal prixUnitaire;
+    private BigDecimal prixUnitaire,montant;
 
     @ManyToOne
     @JoinColumn(name = "idProduitFormat")
@@ -25,8 +25,8 @@ public class VenteFacture {
     @JoinColumn(name = "idVente")
     private Vente vente;
 
-		@Transient
-		private List<VenteFactureDetails> factureDetails;
+		@OneToMany(mappedBy = "venteFacture", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<VenteFactureDetails> factureDetails;
 
 		public void setFactureDetails(List<VenteFactureDetails> factureDetails){
 			if (factureDetails != null && !factureDetails.isEmpty() && factureDetails.get(0).getVenteFacture() != null || factureDetails==null) {

@@ -1,15 +1,18 @@
 package perso.boulangerie.client.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -22,6 +25,7 @@ public class Vente {
     private LocalDateTime dateVente;
     private LocalDateTime dateLivree;
     private String adresseLivraison;
+		private BigDecimal montant;
 
     @ManyToOne
     @JoinColumn(name = "idClient")
@@ -29,8 +33,8 @@ public class Vente {
 
 		private Integer Etat;
 
-		@Transient
-		private List<VenteFacture> venteDetails;
+		@OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<VenteFacture> venteDetails;
 
 		public void setVenteDetails(List<VenteFacture> venteFactures){
 			if (venteFactures != null && !venteFactures.isEmpty() && venteFactures.get(0).getVente() != null || venteFactures==null) {

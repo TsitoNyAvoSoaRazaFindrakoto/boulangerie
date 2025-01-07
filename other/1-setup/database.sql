@@ -21,6 +21,7 @@ CREATE TABLE Unite(
 CREATE TABLE Vente(
    Id_Vente SERIAL,
    date_vente TIMESTAMP NOT NULL,
+   montant NUMERIC(22,2)   NOT NULL,
    date_livree TIMESTAMP,
    adresse_livraison VARCHAR(50) ,
    etat INTEGER NOT NULL,
@@ -118,6 +119,7 @@ CREATE TABLE Vente_Facture(
    Id_Vente_Facture SERIAL,
    quantite NUMERIC(20,2)   NOT NULL,
    prix_unitaire NUMERIC(15,2)   NOT NULL,
+   montant NUMERIC(20,2)   NOT NULL,
    Id_Produit_Format INTEGER NOT NULL,
    Id_Vente INTEGER NOT NULL,
    PRIMARY KEY(Id_Vente_Facture),

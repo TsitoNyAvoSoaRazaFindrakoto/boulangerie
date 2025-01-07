@@ -21,8 +21,8 @@ public class Produit {
     @JoinColumn(name = "idUnite")
     private Unite unite;
 
-		@Transient
-		List<ProduitsRecettes> recettes;
+		@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+		private List<ProduitsRecettes> recettes;
 
 		public void setRecettes(List<ProduitsRecettes> recetteslist) {
 			if (recetteslist != null && !recetteslist.isEmpty() && recetteslist.get(0).getProduit() != null || recetteslist==null) {

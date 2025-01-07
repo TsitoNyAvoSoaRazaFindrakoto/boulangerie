@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import perso.boulangerie.client.models.Vente;
@@ -32,6 +34,7 @@ public class VenteFactureService {
 	@Transactional
 	public VenteFacture save(VenteFacture venteFacture) {
 		venteFacture.setPrixUnitaire(venteFacture.getProduitFormat().getPrixUnitaire());
+		venteFacture.setMontant(venteFacture.getPrixUnitaire().multiply(new BigDecimal(venteFacture.getQuantite())));
 
 		venteFacture.setIdVenteFacture(venteFactureRepo.save(venteFacture).getIdVenteFacture());
 		venteFacture.setFactureDetails(venteFactureDetailsService.createForFacture(venteFacture, true));
