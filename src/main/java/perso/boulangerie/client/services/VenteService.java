@@ -21,8 +21,8 @@ public class VenteService {
 	public Vente save(Vente Vente) {
 		if (Vente.getAdresseLivraison() == null) {
 			Vente.setDateLivree(Vente.getDateVente());
-			Vente.setEtat(1);
 		}
+		Vente.setEtat(1);
 		return venteRepo.save(Vente);
 	}
 

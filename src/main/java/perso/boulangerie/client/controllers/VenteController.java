@@ -30,14 +30,14 @@ public class VenteController {
 	public String getAllVentes(Model model) {
 		List<Vente> ventes = venteService.getVentes();
 		model.addAttribute("ventes", ventes);
-		return "ventes/list";
+		return "client/ventes/list";
 	}
 
 	@GetMapping("/{id}")
 	public String getVenteById(@PathVariable Integer id, Model model) {
 		Vente vente = venteService.findVente(id);
 		model.addAttribute("vente", vente);
-		return "ventes/view";
+		return "ventes/detail";
 	}
 
 	@GetMapping("/new")

@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/ingredients-fournisseurs")
+@RequestMapping("/fournisseur/ingredients-fournisseurs")
 public class IngredientsFournisseursController {
 
 	@Autowired
@@ -32,7 +32,7 @@ public class IngredientsFournisseursController {
 	@PostMapping
 	public String saveIngredientsFournisseurs(@ModelAttribute IngredientsFournisseurs ingredientsFournisseurs) {
 		ingredientsFournisseursService.save(ingredientsFournisseurs);
-		return "redirect:/ingredients-fournisseurs";
+		return "redirect:/fournisseur/ingredients-fournisseurs";
 	}
 
 	@GetMapping("/edit/{id-ingredient}/{id-fournisseur}")
@@ -45,13 +45,13 @@ public class IngredientsFournisseursController {
 	@PutMapping("/update")
 	public String updateIngredientsFournisseurs(@ModelAttribute IngredientsFournisseurs ingredientsFournisseurs) {
 		ingredientsFournisseursService.save(ingredientsFournisseurs);
-		return "redirect:/ingredientsFournisseurs";
+		return "redirect:/fournisseur/ingredients-fournisseurs";
 	}
 
 	@DeleteMapping("/delete/{id-ingredient}/{id-fournisseur}")
 	public String deleteIngredientsFournisseurs(@PathVariable("id-ingredient") Integer idIngredient, @PathVariable("id-fournisseur") Integer idFournisseur) {
 		IngredientsFournisseurs ingredientsFournisseurs = ingredientsFournisseursService.findIngredientsFournisseurs(idIngredient, idFournisseur);
 		ingredientsFournisseursService.deleteIngredientsFournisseurs(ingredientsFournisseurs);
-		return "redirect:/ingredientsFournisseurs";
+		return "redirect:/fournisseur/ingredients-fournisseurs";
 	}
 }
