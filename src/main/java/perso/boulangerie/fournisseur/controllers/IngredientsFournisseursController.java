@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/ingredientsFournisseurs")
+@RequestMapping("/ingredients-fournisseurs")
 public class IngredientsFournisseursController {
 
 	@Autowired
@@ -20,26 +20,26 @@ public class IngredientsFournisseursController {
 	public String getAllIngredientsFournisseurs(Model model) {
 		List<IngredientsFournisseurs> ingredientsFournisseursList = ingredientsFournisseursService.getIngredientsFournisseurss();
 		model.addAttribute("ingredientsFournisseursList", ingredientsFournisseursList);
-		return "ingredientsFournisseurs/list";
+		return "fournisseur/ingredients-fournisseurs/list";
 	}
 
 	@GetMapping("/new")
 	public String showNewForm(Model model) {
 		model.addAttribute("ingredientsFournisseurs", new IngredientsFournisseurs());
-		return "ingredientsFournisseurs/new";
+		return "fournisseur/ingredients-fournisseurs/form";
 	}
 
 	@PostMapping
 	public String saveIngredientsFournisseurs(@ModelAttribute IngredientsFournisseurs ingredientsFournisseurs) {
 		ingredientsFournisseursService.save(ingredientsFournisseurs);
-		return "redirect:/ingredientsFournisseurs";
+		return "redirect:/ingredients-fournisseurs";
 	}
 
 	@GetMapping("/edit/{id-ingredient}/{id-fournisseur}")
 	public String showEditForm(@PathVariable("id-ingredient") Integer idIngredient, @PathVariable("id-fournisseur") Integer idFournisseur, Model model) {
 		IngredientsFournisseurs ingredientsFournisseurs = ingredientsFournisseursService.findIngredientsFournisseurs(idIngredient, idFournisseur);
 		model.addAttribute("ingredientsFournisseurs", ingredientsFournisseurs);
-		return "ingredientsFournisseurs/edit";
+		return "ingredientsFournisseurs/form";
 	}
 
 	@PutMapping("/update")
