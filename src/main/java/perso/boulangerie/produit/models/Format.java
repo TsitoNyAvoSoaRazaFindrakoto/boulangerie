@@ -13,7 +13,7 @@ import jakarta.persistence.GenerationType;
 public class Format {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer IdProduitFormat;
+	private Integer IdFormat;
 
 	private String nom;
 	private BigDecimal multPrix,multRecette;

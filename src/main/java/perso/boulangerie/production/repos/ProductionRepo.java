@@ -16,5 +16,5 @@ public interface ProductionRepo extends JpaRepository<Production,Integer>{
 	List<Production> findStock();
 
 	@Query(value = "select * from Stock_Produit where id_produit_format = :idProduitFormat order by date_production",nativeQuery = true)
-	List<Production> findStockByProduitFormat(@Param("idProduit") Integer idProduitFormat);
+	List<Production> findStockByProduitFormat(@Param("idProduitFormat") Integer idProduitFormat);
 }
