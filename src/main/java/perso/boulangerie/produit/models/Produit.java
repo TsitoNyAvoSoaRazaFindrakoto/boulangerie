@@ -21,10 +21,6 @@ public class Produit {
     @JoinColumn(name = "idUnite")
     private Unite unite;
 
-    @ManyToOne
-    @JoinColumn(name = "idProduitCategorie")
-    private ProduitCategorie categorieProduit;
-
 		@Transient
 		List<ProduitsRecettes> recettes;
 

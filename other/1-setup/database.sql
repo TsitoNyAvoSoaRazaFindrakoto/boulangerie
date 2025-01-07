@@ -5,13 +5,6 @@ CREATE TABLE Fournisseur(
    PRIMARY KEY(Id_Fournisseur)
 );
 
-CREATE TABLE Produit_Categorie(
-   Id_Produit_Categorie SERIAL,
-   nom VARCHAR(20)  NOT NULL,
-   description VARCHAR(50) ,
-   PRIMARY KEY(Id_Produit_Categorie)
-);
-
 CREATE TABLE Client(
    Id_Client SERIAL,
    nom VARCHAR(50)  NOT NULL,
@@ -30,30 +23,28 @@ CREATE TABLE Vente(
    date_vente TIMESTAMP NOT NULL,
    date_livree TIMESTAMP,
    adresse_livraison VARCHAR(50) ,
+   etat INTEGER NOT NULL,
    Id_Client INTEGER NOT NULL,
    PRIMARY KEY(Id_Vente),
    FOREIGN KEY(Id_Client) REFERENCES Client(Id_Client)
+);
+
+CREATE TABLE Format(
+   Id_Format SERIAL,
+   nom VARCHAR(50)  NOT NULL,
+   mult_prix NUMERIC(15,2)   NOT NULL,
+   mult_recette NUMERIC(15,2)  ,
+   PRIMARY KEY(Id_Format)
 );
 
 CREATE TABLE Produit(
    Id_Produit SERIAL,
    nom VARCHAR(30)  NOT NULL,
    description VARCHAR(50) ,
-   prix_unitaire NUMERIC(10,2)   NOT NULL,
+   prix_unitaire NUMERIC(15,2)  ,
    Id_Unite VARCHAR(5)  NOT NULL,
-   Id_Produit_Categorie INTEGER NOT NULL,
    PRIMARY KEY(Id_Produit),
-   FOREIGN KEY(Id_Unite) REFERENCES Unite(Id_Unite),
-   FOREIGN KEY(Id_Produit_Categorie) REFERENCES Produit_Categorie(Id_Produit_Categorie)
-);
-
-CREATE TABLE Production(
-   Id_Production SERIAL,
-   date_production TIMESTAMP NOT NULL,
-   quantite INTEGER NOT NULL,
-   Id_Produit INTEGER NOT NULL,
-   PRIMARY KEY(Id_Production),
-   FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit)
+   FOREIGN KEY(Id_Unite) REFERENCES Unite(Id_Unite)
 );
 
 CREATE TABLE Ingredient(
@@ -83,15 +74,23 @@ CREATE TABLE Ingredients_Fournisseurs(
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient)
 );
 
-CREATE TABLE Vente_Facture(
-   Id_Vente_Facture SERIAL,
-   quantite NUMERIC(20,2)   NOT NULL,
-   prix_unitaire VARCHAR(50)  NOT NULL,
-   Id_Vente INTEGER NOT NULL,
+CREATE TABLE Produit_Format(
+   Id_Produit_Format SERIAL,
+   prix_unitaire NUMERIC(15,2)   NOT NULL,
    Id_Produit INTEGER NOT NULL,
-   PRIMARY KEY(Id_Vente_Facture),
-   FOREIGN KEY(Id_Vente) REFERENCES Vente(Id_Vente),
-   FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit)
+   Id_Format INTEGER NOT NULL,
+   PRIMARY KEY(Id_Produit_Format),
+   FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit),
+   FOREIGN KEY(Id_Format) REFERENCES Format(Id_Format)
+);
+
+CREATE TABLE Production(
+   Id_Production SERIAL,
+   date_production TIMESTAMP NOT NULL,
+   quantite INTEGER NOT NULL,
+   Id_Produit_Format INTEGER NOT NULL,
+   PRIMARY KEY(Id_Production),
+   FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
 );
 
 CREATE TABLE Ingredient_Entree(
@@ -105,16 +104,6 @@ CREATE TABLE Ingredient_Entree(
    FOREIGN KEY(Id_Fournisseur, Id_Ingredient) REFERENCES Ingredients_Fournisseurs(Id_Fournisseur, Id_Ingredient)
 );
 
-CREATE TABLE Vente_Facture_Details(
-   Id_Vente_Facture_Details SERIAL,
-   quantite INTEGER NOT NULL,
-   Id_Production INTEGER NOT NULL,
-   Id_Vente_Facture INTEGER NOT NULL,
-   PRIMARY KEY(Id_Vente_Facture_Details),
-   FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production),
-   FOREIGN KEY(Id_Vente_Facture) REFERENCES Vente_Facture(Id_Vente_Facture)
-);
-
 CREATE TABLE Production_Details(
    Id_Production_Details SERIAL,
    quantite NUMERIC(20,2)   NOT NULL,
@@ -123,4 +112,25 @@ CREATE TABLE Production_Details(
    PRIMARY KEY(Id_Production_Details),
    FOREIGN KEY(Id_Ingredient_Entree) REFERENCES Ingredient_Entree(Id_Ingredient_Entree),
    FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production)
+);
+
+CREATE TABLE Vente_Facture(
+   Id_Vente_Facture SERIAL,
+   quantite NUMERIC(20,2)   NOT NULL,
+   prix_unitaire NUMERIC(15,2)   NOT NULL,
+   Id_Produit_Format INTEGER NOT NULL,
+   Id_Vente INTEGER NOT NULL,
+   PRIMARY KEY(Id_Vente_Facture),
+   FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format),
+   FOREIGN KEY(Id_Vente) REFERENCES Vente(Id_Vente)
+);
+
+CREATE TABLE Vente_Facture_Details(
+   Id_Vente_Facture_Details SERIAL,
+   quantite INTEGER NOT NULL,
+   Id_Production INTEGER NOT NULL,
+   Id_Vente_Facture INTEGER NOT NULL,
+   PRIMARY KEY(Id_Vente_Facture_Details),
+   FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production),
+   FOREIGN KEY(Id_Vente_Facture) REFERENCES Vente_Facture(Id_Vente_Facture)
 );

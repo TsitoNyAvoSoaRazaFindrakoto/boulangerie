@@ -31,7 +31,7 @@ public class VenteFactureService {
 
 	@Transactional
 	public VenteFacture save(VenteFacture venteFacture) {
-		venteFacture.setPrixUnitaire(venteFacture.getProduit().getPrixUnitaire());
+		venteFacture.setPrixUnitaire(venteFacture.getProduitFormat().getPrixUnitaire());
 
 		venteFacture.setIdVenteFacture(venteFactureRepo.save(venteFacture).getIdVenteFacture());
 		venteFacture.setFactureDetails(venteFactureDetailsService.createForFacture(venteFacture, true));

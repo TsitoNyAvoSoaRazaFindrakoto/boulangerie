@@ -14,7 +14,7 @@ public class ProduitService {
 	@Autowired private ProduitRepo ProduitRepo;
 	@Autowired private ProduitsRecettesRepo ProduitsRecettesRepo;
 
-	public List<Produit> getAllProduits() {
+	public List<Produit> getProduits() {
 		return ProduitRepo.findAll();
 	}
 

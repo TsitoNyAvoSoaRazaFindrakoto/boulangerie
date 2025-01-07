@@ -5,7 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import perso.boulangerie.produit.models.Produit;
+import perso.boulangerie.produit.models.ProduitFormat;
 
 @Data
 @Entity
@@ -18,8 +18,8 @@ public class VenteFacture {
     private BigDecimal prixUnitaire;
 
     @ManyToOne
-    @JoinColumn(name = "idProduit")
-    private Produit produit;
+    @JoinColumn(name = "idProduitFormat")
+    private ProduitFormat produitFormat;
 
     @ManyToOne
     @JoinColumn(name = "idVente")

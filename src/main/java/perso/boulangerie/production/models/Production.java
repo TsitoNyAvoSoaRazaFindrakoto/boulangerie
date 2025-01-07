@@ -2,7 +2,7 @@ package perso.boulangerie.production.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import perso.boulangerie.produit.models.Produit;
+import perso.boulangerie.produit.models.ProduitFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,8 +18,8 @@ public class Production {
     private Integer quantite;
 
     @ManyToOne
-    @JoinColumn(name = "idProduit")
-    private Produit produit;
+    @JoinColumn(name = "idProduitFormat")
+    private ProduitFormat produitFormat;
 
 		@Transient
 		private List<ProductionDetails> productionDetails;

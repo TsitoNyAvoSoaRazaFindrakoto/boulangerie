@@ -4,25 +4,25 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import perso.boulangerie.production.models.Production;
 import perso.boulangerie.production.repos.ProductionRepo;
-import perso.boulangerie.produit.models.Produit;
-import perso.boulangerie.produit.repos.ProduitRepo;
-
+import perso.boulangerie.produit.models.ProduitFormat;
+import perso.boulangerie.produit.repos.ProduitFormatRepo;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class ProductionService {
-	@Autowired
 	private ProductionRepo productionRepo;
-	@Autowired
 	private ProductionDetailsService productionDetailsService;
-	@Autowired
-	private ProduitRepo produitRepo;
+	private ProduitFormatRepo produitFormatRepo;
+
+	public ProductionService(ProductionRepo productionRepo, ProductionDetailsService productionDetailsService, ProduitFormatRepo produitFormatRepo) {
+		this.productionRepo = productionRepo;
+		this.productionDetailsService = productionDetailsService;
+		this.produitFormatRepo = produitFormatRepo;
+	}
 
 	public List<Production> getProductions() {
 		return productionRepo.findAll();
@@ -34,10 +34,10 @@ public class ProductionService {
 		return p;
 	}
 
-	public HashMap<Integer,List<Production>> getStockGroupByProduit(){
+	public HashMap<Integer,List<Production>> getStockGroupByProduitFormat(){
 		HashMap<Integer,List<Production>> stock = new HashMap<Integer,List<Production>>();
-		for (Produit Produit : produitRepo.findAll()){
-			stock.put(Produit.getIdProduit(), productionRepo.findStockByProduit(Produit.getIdProduit()));
+		for (ProduitFormat produitFormat : produitFormatRepo.findAll()){
+			stock.put(produitFormat.getIdProduitFormat(), getStockProduitFormat(produitFormat.getIdProduitFormat()));
 		}
 		return stock;
 	}
@@ -51,8 +51,8 @@ public class ProductionService {
 		return production;
 	}
 
-	public List<Production> getStockProduit(Integer idProduit){
-		return productionRepo.findStockByProduit(idProduit);
+	public List<Production> getStockProduitFormat(Integer idProduit){
+		return productionRepo.findStockByProduitFormat(idProduit);
 	}
 
 	public List<Production> findByDate(LocalDateTime dateProd){

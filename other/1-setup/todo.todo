@@ -15,3 +15,10 @@ ajout des operation sur modeles en back ( seules les operations qui ont de speci
 			✔ creation detail(s) de facture de vente nessecite regarder stock de produits @done(25-01-03 16:23)
 	insertion founisseur:
 		✔ -> insertion des ingredients qu'on peut trouver chez le fournisseur/qu'on achete frequement chez le founisseur @done(25-01-03 16:23)
+
+pages :
+	client :
+		formulaire de creation et modification :
+			☐ page html thymeleaf 
+			☐ 
+		

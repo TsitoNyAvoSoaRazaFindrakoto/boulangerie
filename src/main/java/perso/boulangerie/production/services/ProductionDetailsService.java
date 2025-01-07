@@ -19,13 +19,9 @@ import perso.boulangerie.produit.services.ProduitService;
 
 @Service
 public class ProductionDetailsService {
-	@Autowired
 	private ProductionDetailsRepo productionDetailsRepo;
-	@Autowired
 	private IngredientEntreeService ingredientEntreeService;
-	@Autowired
 	private ProduitService produitService;
-
 	HashMap<Integer, List<IngredientEntree>> stockIngredient;
 
 
@@ -65,7 +61,7 @@ public class ProductionDetailsService {
 
 		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
-		BigDecimal necessesaryQuantity = recette.getQuantite().multiply(new BigDecimal(p.getQuantite()));
+		BigDecimal necessesaryQuantity = recette.getQuantite().multiply(p.getProduitFormat().getFormat().getMultRecette()).multiply(new BigDecimal(p.getQuantite()));
 
 		IngredientEntree ingredientEntree = stockIngredient.get(recette.getIngredient().getIdIngredient()).get(0);
 		while (necessesaryQuantity.compareTo(BigDecimal.ZERO) > 0) {
@@ -99,7 +95,7 @@ public class ProductionDetailsService {
 		if (updateStock)
 			stockIngredient = ingredientEntreeService.getStockGroupByIngrdient();
 
-		Produit produit = produitService.getProduitById(p.getProduit().getIdProduit());
+		Produit produit = produitService.getProduitById(p.getProduitFormat().getProduit().getIdProduit());
 		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
 		for (ProduitsRecettes recette : produit.getRecettes()) {

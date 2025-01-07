@@ -24,7 +24,7 @@ public class VenteFactureDetailsService {
 			ProductionService productionService) {
 		this.venteFactureDetailsRepo = venteFactureDetailsRepo;
 		this.productionService = productionService;
-		this.stockProduit = productionService.getStockGroupByProduit();
+		this.stockProduit = productionService.getStockGroupByProduitFormat();
 	}
 
 	public VenteFactureDetails save(VenteFactureDetails VenteDetails){
@@ -43,16 +43,16 @@ public class VenteFactureDetailsService {
 		List<VenteFactureDetails> factureDetails = new ArrayList<>();
 
 		Integer necessesaryQuantity = facture.getQuantite();
-		List<Production> productions = stockProduit.get(facture.getProduit().getIdProduit());
+		List<Production> productions = stockProduit.get(facture.getProduitFormat().getIdProduitFormat());
 
 		if (productions == null || productions.isEmpty()) {
-			throw new IllegalStateException("Not enough stock for product: " + facture.getProduit().getNom());
+			throw new IllegalStateException("Not enough stock for product: " + facture.getProduitFormat().getProduit().getNom() + "-" + facture.getProduitFormat().getFormat().getNom());
 		}
 
 		Production production = productions.get(0);
 		while (necessesaryQuantity > 0) {
 			if (productions.isEmpty() || production.getDateProduction().isAfter(facture.getVente().getDateVente())) {
-				throw new IllegalStateException("Not enough stock for product: " + facture.getProduit().getNom());
+				throw new IllegalStateException("Not enough stock for product: " + facture.getProduitFormat().getProduit().getNom() + "-" + facture.getProduitFormat().getFormat().getNom());
 			}
 
 			if (production.getQuantite() == 0) {
