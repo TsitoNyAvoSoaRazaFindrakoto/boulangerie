@@ -11,8 +11,11 @@ import perso.boulangerie.fournisseur.repos.FournisseurRepo;
 @Service
 public class FournisseurService {
 
-	@Autowired
 	private FournisseurRepo FournisseurRepo;
+
+	public FournisseurService(perso.boulangerie.fournisseur.repos.FournisseurRepo fournisseurRepo) {
+		FournisseurRepo = fournisseurRepo;
+	}
 
 	public Fournisseur save(Fournisseur Fournisseur) {
 		return FournisseurRepo.save(Fournisseur);

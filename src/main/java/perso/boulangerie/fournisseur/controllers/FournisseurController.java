@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import perso.boulangerie.fournisseur.models.Fournisseur;
 import perso.boulangerie.fournisseur.services.FournisseurService;
+import perso.boulangerie.fournisseur.services.IngredientsFournisseursService;
+
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +15,14 @@ import org.springframework.ui.Model;
 @RequestMapping("/fournisseur")
 public class FournisseurController {
 
-	@Autowired
 	private FournisseurService fournisseurService;
+	private IngredientsFournisseursService ingredientsFournisseursService;
+
+	public FournisseurController(FournisseurService fournisseurService,
+			IngredientsFournisseursService ingredientsFournisseursService) {
+		this.fournisseurService = fournisseurService;
+		this.ingredientsFournisseursService = ingredientsFournisseursService;
+	}
 
 	@GetMapping
 	public String getAllFournisseurs(Model model) {
@@ -27,6 +35,7 @@ public class FournisseurController {
 	public String getFournisseurById(@PathVariable Integer id, Model model) {
 		Fournisseur fournisseur = fournisseurService.findFournisseur(id);
 		model.addAttribute("fournisseur", fournisseur);
+		model.addAttribute("ingredient", ingredientsFournisseursService.findByFournisseur(fournisseur));
 		return "fournisseur/fournisseur/detail";
 	}
 

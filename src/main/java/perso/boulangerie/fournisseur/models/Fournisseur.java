@@ -1,5 +1,7 @@
 package perso.boulangerie.fournisseur.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,7 +15,7 @@ public class Fournisseur {
 	private String nom;
 	private String contact;
 
+	@Transient
+	private List<IngredientsFournisseurs> ingredientsFournisseurs;
 
-
-	// test
 }
