@@ -2,6 +2,7 @@ package perso.boulangerie.fournisseur.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import perso.boulangerie.produit.models.Ingredient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,9 +19,10 @@ public class IngredientEntree {
 	private BigDecimal prixUnitaire;
 
 	@ManyToOne
-	@JoinColumns({
-			@JoinColumn(name = "idFournisseur", referencedColumnName = "idFournisseur"),
-			@JoinColumn(name = "idIngredient", referencedColumnName = "idIngredient")
-	})
-	private IngredientsFournisseurs ingredientsFournisseurs;
+	@JoinColumn(name = "idFournisseur", referencedColumnName = "idFournisseur")
+	private Fournisseur fournisseur;
+
+	@ManyToOne
+	@JoinColumn(name = "idIngredient", referencedColumnName = "idIngredient")
+	private Ingredient ingredient;
 }

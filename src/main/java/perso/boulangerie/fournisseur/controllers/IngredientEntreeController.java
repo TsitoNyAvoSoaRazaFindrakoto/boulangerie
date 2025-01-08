@@ -1,6 +1,5 @@
 package perso.boulangerie.fournisseur.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import perso.boulangerie.fournisseur.services.IngredientEntreeService;
 @RequestMapping("/fournisseur/ingredient-entrees")
 public class IngredientEntreeController {
 
-	@Autowired
 	private IngredientEntreeService ingredientEntreeService;
 
 	@GetMapping

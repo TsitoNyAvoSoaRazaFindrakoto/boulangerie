@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/productions")
+@RequestMapping("/production")
 public class ProductionController {
 
 	@Autowired
@@ -20,44 +20,44 @@ public class ProductionController {
 	public String getAllProductions(Model model) {
 		List<Production> productions = productionService.getProductions();
 		model.addAttribute("productions", productions);
-		return "productions/list";
+		return "production/production/list";
 	}
 	
 	@GetMapping("/{id}")
 	public String getProductionDetails(@PathVariable("id") Integer id, Model model) {
 		Production production = productionService.findProduction(id);
 		model.addAttribute("production", production);
-		return "productions/details";
+		return "production/production/details";
 	}
 	@GetMapping("/new")
 	public String showNewProductionForm(Model model) {
 		Production production = new Production();
 		model.addAttribute("production", production);
-		return "productions/new";
+		return "production/production/new";
 	}
 
 	@PostMapping
 	public String saveProduction(@ModelAttribute("production") Production production) {
 		productionService.save(production);
-		return "redirect:/productions";
+		return "redirect:/production";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String showEditProductionForm(@PathVariable("id") Integer id, Model model) {
 		Production production = productionService.findProduction(id);
 		model.addAttribute("production", production);
-		return "productions/edit";
+		return "production/production/edit";
 	}
 
 	@PutMapping("/{id}")
 	public String updateProduction(@PathVariable("id") Integer id, @ModelAttribute("production") Production production) {
 		productionService.save(production);
-		return "redirect:/productions";
+		return "redirect:/production";
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public String deleteProduction(@PathVariable("id") Integer id) {
 		productionService.delete(id);
-		return "redirect:/productions";
+		return "redirect:/production";
 	}
 }

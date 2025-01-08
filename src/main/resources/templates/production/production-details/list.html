@@ -44,7 +44,7 @@
                         </div> -->
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-3">Ajouter</button>
+                    <button type="submit" class="btn btn-primary mt-3">Rechercher</button>
                 </form>
 
                 <!-- Tableau affichant les détails de production -->
@@ -55,17 +55,17 @@
                                 <th>#</th>
                                 <th>Quantité</th>
                                 <th>Ingrédient</th>
-                                <th>DatedeProduction</th>
-                                <th>NomDeProduit</th>
+                                <th>Date de Production</th>
+                                <th>Nom De Produit</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Boucle Thymeleaf pour afficher les données -->
                             <tr th:each="detail, iterStat : ${productionDetailsList}">
-                                <td th:text="${iterStat.count}"></td> <!-- Numéro d'ordre -->
-                                <td th:text="${detail.quantite}"></td> <!-- Quantité -->
+                                <td th:text="${detail.idProductionDetails}"></td>
+                                <td th:text="${detail.quantite}"></td>
                                 <!-- <td th:text="${detail.ingredientEntree.nom}"></td> Nom de l'ingrédient -->
-                                <td th:text="${detail.ingredientEntree.ingredient.nom}"></td> <!-- ID de la production -->
+                                <td th:text="${detail.ingredientEntree.ingredient.nom}"></td>
                                 <td th:text="${detail.production.dateProduction}"></td>
                                 <td th:text="${detail.production.produitFormat.produit.nom}"></td>
 

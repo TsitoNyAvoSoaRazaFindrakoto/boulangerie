@@ -39,7 +39,7 @@ public class IngredientsFournisseursController {
 	public String showEditForm(@PathVariable("id-ingredient") Integer idIngredient, @PathVariable("id-fournisseur") Integer idFournisseur, Model model) {
 		IngredientsFournisseurs ingredientsFournisseurs = ingredientsFournisseursService.findIngredientsFournisseurs(idIngredient, idFournisseur);
 		model.addAttribute("ingredientsFournisseurs", ingredientsFournisseurs);
-		return "ingredientsFournisseurs/form";
+		return "fournisseur/ingredients-fournisseurs/form";
 	}
 
 	@PutMapping("/update")

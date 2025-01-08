@@ -11,7 +11,7 @@ import perso.boulangerie.produit.services.ProduitService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/produits")
+@RequestMapping("/produit")
 public class ProduitController {
 	@Autowired
 	private ProduitService produitService;
@@ -20,45 +20,45 @@ public class ProduitController {
 	public String getAllProduits(Model model) {
 		List<Produit> produits = produitService.getProduits();
 		model.addAttribute("produits", produits);
-		return "produits/list";
+		return "produit/produit/list";
 	}
 
 	@GetMapping("/{id}")
 	public String getProduitById(@PathVariable Integer id, Model model) {
 		Produit produit = produitService.getProduitById(id);
 		model.addAttribute("produit", produit);
-		return "produits/detail";
+		return "produit/produit/detail";
 	}
 
 	@GetMapping("/new")
 	public String createProduitForm(Model model) {
 		model.addAttribute("produit", new Produit());
-		return "produits/form";
+		return "produit/produit/form";
 	}
 
 	@PostMapping
 	public String saveProduit(@ModelAttribute Produit produit) {
 		produitService.save(produit);
-		return "redirect:/produits";
+		return "redirect:/produit";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editProduitForm(@PathVariable Integer id, Model model) {
 		Produit produit = produitService.getProduitById(id);
 		model.addAttribute("produit", produit);
-		return "produits/form";
+		return "produit/produit/form";
 	}
 
 	@PostMapping("/{id}")
 	public String updateProduit(@PathVariable Integer id, @ModelAttribute Produit produit) {
 		produit.setIdProduit(id);
 		produitService.save(produit);
-		return "redirect:/produits";
+		return "redirect:/produit";
 	}
 
 	@GetMapping("/delete/{id}")
 	public String deleteProduit(@PathVariable Integer id) {
 		produitService.deleteProduit(id);
-		return "redirect:/produits";
+		return "redirect:/produit";
 	}
 }

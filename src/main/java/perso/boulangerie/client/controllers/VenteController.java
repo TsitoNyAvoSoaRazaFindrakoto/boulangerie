@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/ventes")
+@RequestMapping("client/vente")
 public class VenteController {
 
 	private VenteService venteService;
@@ -30,14 +30,14 @@ public class VenteController {
 	public String getAllVentes(Model model) {
 		List<Vente> ventes = venteService.getVentes();
 		model.addAttribute("ventes", ventes);
-		return "client/ventes/list";
+		return "client/vente/list";
 	}
 
 	@GetMapping("/{id}")
 	public String getVenteById(@PathVariable Integer id, Model model) {
 		Vente vente = venteService.findVente(id);
 		model.addAttribute("vente", vente);
-		return "ventes/detail";
+		return "client/vente/detail";
 	}
 
 	@GetMapping("/new")
@@ -45,13 +45,13 @@ public class VenteController {
 		model.addAttribute("vente", new Vente());
 		model.addAttribute("clients", clientService.getClients());
 		model.addAttribute("produit_formats",produitFormatService.getProduitFormats());
-		return "ventes/form";
+		return "client/vente/form";
 	}
 
 	@PostMapping
 	public String createVente(@ModelAttribute Vente vente, @RequestParam List<VenteFacture> venteDetails) {
 		venteService.saveWithDetails(vente, venteDetails);
-		return "redirect:/ventes";
+		return "redirect:/client/vente";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -59,18 +59,18 @@ public class VenteController {
 		Vente vente = venteService.findVente(id);
 		model.addAttribute("vente", vente);
 		model.addAttribute("clients", clientService.getClients());
-		return "ventes/form";
+		return "client/vente/form";
 	}
 
 	@PutMapping("/update/{id}")
 	public String updateVente(@ModelAttribute Vente vente, @RequestParam List<VenteFacture> venteDetails) {
 		venteService.saveWithDetails(vente, venteDetails);
-		return "redirect:/ventes";
+		return "redirect:/client/vente";
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public String deleteVente(@PathVariable Integer id) {
 		venteService.deleteVente(id);
-		return "redirect:/ventes";
+		return "redirect:/client/vente";
 	}
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/ingredients")
+@RequestMapping("/produit/ingredient")
 public class IngredientController {
 
 	@Autowired
@@ -20,44 +20,44 @@ public class IngredientController {
 	public String getAllIngredients(Model model) {
 		List<Ingredient> ingredients = ingredientService.getAllIngredients();
 		model.addAttribute("ingredients", ingredients);
-		return "ingredients/list";
+		return "produit/ingredient/list";
 	}
 
 	@GetMapping("/{id}")
 	public String getIngredientById(@PathVariable Integer id, Model model) {
 		Ingredient ingredient = ingredientService.getIngredientById(id);
 		model.addAttribute("ingredient", ingredient);
-		return "ingredients/detail";
+		return "produit/ingredient/detail";
 	}
 
 	@GetMapping("/new")
 	public String createIngredientForm(Model model) {
 		model.addAttribute("ingredient", new Ingredient());
-		return "ingredients/form";
+		return "produit/ingredient/form";
 	}
 
 	@PostMapping
 	public String saveIngredient(@ModelAttribute Ingredient ingredient) {
 		ingredientService.save(ingredient);
-		return "redirect:/ingredients";
+		return "redirect:/produit/ingredient";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editIngredientForm(@PathVariable Integer id, Model model) {
 		Ingredient ingredient = ingredientService.getIngredientById(id);
 		model.addAttribute("ingredient", ingredient);
-		return "ingredients/form";
+		return "produit/ingredient/form";
 	}
 
 	@PutMapping("/update/{id}")
 	public String updateIngredient(@ModelAttribute Ingredient ingredient) {
 		ingredientService.save(ingredient);
-		return "redirect:/ingredients";
+		return "redirect:/produit/ingredient";
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public String deleteIngredient(@PathVariable Integer id) {
 		ingredientService.deleteIngredient(id);
-		return "redirect:/ingredients";
+		return "redirect:/produit/ingredient";
 	}
 }
