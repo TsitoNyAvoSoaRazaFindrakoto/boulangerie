@@ -2,6 +2,7 @@ CREATE TABLE Fournisseur(
    Id_Fournisseur SERIAL,
    nom VARCHAR(40) ,
    contact VARCHAR(30) ,
+   etat BOOLEAN default true,
    PRIMARY KEY(Id_Fournisseur)
 );
 

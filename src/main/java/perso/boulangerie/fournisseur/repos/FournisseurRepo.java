@@ -1,9 +1,17 @@
 package perso.boulangerie.fournisseur.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import perso.boulangerie.fournisseur.models.Fournisseur;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import perso.boulangerie.fournisseur.models.Fournisseur;
+import java.util.List;
 
 public interface FournisseurRepo extends JpaRepository<Fournisseur, Integer> {
-	
+	List<Fournisseur> findByEtat(boolean etat);
+
+	@Modifying
+	@Query(value = "update fournisseur set etat=false where id_fournisseur=:idFournisseur",nativeQuery = true)
+	void rompreContrat(@Param("idFournisseur") Integer id);
 }

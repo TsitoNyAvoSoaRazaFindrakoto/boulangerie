@@ -5,7 +5,7 @@ SELECT
 	pr.Id_Production as Id_Production,
 	pr.date_production as date_production,
 	pr.quantite - COALESCE(SUM(vd.quantite), 0) AS quantite,
-	pr.Id_Produit as Id_Produit
+	pr.Id_Produit_Format as Id_Produit_Format
 FROM
 	Production pr
 	LEFT JOIN Vente_Facture_Details vd ON pr.Id_Production = vd.Id_Production

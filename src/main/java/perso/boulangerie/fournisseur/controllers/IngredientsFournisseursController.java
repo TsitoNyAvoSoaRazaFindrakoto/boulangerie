@@ -5,7 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import perso.boulangerie.fournisseur.models.IngredientsFournisseurs;
+import perso.boulangerie.fournisseur.services.FournisseurService;
 import perso.boulangerie.fournisseur.services.IngredientsFournisseursService;
+import perso.boulangerie.produit.services.IngredientService;
+
 import java.util.List;
 
 
@@ -13,8 +16,16 @@ import java.util.List;
 @RequestMapping("/fournisseur/ingredients-fournisseurs")
 public class IngredientsFournisseursController {
 
-	@Autowired
 	private IngredientsFournisseursService ingredientsFournisseursService;
+	private FournisseurService fournisseurService;
+	private IngredientService ingredientService;
+
+	public IngredientsFournisseursController(IngredientsFournisseursService ingredientsFournisseursService,
+			FournisseurService fournisseurService, IngredientService ingredientService) {
+		this.ingredientsFournisseursService = ingredientsFournisseursService;
+		this.fournisseurService = fournisseurService;
+		this.ingredientService = ingredientService;
+	}
 
 	@GetMapping
 	public String getAllIngredientsFournisseurs(Model model) {
@@ -23,9 +34,11 @@ public class IngredientsFournisseursController {
 		return "fournisseur/ingredients-fournisseurs/list";
 	}
 
-	@GetMapping("/new")
-	public String showNewForm(Model model) {
+	@GetMapping("new/{fournisseur-id}")
+	public String showNewForm(@PathVariable("fournisseur-id") Integer fournisseurId,Model model) {
 		model.addAttribute("ingredientsFournisseurs", new IngredientsFournisseurs());
+		model.addAttribute("fournisseur", fournisseurService.findFournisseur(fournisseurId));
+		model.addAttribute("ingredients", ingredientService.getAllIngredients());
 		return "fournisseur/ingredients-fournisseurs/form";
 	}
 

@@ -2,34 +2,41 @@ package perso.boulangerie.fournisseur.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import perso.boulangerie.fournisseur.models.Fournisseur;
 import perso.boulangerie.fournisseur.repos.FournisseurRepo;
 
 @Service
 public class FournisseurService {
 
-	private FournisseurRepo FournisseurRepo;
+	private FournisseurRepo fournisseurRepo;
 
-	public FournisseurService(perso.boulangerie.fournisseur.repos.FournisseurRepo fournisseurRepo) {
-		FournisseurRepo = fournisseurRepo;
+	public FournisseurService(FournisseurRepo fournisseurRepo) {
+		this.fournisseurRepo = fournisseurRepo;
 	}
 
+	@Transactional
 	public Fournisseur save(Fournisseur Fournisseur) {
-		return FournisseurRepo.save(Fournisseur);
+		return fournisseurRepo.save(Fournisseur);
 	}
+
+	public List<Fournisseur> getFournisseursContractants() {
+		return fournisseurRepo.findByEtat(true);
+	} 
+
 
 	public List<Fournisseur> getFournisseurs() {
-		return FournisseurRepo.findAll();
+		return fournisseurRepo.findAll();
 	}
 
 	public Fournisseur findFournisseur(Integer id) {
-		return FournisseurRepo.findById(id).orElseThrow(() -> new RuntimeException("Fournisseur not found with id: " + id));
+		return fournisseurRepo.findById(id).orElseThrow(() -> new RuntimeException("Fournisseur not found with id: " + id));
 	}
 
-	public void deleteFournisseur(Fournisseur Fournisseur) {
-		FournisseurRepo.delete(Fournisseur);
+	@Transactional
+	public void rompreContrat(Integer idFournisseur) {
+		fournisseurRepo.rompreContrat(idFournisseur);
 	}
 }

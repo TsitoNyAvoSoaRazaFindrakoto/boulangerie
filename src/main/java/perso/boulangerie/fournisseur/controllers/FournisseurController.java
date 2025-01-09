@@ -1,6 +1,5 @@
 package perso.boulangerie.fournisseur.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import perso.boulangerie.fournisseur.models.Fournisseur;
 import perso.boulangerie.fournisseur.services.FournisseurService;
@@ -27,6 +26,13 @@ public class FournisseurController {
 	@GetMapping
 	public String getAllFournisseurs(Model model) {
 		List<Fournisseur> fournisseur = fournisseurService.getFournisseurs();
+		model.addAttribute("fournisseur", fournisseur);
+		return "fournisseur/fournisseur/list";
+	}
+
+	@GetMapping("/disponibles")
+	public String getAllFournisseursContractants(Model model) {
+		List<Fournisseur> fournisseur = fournisseurService.getFournisseursContractants();
 		model.addAttribute("fournisseur", fournisseur);
 		return "fournisseur/fournisseur/list";
 	}
@@ -58,16 +64,15 @@ public class FournisseurController {
 		return "fournisseur/fournisseur/form";
 	}
 
-	@PutMapping("/update/{id}")
+	@PostMapping("/update/{id}")
 	public String updateFournisseur(@ModelAttribute Fournisseur fournisseurDetails) {
 		fournisseurService.save(fournisseurDetails);
 		return "redirect:/fournisseur";
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@PostMapping("/delete/{id}")
 	public String deleteFournisseur(@PathVariable Integer id) {
-		Fournisseur fournisseur = fournisseurService.findFournisseur(id);
-		fournisseurService.deleteFournisseur(fournisseur);
+		fournisseurService.rompreContrat(id);
 		return "redirect:/fournisseur";
 	}
 }

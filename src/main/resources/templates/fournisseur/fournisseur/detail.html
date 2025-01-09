@@ -74,23 +74,30 @@
               </div>
 
               <!-- Actions for Fournisseur -->
-              <div class="d-flex justify-content-between mt-4">
-                <a
-                  th:href="@{/fournisseur/edit/{id}(id=${fournisseur.idFournisseur})}"
-                  class="btn btn-primary"
-                >
-                  <i class="bi bi-pencil"></i> Modifier Fournisseur
-                </a>
-                <form
-                  th:action="@{/fournisseur/delete/{id}(id=${fournisseur.idFournisseur})}"
-                  method="post"
-                  style="display: inline"
-                >
-                  <input type="hidden" name="_method" value="delete" />
-                  <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-trash"></i> Supprimer Fournisseur
+								<div class="d-flex justify-content-between mt-4">
+									<div>
+										<a
+											th:href="@{/fournisseur/edit/{id}(id=${fournisseur.idFournisseur})}"
+											class="btn btn-primary"
+										>
+											<i class="bi bi-pencil"></i> Modifier Fournisseur
+										</a>
+										<a
+											th:href="@{/fournisseur/ingredients-fournisseurs/new/{fournisseur-id}(fournisseur-id=${fournisseur.idFournisseur})}"
+											class="btn btn-success"
+										>
+											<i class="bi bi-plus"></i> Ajouter un Ingredient
+										</a>
+									</div>
+									<form
+										th:action="@{/fournisseur/delete/{id}(id=${fournisseur.idFournisseur})}"
+										method="post"
+									>
+									<button class="btn btn-danger" type="submit">
+                    <i class="bi bi-trash"></i> Rompre Contrat Fournisseur
                   </button>
                 </form>
+								</div>
               </div>
             </div>
           </div>
