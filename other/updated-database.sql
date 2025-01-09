@@ -46,13 +46,22 @@ CREATE TABLE Format(
    PRIMARY KEY(Id_Format)
 );
 
+CREATE TABLE Produit_Categorie(
+   Id_Produit_Categorie SERIAL,
+   nom VARCHAR(50)  NOT NULL,
+   description VARCHAR(50) ,
+   PRIMARY KEY(Id_Produit_Categorie)
+);
+
 CREATE TABLE Produit(
    Id_Produit SERIAL,
    nom VARCHAR(30)  NOT NULL,
    description VARCHAR(50) ,
    prix_unitaire NUMERIC(15,2)  ,
+   Id_Produit_Categorie INTEGER NOT NULL,
    Id_Unite VARCHAR(5)  NOT NULL,
    PRIMARY KEY(Id_Produit),
+   FOREIGN KEY(Id_Produit_Categorie) REFERENCES Produit_Categorie(Id_Produit_Categorie),
    FOREIGN KEY(Id_Unite) REFERENCES Unite(Id_Unite)
 );
 
@@ -85,12 +94,23 @@ CREATE TABLE Ingredients_Fournisseurs(
 
 CREATE TABLE Produit_Format(
    Id_Produit_Format SERIAL,
+   nom VARCHAR(50) ,
    prix_unitaire NUMERIC(15,2)   NOT NULL,
    Id_Produit INTEGER NOT NULL,
    Id_Format INTEGER NOT NULL,
    PRIMARY KEY(Id_Produit_Format),
    FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit),
    FOREIGN KEY(Id_Format) REFERENCES Format(Id_Format)
+);
+
+CREATE TABLE Produit_Format_Recette(
+   Id_Ingredient INTEGER,
+   Id_Produit_Format INTEGER,
+   quantte NUMERIC(15,2)   NOT NULL,
+   instruction VARCHAR(100) ,
+   PRIMARY KEY(Id_Ingredient, Id_Produit_Format),
+   FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient),
+   FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
 );
 
 CREATE TABLE Production(
