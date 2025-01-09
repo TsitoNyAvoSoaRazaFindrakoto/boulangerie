@@ -42,23 +42,25 @@ public class VenteFactureController {
 	}
 
 	@GetMapping("/critere1")
-	public String getVenteCritere1(Model model,@RequestParam Integer idProduit,@RequestParam Integer IdFormat) {
-		List<VenteFacture> venteFactures = venteFactureService.getProduit(IdFormat,idProduit);
-		model.addAttribute("venteFactures", venteFactures);
-		model.addAttribute("format", formatRepository.findAll());
-		model.addAttribute("produit", produitRepo.findAll());
-		model.addAttribute("produitCategorie", categorieRepository.findAll());
-		return "client/vente-facture/list";
-	}
-	@GetMapping("/critere2")
-	public String getVenteCritere2(Model model,@RequestParam Integer idCategorie,@RequestParam Integer IdFormat) {
-		List<VenteFacture> venteFactures = venteFactureService.getCategorie(IdFormat,idCategorie);
-		model.addAttribute("venteFactures", venteFactures);
-		model.addAttribute("format", formatRepository.findAll());
-		model.addAttribute("produit", produitRepo.findAll());
-		model.addAttribute("produitCategorie", categorieRepository.findAll());
-		return "client/vente-facture/list";
-	}
+public String getVenteCritere1(Model model, @RequestParam(required = false) Integer idProduit, @RequestParam(required = false) Integer IdFormat) {
+    List<VenteFacture> venteFactures = venteFactureService.getProduit(IdFormat, idProduit);
+    model.addAttribute("venteFactures", venteFactures);
+    model.addAttribute("format", formatRepository.findAll());
+    model.addAttribute("produit", produitRepo.findAll());
+    model.addAttribute("produitCategorie", categorieRepository.findAll());
+    return "client/vente-facture/list";
+}
+
+@GetMapping("/critere2")
+public String getVenteCritere2(Model model,@RequestParam(required = false) Integer idCategorie, @RequestParam(required = false) Integer IdFormat) {
+    List<VenteFacture> venteFactures = venteFactureService.getCategorie(IdFormat, idCategorie);
+    model.addAttribute("venteFactures", venteFactures);
+    model.addAttribute("format", formatRepository.findAll());
+    model.addAttribute("produit", produitRepo.findAll());
+    model.addAttribute("produitCategorie", categorieRepository.findAll());
+    return "client/vente-facture/list";
+}
+
 	@GetMapping("/{id}")
 	public String getVenteById(@PathVariable Integer id, Model model) {
 		VenteFacture venteFacture = venteFactureService.getVenteFacture(id);

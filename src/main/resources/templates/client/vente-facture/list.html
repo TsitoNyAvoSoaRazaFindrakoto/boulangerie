@@ -25,7 +25,7 @@
 
                             <div class="mb-3">
                                 <label for="format1" class="form-label">Format :</label>
-                                <select id="format1" name="IdFormat" class="form-select" required>
+                                <select id="format1" name="IdFormat" class="form-select">
                                     <option value="">Sélectionnez un format</option>
                                     <option th:each="format : ${format}" 
                                             th:value="${format.idFormat}" 
@@ -36,7 +36,7 @@
 
                             <div class="mb-3">
                                 <label for="produit" class="form-label">Produit :</label>
-                                <select id="produit" name="idProduit" class="form-select" required>
+                                <select id="produit" name="idProduit" class="form-select">
                                     <option value="">Sélectionnez un produit</option>
                                     <option th:each="produit : ${produit}" 
                                             th:value="${produit.idProduit}" 
@@ -56,7 +56,7 @@
 
                             <div class="mb-3">
                                 <label for="format2" class="form-label">Format :</label>
-                                <select id="format2" name="IdFormat" class="form-select" required>
+                                <select id="format2" name="IdFormat" class="form-select">
                                     <option value="">Sélectionnez un format</option>
                                     <option th:each="format : ${format}" 
                                             th:value="${format.idFormat}" 
@@ -67,7 +67,7 @@
 
                             <div class="mb-3">
                                 <label for="categorie" class="form-label">Catégorie :</label>
-                                <select id="categorie" name="idCategorie" class="form-select" required>
+                                <select id="categorie" name="idCategorie" class="form-select">
                                     <option value="">Sélectionnez une catégorie</option>
                                     <option th:each="categorie : ${produitCategorie}" 
                                             th:value="${categorie.idProduitCategorie}" 
