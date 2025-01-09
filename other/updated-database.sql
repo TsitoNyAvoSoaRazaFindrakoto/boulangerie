@@ -246,7 +246,7 @@ INSERT INTO Ingredients_Fournisseurs (Id_Fournisseur, Id_Ingredient, prix_unitai
 (2, 3, 0.8);
 
 -- Produit_Format
-INSERT INTO Produit_Format (prix_unitaire, Id_Produit, Id_Format) VALUES
+INSERT INTO Produit_Format (prix_unitaire,nom, Id_Produit, Id_Format) VALUES
 (2.00, 1, 1),
 (4.00, 1, 2),
 (6.00, 1, 3),

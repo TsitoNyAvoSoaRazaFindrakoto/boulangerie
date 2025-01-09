@@ -20,14 +20,14 @@
                 <div class="row mb-5">
                     <!-- Premier formulaire : Recherche par Format et Produit -->
                     <div class="col-md-6">
-                        <form action="/ventes/recherche-par-produit" method="GET" class="p-3 border rounded">
+                        <form action="/client/vente-facture/critere1" method="GET" class="p-3 border rounded">
                             <h5 class="mb-3">Recherche par Format et Produit</h5>
 
                             <div class="mb-3">
                                 <label for="format1" class="form-label">Format :</label>
-                                <select id="format1" name="format" class="form-select" required>
+                                <select id="format1" name="IdFormat" class="form-select" required>
                                     <option value="">Sélectionnez un format</option>
-                                    <option th:each="format : ${formatList}" 
+                                    <option th:each="format : ${format}" 
                                             th:value="${format.idFormat}" 
                                             th:text="${format.nom}">
                                     </option>
@@ -36,9 +36,9 @@
 
                             <div class="mb-3">
                                 <label for="produit" class="form-label">Produit :</label>
-                                <select id="produit" name="produit" class="form-select" required>
+                                <select id="produit" name="idProduit" class="form-select" required>
                                     <option value="">Sélectionnez un produit</option>
-                                    <option th:each="produit : ${produitList}" 
+                                    <option th:each="produit : ${produit}" 
                                             th:value="${produit.idProduit}" 
                                             th:text="${produit.nom}">
                                     </option>
@@ -51,14 +51,14 @@
 
                     <!-- Deuxième formulaire : Recherche par Format et Catégorie -->
                     <div class="col-md-6">
-                        <form action="/ventes/recherche-par-categorie" method="GET" class="p-3 border rounded">
+                        <form action="/client/vente-facture/critere2" method="GET" class="p-3 border rounded">
                             <h5 class="mb-3">Recherche par Format et Catégorie</h5>
 
                             <div class="mb-3">
                                 <label for="format2" class="form-label">Format :</label>
-                                <select id="format2" name="format" class="form-select" required>
+                                <select id="format2" name="IdFormat" class="form-select" required>
                                     <option value="">Sélectionnez un format</option>
-                                    <option th:each="format : ${formatList}" 
+                                    <option th:each="format : ${format}" 
                                             th:value="${format.idFormat}" 
                                             th:text="${format.nom}">
                                     </option>
@@ -67,10 +67,10 @@
 
                             <div class="mb-3">
                                 <label for="categorie" class="form-label">Catégorie :</label>
-                                <select id="categorie" name="categorie" class="form-select" required>
+                                <select id="categorie" name="idCategorie" class="form-select" required>
                                     <option value="">Sélectionnez une catégorie</option>
-                                    <option th:each="categorie : ${categorieList}" 
-                                            th:value="${categorie.idCategorie}" 
+                                    <option th:each="categorie : ${produitCategorie}" 
+                                            th:value="${categorie.idProduitCategorie}" 
                                             th:text="${categorie.nom}">
                                     </option>
                                 </select>
@@ -97,7 +97,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="facture : ${factureList}">
+                            <tr th:each="facture : ${venteFactures}">
                                 <td th:text="${facture.idVenteFacture}"></td>
                                 <td th:text="${facture.quantite}"></td>
                                 <td th:text="${facture.prixUnitaire}"></td>

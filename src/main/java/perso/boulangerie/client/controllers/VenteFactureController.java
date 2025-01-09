@@ -6,22 +6,59 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import perso.boulangerie.client.models.VenteFacture;
 import perso.boulangerie.client.services.VenteFactureService;
+import perso.boulangerie.produit.models.ProduitCategorie;
+import perso.boulangerie.produit.repos.FormatRepo;
+import perso.boulangerie.produit.repos.ProduitCategorieRepository;
+import perso.boulangerie.produit.repos.ProduitRepo;
+
 import java.util.List;
 
 @Controller
-@RequestMapping("client/vente-facture")
+@RequestMapping("/client/vente-facture")
 public class VenteFactureController {
 
-	@Autowired
 	private VenteFactureService venteFactureService;
+	private FormatRepo formatRepository;
+	private ProduitRepo produitRepo;
+	private ProduitCategorieRepository categorieRepository;
+	
+
+	public VenteFactureController(VenteFactureService venteFactureService, FormatRepo formatRepository,
+			ProduitRepo produitRepo, ProduitCategorieRepository categorieRepository) {
+		this.venteFactureService = venteFactureService;
+		this.formatRepository = formatRepository;
+		this.produitRepo = produitRepo;
+		this.categorieRepository = categorieRepository;
+	}
 
 	@GetMapping
 	public String getAllVentes(Model model) {
 		List<VenteFacture> venteFactures = venteFactureService.getVenteFactures();
 		model.addAttribute("venteFactures", venteFactures);
+		model.addAttribute("format", formatRepository.findAll());
+		model.addAttribute("produit", produitRepo.findAll());
+		model.addAttribute("produitCategorie", categorieRepository.findAll());
 		return "client/vente-facture/list";
 	}
 
+	@GetMapping("/critere1")
+	public String getVenteCritere1(Model model,@RequestParam Integer idProduit,@RequestParam Integer IdFormat) {
+		List<VenteFacture> venteFactures = venteFactureService.getProduit(IdFormat,idProduit);
+		model.addAttribute("venteFactures", venteFactures);
+		model.addAttribute("format", formatRepository.findAll());
+		model.addAttribute("produit", produitRepo.findAll());
+		model.addAttribute("produitCategorie", categorieRepository.findAll());
+		return "client/vente-facture/list";
+	}
+	@GetMapping("/critere2")
+	public String getVenteCritere2(Model model,@RequestParam Integer idCategorie,@RequestParam Integer IdFormat) {
+		List<VenteFacture> venteFactures = venteFactureService.getCategorie(IdFormat,idCategorie);
+		model.addAttribute("venteFactures", venteFactures);
+		model.addAttribute("format", formatRepository.findAll());
+		model.addAttribute("produit", produitRepo.findAll());
+		model.addAttribute("produitCategorie", categorieRepository.findAll());
+		return "client/vente-facture/list";
+	}
 	@GetMapping("/{id}")
 	public String getVenteById(@PathVariable Integer id, Model model) {
 		VenteFacture venteFacture = venteFactureService.getVenteFacture(id);
@@ -60,4 +97,5 @@ public class VenteFactureController {
 		venteFactureService.deleteFactureVente(id);
 		return "redirect:/client/vente-facture";
 	}
+
 }
