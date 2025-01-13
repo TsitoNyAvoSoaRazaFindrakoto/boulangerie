@@ -59,4 +59,34 @@ public class VenteFactureService {
 	public void deleteFactureVente(Integer id) {
 		venteFactureRepo.deleteById(id);
 	}
+
+	public List<VenteFacture> getProduit(Integer idFormat,Integer IdProduit) {
+		if(idFormat==null && IdProduit==null)
+		{
+			return getVenteFactures();
+		}
+		if(idFormat==null){
+			return venteFactureRepo.findByProduit(IdProduit);
+		}
+		if(IdProduit==null){
+			return venteFactureRepo.findByFormat(idFormat);
+			
+		}
+		return venteFactureRepo.findByProduitFormat(IdProduit, idFormat);
+	}
+	public List<VenteFacture> getCategorie(Integer idFormat,Integer IdCategorie) {
+		if(idFormat==null && IdCategorie==null)
+		{
+			return getVenteFactures();
+			
+		}
+		if(idFormat==null){
+			return venteFactureRepo.findByProduit(IdCategorie);
+		}
+		if(IdCategorie==null){
+			return venteFactureRepo.findByFormat(idFormat);
+
+		}
+		return venteFactureRepo.findByCategorieFormat(IdCategorie, idFormat);
+	}
 }

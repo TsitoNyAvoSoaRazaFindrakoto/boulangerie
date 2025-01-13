@@ -26,6 +26,7 @@
                       <th class="text-center">ID</th>
                       <th class="text-center">Nom</th>
                       <th class="text-center">Contact</th>
+                      <th class="text-center">Encore contractant</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
@@ -43,6 +44,9 @@
                       <td class="text-center" th:text="${fournisseur.contact}">
                         Contact
                       </td>
+												<td class="text-center" th:text="${fournisseur.etat ? 'oui' : 'non'}"></td>
+												Etat
+												</td>
                       <td class="text-center">
                         <a
                           th:href="@{/fournisseur/{id}(id=${fournisseur.idFournisseur})}"

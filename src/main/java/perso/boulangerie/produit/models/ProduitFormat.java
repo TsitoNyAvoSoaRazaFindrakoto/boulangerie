@@ -19,6 +19,8 @@ public class ProduitFormat {
 
 	private BigDecimal prixUnitaire;
 
+	private String nom;
+
 	@ManyToOne
 	@JoinColumn(name = "idProduit")
 	private Produit produit;

@@ -1,97 +1,145 @@
--- Fournisseurs
-INSERT INTO Fournisseur (nom, contact) VALUES
-('Fournisseur A', 'contactA@example.com'),
-('Fournisseur B', 'contactB@example.com');
+INSERT INTO
+	Fournisseur (nom, contact, etat)
+VALUES
+	('Fournisseur A', '0123456789', true),
+	('Fournisseur B', '0987654321', true),
+	('Fournisseur C', '0567894321', false);
 
--- Clients
-INSERT INTO Client (nom, adresse) VALUES
-('Client A', 'Adresse A'),
-('Client B', 'Adresse B');
+INSERT INTO
+	Client (nom, adresse)
+VALUES
+	('Client Alpha', '123 Rue Principale'),
+	('Client Beta', '456 Boulevard Sud'),
+	('Client Gamma', '789 Avenue Centrale');
 
--- Unités
-INSERT INTO Unite (Id_Unite, val) VALUES
-('KG', 'Kilogramme'),
-('L', 'Litre'),
-('PIECE', 'Pièce');
+INSERT INTO
+	Unite (Id_Unite, val)
+VALUES
+	('kg', 'Kilogramme'),
+	('ltr', 'Litre'),
+	('pcs', 'Pièces');
 
--- Formats
-INSERT INTO Format (nom, mult_prix, mult_recette) VALUES
-('Petit', 0.5, 0.5),
-('Moyen', 1.0, 1.0),
-('Grand', 1.5, 1.5);
+INSERT INTO
+	Unite (Id_Unite, val)
+VALUES
+	('kg', 'Kilogramme'),
+	('ltr', 'Litre'),
+	('pcs', 'Pièces');
 
--- Produits
-INSERT INTO Produit (nom, description, prix_unitaire, Id_Unite) VALUES
-('Pain', 'Pain de blé', 2.00, 'PIECE'),
-('Baguette', 'Baguette croustillante', 1.00, 'PIECE');
+INSERT INTO
+	Format (nom, mult_prix, mult_recette)
+VALUES
+	('Chocolat', 1.2, 1.1),
+	('Nature', 1.0, 1.0),
+	('Vanille', 1.3, 1.2);
 
--- Ingrédients
-INSERT INTO Ingredient (nom, Id_Unite) VALUES
-('Farine', 'KG'),
-('Eau', 'L'),
-('Levure', 'KG');
+INSERT INTO
+	Produit_Categorie (nom, description)
+VALUES
+	(
+		'Viennoiserie',
+		'Produits de boulangerie feuilletée'
+	),
+	('Pâtisserie', 'Produits de pâtisserie sucrée'),
+	('Pain', 'Produits de boulangerie classiques');
 
--- Produits_Recettes
-INSERT INTO Produits_Recettes (Id_Ingredient, Id_Produit, quantite, instruction) VALUES
-(1, 1, 1.0, 'Mélanger farine pour pain'),
-(2, 1, 0.5, 'Ajouter eau pour pain'),
-(3, 1, 0.1, 'Ajouter levure pour pain'),
-(1, 2, 0.8, 'Mélanger farine pour baguette'),
-(2, 2, 0.3, 'Ajouter eau pour baguette'),
-(3, 2, 0.05, 'Ajouter levure pour baguette');
+INSERT INTO
+	Produit (
+		nom,
+		description,
+		prix_unitaire,
+		Id_Produit_Categorie,
+		Id_Unite
+	)
+VALUES
+	('Croissant', 'Croissant au beurre', 1.5, 1, 'pcs'),
+	(
+		'Pain au Chocolat',
+		'Viennoiserie avec chocolat',
+		1.8,
+		1,
+		'pcs'
+	),
+	(
+		'Baguette',
+		'Pain français classique',
+		0.9,
+		3,
+		'pcs'
+	);
 
--- Ingredients_Fournisseurs
-INSERT INTO Ingredients_Fournisseurs (Id_Fournisseur, Id_Ingredient, prix_unitaire) VALUES
-(1, 1, 0.5),
-(1, 2, 0.2),
-(2, 3, 0.8);
+INSERT INTO
+	Ingredient (nom, Id_Unite)
+VALUES
+	('Farine', 'kg'),
+	('Beurre', 'kg'),
+	('Chocolat', 'kg'),
+	('Sucre', 'kg');
 
--- Produit_Format
-INSERT INTO Produit_Format (prix_unitaire, Id_Produit, Id_Format) VALUES
-(2.00, 1, 1),
-(4.00, 1, 2),
-(6.00, 1, 3),
-(1.00, 2, 1),
-(2.00, 2, 2),
-(3.00, 2, 3);
+INSERT INTO
+	Ingredients_Fournisseurs (Id_Fournisseur, Id_Ingredient, prix_unitaire)
+VALUES
+	(1, 1, 0.5),
+	(1, 2, 3.0),
+	(2, 3, 5.0),
+	(3, 4, 1.2);
 
--- Production
-INSERT INTO Production (date_production, quantite, Id_Produit_Format) VALUES
-('2025-01-01 08:00:00', 100, 1),
-('2025-01-02 10:00:00', 200, 2);
+INSERT INTO
+	Produit_Format (nom, prix_unitaire, Id_Produit, Id_Format)
+VALUES
+	('Croissant Chocolat', 1.8, 1, 1),
+	('Croissant Nature', 1.5, 1, 2),
+	('Pain au Chocolat Nature', 1.8, 2, 2),
+	('Pain au Chocolat Chocolat', 2.0, 2, 1);
 
--- Ingredient_Entree
-INSERT INTO Ingredient_Entree (quantite, date_entree, prix_unitaire, Id_Fournisseur, Id_Ingredient) VALUES
-(500, '2025-01-01 07:00:00', 0.5, 1, 1),
-(200, '2025-01-01 07:00:00', 0.2, 1, 2),
-(50, '2025-01-01 07:00:00', 0.8, 2, 3);
+INSERT INTO
+	Vente (
+		date_vente,
+		montant,
+		date_livree,
+		adresse_livraison,
+		etat,
+		Id_Client
+	)
+VALUES
+	(
+		'2025-01-01 10:00:00',
+		10.0,
+		'2025-01-02 10:00:00',
+		'123 Rue Principale',
+		1,
+		1
+	),
+	(
+		'2025-01-05 12:00:00',
+		20.0,
+		'2025-01-06 12:00:00',
+		'456 Boulevard Sud',
+		1,
+		2
+	);
 
--- Production_Details
-INSERT INTO Production_Details (quantite, Id_Ingredient_Entree, Id_Production) VALUES
-(100, 1, 1),
-(50, 2, 1),
-(10, 3, 1),
-(200, 1, 2),
-(100, 2, 2),
-(20, 3, 2);
+INSERT INTO
+	Vente_Facture (
+		quantite,
+		prix_unitaire,
+		montant,
+		Id_Produit_Format,
+		Id_Vente
+	)
+VALUES
+	(5, 1.8, 9.0, 1, 1),
+	(6, 1.5, 9.0, 2, 1);
 
-
--- Ajouter l'ingrédient "Beurre"
-INSERT INTO Ingredient (nom, Id_Unite) VALUES
-('Beurre', 'KG'); -- Id_Ingredient généré automatiquement
-
--- Ajouter un prix unitaire pour "Beurre" fourni par le fournisseur 1
-INSERT INTO Ingredients_Fournisseurs (Id_Fournisseur, Id_Ingredient, prix_unitaire) VALUES
-(1, 4, 3.0); -- Assumant que l'Id_Ingredient pour "Beurre" est 4
-
--- Ajouter une entrée d'ingrédient pour "Beurre"
-INSERT INTO Ingredient_Entree (quantite, date_entree, prix_unitaire, Id_Fournisseur, Id_Ingredient) VALUES
-(50, '2025-01-01 07:30:00', 3.0, 1, 4); -- Quantité de 50 kg de beurre
-
--- Modifier la recette pour inclure du beurre dans "Pain"
-INSERT INTO Produits_Recettes (Id_Ingredient, Id_Produit, quantite, instruction) VALUES
-(4, 1, 0.2, 'Ajouter du beurre pour pain');
-
--- Ajouter du beurre dans une production existante
-INSERT INTO Production_Details (quantite, Id_Ingredient_Entree, Id_Production) VALUES
-(10, 4, 1); -- Utilisation de 10 kg de beurre dans la production 1
+INSERT INTO
+	Ingredient_Entree (
+		quantite,
+		date_entree,
+		prix_unitaire,
+		Id_Fournisseur,
+		Id_Ingredient
+	)
+VALUES
+	(10, '2025-01-01', 0.5, 1, 1),
+	(5, '2025-01-02', 3.0, 1, 2),
+	(7, '2025-01-03', 5.0, 2, 3);

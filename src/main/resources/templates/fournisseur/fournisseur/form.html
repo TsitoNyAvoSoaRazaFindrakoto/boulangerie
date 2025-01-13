@@ -25,6 +25,13 @@
                 method="post"
                 class="form form-vertical"
               >
+							<!-- ID Fournisseur (hidden) -->
+							<input
+								type="hidden"
+								id="idFournisseur"
+								name="idFournisseur"
+								th:field="*{idFournisseur}"
+							/>
                 <!-- Nom -->
                 <div class="form-group mb-4">
                   <label for="nom" class="form-label">Nom</label>
