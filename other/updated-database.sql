@@ -113,6 +113,15 @@ CREATE TABLE Produit_Format_Recette(
    FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
 );
 
+CREATE TABLE Produit_Conseil(
+   Id_Produit_Conseil SERIAL,
+   date_debut DATE NOT NULL,
+   date_fin VARCHAR(50)  NOT NULL,
+   Id_Produit_Format INTEGER NOT NULL,
+   PRIMARY KEY(Id_Produit_Conseil),
+   FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
+);
+
 CREATE TABLE Production(
    Id_Production SERIAL,
    date_production TIMESTAMP NOT NULL,
@@ -166,6 +175,7 @@ CREATE TABLE Vente_Facture_Details(
    FOREIGN KEY(Id_Production) REFERENCES Production(Id_Production),
    FOREIGN KEY(Id_Vente_Facture) REFERENCES Vente_Facture(Id_Vente_Facture)
 );
+
 
 -- for views, triggers, functions
 CREATE

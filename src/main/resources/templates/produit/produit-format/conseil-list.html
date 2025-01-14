@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <!-- Section principale -->
+        <div class="container">
+          <!-- Deux formulaires côte à côte -->
+          <div class="row mb-5">
+            <!-- Premier formulaire : Recherche par Format et Produit -->
+            <div class="col-md-6">
+              <form
+                action="/produit/produit-format/conseils"
+                method="GET"
+                class="p-3 border rounded"
+              >
+                <h5 class="mb-3">Recherche par Mois et Annee</h5>
+
+                <div class="mb-3">
+                  <input
+                    type="month"
+                    id="moisAnnee"
+                    name="moisAnnee"
+                    class="form-control"
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Rechercher
+                </button>
+              </form>
+            </div>
+          </div>
+
+					<section class="section">
+						<div class="card shadow-sm border-0">
+							<div class="card-body">
+								<div class="table-responsive">
+									<h1 class="mb-4">Produit Conseils</h1>
+									<a href="/produit/produit-format/conseils/new" class="btn btn-success mb-3">
+										<i class="bi bi-plus-circle"></i> Ajouter un produit conseil
+									</a>
+									<table class="table table-striped" id="table1">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Nom</th>
+												<th>Prix Unitaire</th>
+												<th>Description</th>
+			
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="produit : ${produits}">
+												<td th:text="${produit.idProduitConseil}"></td>
+												<td th:text="${produit.produit.nom}"></td>
+												<td th:text="${produit.produit.prixUnitaire}"></td>
+												<td th:text="${produit.produit.produit.description}"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</section>
+        </div>
+        <!-- Fin de la section principale -->
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>
