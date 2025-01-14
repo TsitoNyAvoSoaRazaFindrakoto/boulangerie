@@ -1,6 +1,7 @@
 package perso.boulangerie.client.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -43,5 +44,10 @@ public interface VenteFactureRepo extends JpaRepository<VenteFacture,Integer>{
                    "JOIN Produit AS Po ON Fo.Id_Produit = Po.Id_Produit " +
                    "WHERE Po.Id_Produit_Categorie = :idProduitCategorie AND Fo.Id_Format = :idFormat", nativeQuery = true)
     List<VenteFacture> findByCategorieFormat(@Param("idProduitCategorie") Integer idProduitCategorie, @Param("idFormat") Integer idFormat);
+
+
+		@Modifying
+		@Query(value = "DELETE FROM Vente_Facture WHERE Id_Vente = :idVente", nativeQuery = true)
+		public void deleteByIdVente(@Param("idVente") Integer idVente);
 }
 

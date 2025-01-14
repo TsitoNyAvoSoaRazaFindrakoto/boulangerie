@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import perso.boulangerie.fournisseur.models.IngredientEntree;
@@ -24,8 +23,6 @@ public class ProductionDetailsService {
 	private ProduitService produitService;
 	HashMap<Integer, List<IngredientEntree>> stockIngredient;
 
-
-	
 
 	public ProductionDetailsService(ProductionDetailsRepo productionDetailsRepo,
 			IngredientEntreeService ingredientEntreeService, ProduitService produitService) {

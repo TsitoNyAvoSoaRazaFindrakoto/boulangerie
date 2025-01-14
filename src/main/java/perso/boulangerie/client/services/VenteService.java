@@ -1,21 +1,18 @@
 package perso.boulangerie.client.services;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import perso.boulangerie.client.models.Vente;
-import perso.boulangerie.client.models.VenteFacture;
 import perso.boulangerie.client.repos.VenteRepo;
 
 @Service
+@AllArgsConstructor
 public class VenteService {
-	@Autowired
 	private VenteRepo venteRepo;
-	@Autowired
 	private VenteFactureService venteFactureService;
 
 	public Vente save(Vente Vente) {
@@ -27,14 +24,10 @@ public class VenteService {
 	}
 
 	@Transactional
-	public Vente saveWithDetails(Vente Vente, List<VenteFacture> venteDetails) {
-		BigDecimal montant = venteDetails.stream().map(VenteFacture::getMontant).reduce(BigDecimal.ZERO, BigDecimal::add);
-		Vente.setMontant(montant);
-		Vente.setVenteDetails(venteDetails);
-		Vente.setIdVente(save(Vente).getIdVente());
-		venteFactureService.saveAll(Vente.getVenteDetails());
-
-		return Vente;
+	public Vente validerVente(Integer idVente) {
+		Vente vente = findVente(idVente);
+		vente.setEtat(2);
+		return vente;
 	}
 
 	public List<Vente> getVentes() {
@@ -47,7 +40,9 @@ public class VenteService {
 		return v;
 	}
 
+	@Transactional
 	public void deleteVente(Integer id) {
+		venteFactureService.deleteByIdVente(id);
 		venteRepo.deleteById(id);
 	}
 }

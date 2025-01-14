@@ -56,8 +56,16 @@ public class VenteFactureService {
 		return venteFactureRepo.findByVente(vente);
 	}
 
+	@Transactional
 	public void deleteFactureVente(Integer id) {
+		venteFactureDetailsService.deleteByIdVenteFacture(id);
 		venteFactureRepo.deleteById(id);
+	}
+
+	@Transactional
+	public void deleteByIdVente(Integer idVente) {
+		venteFactureDetailsService.deleteByIdVente(idVente);
+		venteFactureRepo.deleteByIdVente(idVente);
 	}
 
 	public List<VenteFacture> getProduit(Integer idFormat,Integer IdProduit) {

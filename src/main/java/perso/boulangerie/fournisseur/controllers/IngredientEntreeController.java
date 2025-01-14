@@ -44,7 +44,7 @@ public class IngredientEntreeController {
 		return "fournisseur/ingredient-entrees/form";
 	}
 
-	@PutMapping("/{id}")
+	@PostMapping("/{id}")
 	public String updateIngredientEntree(@ModelAttribute IngredientEntree ingredientEntree) {
 		ingredientEntreeService.save(ingredientEntree);
 		return "redirect:/fournisseur/ingredient-entrees";

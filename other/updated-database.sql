@@ -8,7 +8,7 @@ create database boulangerie;
 CREATE TABLE Fournisseur(
    Id_Fournisseur SERIAL,
    nom VARCHAR(40) ,
-   contact VARCHAR(30) ,
+   contact VARCHAR(50)  NOT NULL,
    etat BOOLEAN default true,
    PRIMARY KEY(Id_Fournisseur)
 );
@@ -49,14 +49,14 @@ CREATE TABLE Format(
 CREATE TABLE Produit_Categorie(
    Id_Produit_Categorie SERIAL,
    nom VARCHAR(50)  NOT NULL,
-   description VARCHAR(50) ,
+   description TEXT,
    PRIMARY KEY(Id_Produit_Categorie)
 );
 
 CREATE TABLE Produit(
    Id_Produit SERIAL,
    nom VARCHAR(30)  NOT NULL,
-   description VARCHAR(50) ,
+   description TEXT,
    prix_unitaire NUMERIC(15,2)  ,
    Id_Produit_Categorie INTEGER NOT NULL,
    Id_Unite VARCHAR(5)  NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE Produits_Recettes(
    Id_Ingredient INTEGER,
    Id_Produit INTEGER,
    quantite NUMERIC(15,2)   NOT NULL,
-   instruction VARCHAR(100) ,
+   instruction TEXT,
    PRIMARY KEY(Id_Ingredient, Id_Produit),
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient),
    FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit)
@@ -106,8 +106,8 @@ CREATE TABLE Produit_Format(
 CREATE TABLE Produit_Format_Recette(
    Id_Ingredient INTEGER,
    Id_Produit_Format INTEGER,
-   quantte NUMERIC(15,2)   NOT NULL,
-   instruction VARCHAR(100) ,
+   quantite NUMERIC(15,2)   NOT NULL,
+   instruction TEXT,
    PRIMARY KEY(Id_Ingredient, Id_Produit_Format),
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient),
    FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
@@ -117,6 +117,7 @@ CREATE TABLE Production(
    Id_Production SERIAL,
    date_production TIMESTAMP NOT NULL,
    quantite INTEGER NOT NULL,
+   libelle VARCHAR(50) ,
    Id_Produit_Format INTEGER NOT NULL,
    PRIMARY KEY(Id_Production),
    FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
@@ -127,6 +128,7 @@ CREATE TABLE Ingredient_Entree(
    quantite NUMERIC(15,2)   NOT NULL,
    date_entree TIMESTAMP NOT NULL,
    prix_unitaire NUMERIC(15,2)  ,
+   libelle VARCHAR(50) ,
    Id_Fournisseur INTEGER NOT NULL,
    Id_Ingredient INTEGER NOT NULL,
    PRIMARY KEY(Id_Ingredient_Entree),
@@ -165,6 +167,7 @@ CREATE TABLE Vente_Facture_Details(
    FOREIGN KEY(Id_Vente_Facture) REFERENCES Vente_Facture(Id_Vente_Facture)
 );
 
+-- for views, triggers, functions
 CREATE
 OR REPLACE VIEW Stock_Produit AS
 SELECT
@@ -175,6 +178,16 @@ SELECT
 FROM
 	Production pr
 	LEFT JOIN Vente_Facture_Details vd ON pr.Id_Production = vd.Id_Production
+where
+	vd.Id_Vente_Facture IN (
+		SELECT
+			vf.Id_Vente_Facture
+		FROM
+			Vente_Facture vf
+			JOIN Vente v ON vf.Id_Vente = v.Id_Vente
+		WHERE
+			v.etat > 0
+	)
 GROUP BY
 	pr.Id_Production
 HAVING
@@ -197,149 +210,81 @@ GROUP BY
 HAVING
 	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 0;
 
-INSERT INTO
-	Fournisseur (nom, contact, etat)
-VALUES
-	('Fournisseur A', '0123456789', true),
-	('Fournisseur B', '0987654321', true),
-	('Fournisseur C', '0567894321', false);
+-- Trigger for ingredient_entree to fetch prix_unitaire from ingredient_fournisseur
+CREATE OR REPLACE FUNCTION update_prix_unitaire_ingredient_entree()
+RETURNS TRIGGER AS $$
+BEGIN
+    SELECT prix_unitaire 
+    INTO NEW.prix_unitaire
+    FROM Ingredients_Fournisseurs
+    WHERE Id_Fournisseur = NEW.Id_Fournisseur AND Id_Ingredient = NEW.Id_Ingredient;
 
-INSERT INTO
-	Client (nom, adresse)
-VALUES
-	('Client Alpha', '123 Rue Principale'),
-	('Client Beta', '456 Boulevard Sud'),
-	('Client Gamma', '789 Avenue Centrale');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
-INSERT INTO
-	Unite (Id_Unite, val)
-VALUES
-	('kg', 'Kilogramme'),
-	('ltr', 'Litre'),
-	('pcs', 'Pièces');
+CREATE TRIGGER trg_update_prix_unitaire_ingredient_entree
+BEFORE INSERT OR UPDATE ON Ingredient_Entree
+FOR EACH ROW
+EXECUTE FUNCTION update_prix_unitaire_ingredient_entree();
 
-INSERT INTO
-	Unite (Id_Unite, val)
-VALUES
-	('kg', 'Kilogramme'),
-	('ltr', 'Litre'),
-	('pcs', 'Pièces');
 
-INSERT INTO
-	Format (nom, mult_prix, mult_recette)
-VALUES
-	('Chocolat', 1.2, 1.1),
-	('Nature', 1.0, 1.0),
-	('Vanille', 1.3, 1.2);
+-- Trigger for produit_format to calculate prix_unitaire
+CREATE OR REPLACE FUNCTION update_prix_unitaire_produit_format()
+RETURNS TRIGGER AS $$
+BEGIN
+    SELECT mult_prix 
+    INTO NEW.prix_unitaire
+    FROM Format
+    WHERE Id_Format = NEW.Id_Format;
 
-INSERT INTO
-	Produit_Categorie (nom, description)
-VALUES
-	(
-		'Viennoiserie',
-		'Produits de boulangerie feuilletée'
-	),
-	('Pâtisserie', 'Produits de pâtisserie sucrée'),
-	('Pain', 'Produits de boulangerie classiques');
+    NEW.prix_unitaire = NEW.prix_unitaire * 
+                        (SELECT prix_unitaire FROM Produit WHERE Id_Produit = NEW.Id_Produit);
 
-INSERT INTO
-	Produit (
-		nom,
-		description,
-		prix_unitaire,
-		Id_Produit_Categorie,
-		Id_Unite
-	)
-VALUES
-	('Croissant', 'Croissant au beurre', 1.5, 1, 'pcs'),
-	(
-		'Pain au Chocolat',
-		'Viennoiserie avec chocolat',
-		1.8,
-		1,
-		'pcs'
-	),
-	(
-		'Baguette',
-		'Pain français classique',
-		0.9,
-		3,
-		'pcs'
-	);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
-INSERT INTO
-	Ingredient (nom, Id_Unite)
-VALUES
-	('Farine', 'kg'),
-	('Beurre', 'kg'),
-	('Chocolat', 'kg'),
-	('Sucre', 'kg');
+CREATE TRIGGER trg_update_prix_unitaire_produit_format
+BEFORE INSERT OR UPDATE ON Produit_Format
+FOR EACH ROW
+EXECUTE FUNCTION update_prix_unitaire_produit_format();
 
-INSERT INTO
-	Ingredients_Fournisseurs (Id_Fournisseur, Id_Ingredient, prix_unitaire)
-VALUES
-	(1, 1, 0.5),
-	(1, 2, 3.0),
-	(2, 3, 5.0),
-	(3, 4, 1.2);
 
-INSERT INTO
-	Produit_Format (nom, prix_unitaire, Id_Produit, Id_Format)
-VALUES
-	('Croissant Chocolat', 1.8, 1, 1),
-	('Croissant Nature', 1.5, 1, 2),
-	('Pain au Chocolat Nature', 1.8, 2, 2),
-	('Pain au Chocolat Chocolat', 2.0, 2, 1);
+-- Trigger for vente_facture to calculate prix_unitaire and montant
+CREATE OR REPLACE FUNCTION update_vente_facture_values()
+RETURNS TRIGGER AS $$
+BEGIN
+    SELECT prix_unitaire 
+    INTO NEW.prix_unitaire
+    FROM Produit_Format
+    WHERE Id_Produit_Format = NEW.Id_Produit_Format;
 
-INSERT INTO
-	Vente (
-		date_vente,
-		montant,
-		date_livree,
-		adresse_livraison,
-		etat,
-		Id_Client
-	)
-VALUES
-	(
-		'2025-01-01 10:00:00',
-		10.0,
-		'2025-01-02 10:00:00',
-		'123 Rue Principale',
-		1,
-		1
-	),
-	(
-		'2025-01-05 12:00:00',
-		20.0,
-		'2025-01-06 12:00:00',
-		'456 Boulevard Sud',
-		1,
-		2
-	);
+    NEW.montant = NEW.quantite * NEW.prix_unitaire;
 
-INSERT INTO
-	Vente_Facture (
-		quantite,
-		prix_unitaire,
-		montant,
-		Id_Produit_Format,
-		Id_Vente
-	)
-VALUES
-	(5, 1.8, 9.0, 1, 1),
-	(6, 1.5, 9.0, 2, 1);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
-INSERT INTO
-	Ingredient_Entree (
-		quantite,
-		date_entree,
-		prix_unitaire,
-		Id_Fournisseur,
-		Id_Ingredient
-	)
-VALUES
-	(10, '2025-01-01', 0.5, 1, 1),
-	(5, '2025-01-02', 3.0, 1, 2),
-	(7, '2025-01-03', 5.0, 2, 3);
+CREATE TRIGGER trg_update_vente_facture_values
+BEFORE INSERT OR UPDATE ON Vente_Facture
+FOR EACH ROW
+EXECUTE FUNCTION update_vente_facture_values();
 
+
+-- Trigger to update vente.montant based on vente_facture.montant
+CREATE OR REPLACE FUNCTION update_vente_montant()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE Vente
+    SET montant = (SELECT SUM(montant) FROM Vente_Facture WHERE Id_Vente = NEW.Id_Vente)
+    WHERE Id_Vente = NEW.Id_Vente;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_vente_montant
+AFTER INSERT OR UPDATE ON Vente_Facture
+FOR EACH ROW
+EXECUTE FUNCTION update_vente_montant();

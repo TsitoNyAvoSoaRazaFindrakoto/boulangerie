@@ -1,6 +1,5 @@
 package perso.boulangerie.fournisseur.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +15,9 @@ import java.util.List;
 @RequestMapping("/fournisseur/ingredients-fournisseurs")
 public class IngredientsFournisseursController {
 
-	private IngredientsFournisseursService ingredientsFournisseursService;
-	private FournisseurService fournisseurService;
-	private IngredientService ingredientService;
+	private final IngredientsFournisseursService ingredientsFournisseursService;
+	private final FournisseurService fournisseurService;
+	private final IngredientService ingredientService;
 
 	public IngredientsFournisseursController(IngredientsFournisseursService ingredientsFournisseursService,
 			FournisseurService fournisseurService, IngredientService ingredientService) {
@@ -55,7 +54,7 @@ public class IngredientsFournisseursController {
 		return "fournisseur/ingredients-fournisseurs/form";
 	}
 
-	@PutMapping("/update")
+	@PostMapping("/update")
 	public String updateIngredientsFournisseurs(@ModelAttribute IngredientsFournisseurs ingredientsFournisseurs) {
 		ingredientsFournisseursService.save(ingredientsFournisseurs);
 		return "redirect:/fournisseur/ingredients-fournisseurs";

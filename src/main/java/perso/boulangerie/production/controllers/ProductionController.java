@@ -49,7 +49,7 @@ public class ProductionController {
 		return "production/production/edit";
 	}
 
-	@PutMapping("/{id}")
+	@PostMapping("/{id}")
 	public String updateProduction(@PathVariable("id") Integer id, @ModelAttribute("production") Production production) {
 		productionService.save(production);
 		return "redirect:/production";

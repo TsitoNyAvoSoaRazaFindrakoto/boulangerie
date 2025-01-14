@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import perso.boulangerie.client.models.VenteFacture;
 import perso.boulangerie.client.models.VenteFactureDetails;
 import perso.boulangerie.client.repos.VenteFactureDetailsRepo;
@@ -91,5 +92,15 @@ public class VenteFactureDetailsService {
 
 	public void deleteVenteDetails(VenteFactureDetails VenteDetails){
 		venteFactureDetailsRepo.delete(VenteDetails);
+	}
+
+	@Transactional
+	public void deleteByIdVenteFacture(Integer idVenteFacture){
+		venteFactureDetailsRepo.deleteByIdVenteFacture(idVenteFacture);
+	}
+
+	@Transactional
+	public void deleteByIdVente(Integer idVente){
+		venteFactureDetailsRepo.deleteByIdVente(idVente);
 	}
 }

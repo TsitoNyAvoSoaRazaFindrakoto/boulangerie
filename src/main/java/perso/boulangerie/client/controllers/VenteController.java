@@ -1,30 +1,24 @@
 package perso.boulangerie.client.controllers;
 
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 import perso.boulangerie.client.models.Vente;
-import perso.boulangerie.client.models.VenteFacture;
 import perso.boulangerie.client.services.ClientService;
 import perso.boulangerie.client.services.VenteService;
-import perso.boulangerie.produit.services.ProduitFormatService;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+@AllArgsConstructor
 @Controller
 @RequestMapping("client/vente")
 public class VenteController {
 
 	private VenteService venteService;
 	private ClientService clientService;
-	private ProduitFormatService produitFormatService;
-
-	public VenteController(VenteService venteService, ClientService clientService,
-			ProduitFormatService produitFormatService) {
-		this.venteService = venteService;
-		this.clientService = clientService;
-		this.produitFormatService = produitFormatService;
-	}
 
 	@GetMapping
 	public String getAllVentes(Model model) {
@@ -44,14 +38,13 @@ public class VenteController {
 	public String showCreateForm(Model model) {
 		model.addAttribute("vente", new Vente());
 		model.addAttribute("clients", clientService.getClients());
-		model.addAttribute("produit_formats",produitFormatService.getProduitFormats());
 		return "client/vente/form";
 	}
 
 	@PostMapping
-	public String createVente(@ModelAttribute Vente vente, @RequestParam List<VenteFacture> venteDetails) {
-		venteService.saveWithDetails(vente, venteDetails);
-		return "redirect:/client/vente";
+	public String createVente(@ModelAttribute Vente vente, HttpSession session) {
+		session.setAttribute("vente", venteService.save(vente));
+		return "redirect:/client/vente-facture/new";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -62,15 +55,22 @@ public class VenteController {
 		return "client/vente/form";
 	}
 
-	@PutMapping("/update/{id}")
-	public String updateVente(@ModelAttribute Vente vente, @RequestParam List<VenteFacture> venteDetails) {
-		venteService.saveWithDetails(vente, venteDetails);
+	@PostMapping("/update/{id}")
+	public String updateVente(@ModelAttribute Vente vente) {
+		venteService.save(vente);
 		return "redirect:/client/vente";
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public String deleteVente(@PathVariable Integer id) {
+	@PostMapping("/validate")
+	public String validateVente(@SessionAttribute Vente vente) {
+		venteService.validerVente(vente.getIdVente());
+		return "redirect:/client/vente";
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteVente(@PathVariable Integer id,HttpSession session) {
 		venteService.deleteVente(id);
+		session.removeAttribute("vente");
 		return "redirect:/client/vente";
 	}
 }

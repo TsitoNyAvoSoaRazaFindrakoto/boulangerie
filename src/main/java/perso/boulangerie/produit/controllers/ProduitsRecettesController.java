@@ -53,7 +53,7 @@ public class ProduitsRecettesController {
 		return "produits-recettes/form";
 	}
 
-	@PutMapping("/{ingredientId}/{produitId}")
+	@PostMapping("/{ingredientId}/{produitId}")
 	public String updateProduit(@ModelAttribute ProduitsRecettes produitsRecettes) {
 		produitsRecettesService.save(produitsRecettes);
 		return "redirect:/produits-recettes";

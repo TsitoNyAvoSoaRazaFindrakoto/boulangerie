@@ -1,7 +1,7 @@
 CREATE TABLE Fournisseur(
    Id_Fournisseur SERIAL,
    nom VARCHAR(40) ,
-   contact VARCHAR(30) ,
+   contact VARCHAR(50)  NOT NULL,
    etat BOOLEAN default true,
    PRIMARY KEY(Id_Fournisseur)
 );
@@ -42,14 +42,14 @@ CREATE TABLE Format(
 CREATE TABLE Produit_Categorie(
    Id_Produit_Categorie SERIAL,
    nom VARCHAR(50)  NOT NULL,
-   description VARCHAR(50) ,
+   description TEXT,
    PRIMARY KEY(Id_Produit_Categorie)
 );
 
 CREATE TABLE Produit(
    Id_Produit SERIAL,
    nom VARCHAR(30)  NOT NULL,
-   description VARCHAR(50) ,
+   description TEXT,
    prix_unitaire NUMERIC(15,2)  ,
    Id_Produit_Categorie INTEGER NOT NULL,
    Id_Unite VARCHAR(5)  NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE Produits_Recettes(
    Id_Ingredient INTEGER,
    Id_Produit INTEGER,
    quantite NUMERIC(15,2)   NOT NULL,
-   instruction VARCHAR(100) ,
+   instruction TEXT,
    PRIMARY KEY(Id_Ingredient, Id_Produit),
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient),
    FOREIGN KEY(Id_Produit) REFERENCES Produit(Id_Produit)
@@ -99,8 +99,8 @@ CREATE TABLE Produit_Format(
 CREATE TABLE Produit_Format_Recette(
    Id_Ingredient INTEGER,
    Id_Produit_Format INTEGER,
-   quantte NUMERIC(15,2)   NOT NULL,
-   instruction VARCHAR(100) ,
+   quantite NUMERIC(15,2)   NOT NULL,
+   instruction TEXT,
    PRIMARY KEY(Id_Ingredient, Id_Produit_Format),
    FOREIGN KEY(Id_Ingredient) REFERENCES Ingredient(Id_Ingredient),
    FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
@@ -110,6 +110,7 @@ CREATE TABLE Production(
    Id_Production SERIAL,
    date_production TIMESTAMP NOT NULL,
    quantite INTEGER NOT NULL,
+   libelle VARCHAR(50) ,
    Id_Produit_Format INTEGER NOT NULL,
    PRIMARY KEY(Id_Production),
    FOREIGN KEY(Id_Produit_Format) REFERENCES Produit_Format(Id_Produit_Format)
@@ -120,6 +121,7 @@ CREATE TABLE Ingredient_Entree(
    quantite NUMERIC(15,2)   NOT NULL,
    date_entree TIMESTAMP NOT NULL,
    prix_unitaire NUMERIC(15,2)  ,
+   libelle VARCHAR(50) ,
    Id_Fournisseur INTEGER NOT NULL,
    Id_Ingredient INTEGER NOT NULL,
    PRIMARY KEY(Id_Ingredient_Entree),

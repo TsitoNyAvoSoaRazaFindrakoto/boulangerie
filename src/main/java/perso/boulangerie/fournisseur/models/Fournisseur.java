@@ -14,7 +14,7 @@ public class Fournisseur {
 
 	private String nom;
 	private String contact;
-	private boolean etat;
+	private boolean etat = true;
 
 	@Transient
 	private List<IngredientsFournisseurs> ingredientsFournisseurs;

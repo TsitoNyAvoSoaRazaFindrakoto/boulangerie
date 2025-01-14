@@ -67,7 +67,7 @@ public class ProductionDetailsController {
 		return "/production/production-details/edit";
 	}
 
-	@PutMapping("/update/{id}")
+	@PostMapping("/update/{id}")
 	public String updateProductionDetails(@ModelAttribute ProductionDetails productionDetails) {
 		productionDetailsService.save(productionDetails);
 		return "redirect:/production/production-details";

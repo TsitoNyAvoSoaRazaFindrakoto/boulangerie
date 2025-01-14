@@ -49,7 +49,7 @@ public class IngredientController {
 		return "produit/ingredient/form";
 	}
 
-	@PutMapping("/update/{id}")
+	@PostMapping("/update/{id}")
 	public String updateIngredient(@ModelAttribute Ingredient ingredient) {
 		ingredientService.save(ingredient);
 		return "redirect:/produit/ingredient";
