@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import perso.boulangerie.produit.models.ProduitConseil;
 import java.time.LocalDate;
 
-
 public interface ProduitConseilRepo extends JpaRepository<ProduitConseil, Integer> {
 	// 1. Filter for current month
 	@Query(value = "SELECT * FROM Produit_Conseil " + "WHERE date_debut >= DATE_TRUNC('month', CURRENT_DATE) "
@@ -23,5 +22,9 @@ public interface ProduitConseilRepo extends JpaRepository<ProduitConseil, Intege
 	List<ProduitConseil> findAllByYearMonth(@Param("yearMonth") YearMonth yearMonth);
 
 	List<ProduitConseil> findByDateDebut(LocalDate dateDebut);
+
+	// 3. Filter by year only
+	@Query(value = "SELECT * FROM Produit_Conseil WHERE EXTRACT(YEAR FROM date_debut) = :year", nativeQuery = true)
+	List<ProduitConseil> findAllByYear(@Param("year") int year);
 
 }

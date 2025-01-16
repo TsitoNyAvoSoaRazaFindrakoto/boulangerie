@@ -2,6 +2,7 @@ package perso.boulangerie.client.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -31,7 +32,7 @@ public class VenteService {
 	}
 
 	public List<Vente> getVentes() {
-		return venteRepo.findAll();
+		return venteRepo.findAll(Sort.by(Sort.Direction.DESC, "id_vente"));
 	}
 
 	public Vente findVente(Integer id) {

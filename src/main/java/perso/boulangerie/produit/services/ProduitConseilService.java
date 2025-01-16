@@ -14,11 +14,18 @@ import perso.boulangerie.produit.repos.ProduitConseilRepo;
 public class ProduitConseilService {
 	private final ProduitConseilRepo produitConseilRepo;
 
-	public ProduitConseil save(ProduitConseil pc){
+	public ProduitConseil save(ProduitConseil pc) {
 		return produitConseilRepo.save(pc);
 	}
 
-	public List<ProduitConseil> getForYearMonth(String yearMonth){
-		return yearMonth == null ? produitConseilRepo.findAllForCurrentMonth() : produitConseilRepo.findAllByYearMonth(YearMonth.parse(yearMonth));
+	public List<ProduitConseil> getForYearMonth(Integer mois, Integer annee) {
+		if (mois == null) {
+			return produitConseilRepo.findAllForCurrentMonth();
+		}
+		if (mois == 0 ) {
+			return produitConseilRepo.findAllByYear(annee);
+		} else {
+			return produitConseilRepo.findAllByYearMonth(YearMonth.of(annee, mois));
+		}
 	}
 }

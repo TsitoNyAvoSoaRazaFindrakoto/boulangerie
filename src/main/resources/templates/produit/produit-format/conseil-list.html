@@ -26,11 +26,29 @@
                 <h5 class="mb-3">Recherche par Mois et Annee</h5>
 
                 <div class="mb-3">
+                  <select id="mois" name="mois" class="form-control">
+										<option value="0">Tous</option>
+										<option value="1">Janvier</option>
+										<option value="2">Fevrier</option>
+										<option value="3">Mars</option>
+										<option value="4">Avril</option>
+										<option value="5">Mai</option>
+										<option value="6">Juin</option>
+										<option value="7">Juillet</option>
+										<option value="8">Aout</option>
+										<option value="9">Septembre</option>
+										<option value="10">Octobre</option>
+										<option value="11">Novembre</option>
+										<option value="12">Decembre</option>
+									</select>
+                </div>
+                <div class="mb-3">
                   <input
-                    type="month"
-                    id="moisAnnee"
-                    name="moisAnnee"
+                    type="number"
+                    id="annee"
+                    name="annee"
                     class="form-control"
+										required
                   />
                 </div>
 
@@ -41,37 +59,41 @@
             </div>
           </div>
 
-					<section class="section">
-						<div class="card shadow-sm border-0">
-							<div class="card-body">
-								<div class="table-responsive">
-									<h1 class="mb-4">Produit Conseils</h1>
-									<a href="/produit/produit-format/conseils/new" class="btn btn-success mb-3">
-										<i class="bi bi-plus-circle"></i> Ajouter un produit conseil
-									</a>
-									<table class="table table-striped" id="table1">
-										<thead>
-											<tr>
-												<th>#</th>
-												<th>Nom</th>
-												<th>Prix Unitaire</th>
-												<th>Description</th>
-			
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="produit : ${produits}">
-												<td th:text="${produit.idProduitConseil}"></td>
-												<td th:text="${produit.produit.nom}"></td>
-												<td th:text="${produit.produit.prixUnitaire}"></td>
-												<td th:text="${produit.produit.produit.description}"></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</section>
+          <section class="section">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <h1 class="mb-4">Produit Conseils</h1>
+                  <a
+                    href="/produit/produit-format/conseils/new"
+                    class="btn btn-success mb-3"
+                  >
+                    <i class="bi bi-plus-circle"></i> Ajouter un produit conseil
+                  </a>
+                  <table class="table table-striped" id="table1">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Prix Unitaire</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="produit : ${produits}">
+                        <td th:text="${produit.idProduitConseil}"></td>
+                        <td th:text="${produit.produit.nom}"></td>
+                        <td th:text="${produit.produit.prixUnitaire}"></td>
+                        <td
+                          th:text="${produit.produit.produit.description}"
+                        ></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
         <!-- Fin de la section principale -->
 
