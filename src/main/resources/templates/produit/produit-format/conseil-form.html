@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <section
+          class="section d-flex justify-content-center align-items-center min-vh-100"
+        >
+          <div
+            class="card shadow-lg border-0"
+            style="max-width: 500px; width: 100%"
+          >
+            <div class="card-body">
+              <h1 class="mb-4 text-center">Ajouter un produit Conseil</h1>
+              <form
+                th:action="@{/produit/produit-format/conseils}"
+                th:object="${produitConseil}"
+                method="post"
+                class="form form-vertical"
+              >
+                <!-- Nom -->
+                <div class="form-group mb-4">
+                  <label for="Produit" class="form-label">Produit</label>
+                  <select
+                    id="produit"
+                    name="produit"
+                    th:field="*{produit.idProduitFormat}"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      th:each="produit : ${produits}"
+                      th:value="${produit.idProduitFormat}"
+                      th:text="${produit.nom}"
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Contact -->
+                <div class="form-group mb-4">
+                  <label for="mois" class="form-label">mois</label>
+                  <input
+                    type="month"
+                    id="mois"
+                    name="moisAnnee"
+                    th:field="*{moisAnnee}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <!-- Boutons -->
+                <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Enregistrer
+                  </button>
+                  <a
+                    th:href="@{/produit/produit-format/conseils}"
+                    class="btn btn-outline-secondary btn-lg"
+                  >
+                    <i class="bi bi-arrow-left"></i> Annuler
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

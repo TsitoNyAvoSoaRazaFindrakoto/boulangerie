@@ -11,6 +11,8 @@ import perso.boulangerie.client.services.VenteService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @AllArgsConstructor
 @Controller
@@ -64,6 +66,12 @@ public class VenteController {
 	@PostMapping("/validate")
 	public String validateVente(@SessionAttribute Vente vente) {
 		venteService.validerVente(vente.getIdVente());
+		return "redirect:/client/vente";
+	}
+
+	@PostMapping("/discard")
+	public String discardVente(@SessionAttribute Vente vente) {
+		venteService.deleteVente(vente.getIdVente());
 		return "redirect:/client/vente";
 	}
 

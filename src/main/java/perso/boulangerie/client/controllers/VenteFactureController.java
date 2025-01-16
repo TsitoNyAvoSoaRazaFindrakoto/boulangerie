@@ -84,6 +84,7 @@ public class VenteFactureController {
 	public String editVenteFactureForm(@PathVariable Integer id, Model model) {
 		VenteFacture venteFacture = venteFactureService.getVenteFacture(id);
 		model.addAttribute("venteFacture", venteFacture);
+		model.addAttribute("produitFormats",produitFormatRepo.findAll());
 		return "client/vente-facture/form";
 	}
 
