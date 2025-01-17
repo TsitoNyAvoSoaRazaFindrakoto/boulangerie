@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <section
+          class="section d-flex justify-content-center align-items-center min-vh-100"
+        >
+          <div
+            class="card shadow-lg border-0"
+            style="max-width: 500px; width: 100%"
+          >
+            <div class="card-body">
+              <h1 class="mb-4 text-center">Créer un Fournisseur</h1>
+              <form
+                th:action="@{/fournisseur}"
+                th:object="${fournisseur}"
+                method="post"
+                class="form form-vertical"
+              >
+							<!-- ID Fournisseur (hidden) -->
+							<input
+								type="hidden"
+								id="idFournisseur"
+								name="idFournisseur"
+								th:field="*{idFournisseur}"
+							/>
+                <!-- Nom -->
+                <div class="form-group mb-4">
+                  <label for="nom" class="form-label">Nom</label>
+                  <input
+                    type="text"
+                    id="nom"
+                    name="nom"
+                    th:field="*{nom}"
+                    class="form-control"
+                    placeholder="Entrez le nom"
+                    required
+                  />
+                </div>
+
+                <!-- Contact -->
+                <div class="form-group mb-4">
+                  <label for="contact" class="form-label">Contact</label>
+                  <input
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    th:field="*{contact}"
+                    class="form-control"
+                    placeholder="Entrez le contact"
+                    required
+                  />
+                </div>
+
+                <!-- Boutons -->
+                <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Enregistrer
+                  </button>
+                  <a
+                    th:href="@{/fournisseur}"
+                    class="btn btn-outline-secondary btn-lg"
+                  >
+                    <i class="bi bi-arrow-left"></i> Annuler
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

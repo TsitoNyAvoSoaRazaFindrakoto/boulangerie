@@ -1,5 +1,6 @@
 package perso.boulangerie.client.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,14 @@ public class ClientService {
 	public List<Client> getClients(){
 		return clientRepo.findAll();
 	}
-
 	public Client findClient(Integer id){
 		return clientRepo.findById(id).orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
 	}
 
 	public void deleteClient(Integer id){
 		clientRepo.deleteById(id);
+	}
+	public List<Client> filter(LocalDate vente,LocalDate livree){
+		return clientRepo.findClientsByVenteAndLivraisonDate(vente,livree);
 	}
 }

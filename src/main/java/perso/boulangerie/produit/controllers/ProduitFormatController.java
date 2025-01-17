@@ -25,8 +25,8 @@ public class ProduitFormatController {
 	private final ProduitConseilService produitConseilService;
 
 	@GetMapping("/conseils")
-	public String getConseils(@RequestParam(required = false,name = "moisAnnee") String moisAnnee,Model model) {
-		List<ProduitConseil> produits = produitConseilService.getForYearMonth(moisAnnee);
+	public String getConseils(@RequestParam(required = false,name = "mois") Integer mois,@RequestParam(required = false,name = "annee") Integer annee,Model model) {
+		List<ProduitConseil> produits = produitConseilService.getForYearMonth(mois,annee);
 		model.addAttribute("produits", produits);
 		return "produit/produit-format/conseil-list";
 	}

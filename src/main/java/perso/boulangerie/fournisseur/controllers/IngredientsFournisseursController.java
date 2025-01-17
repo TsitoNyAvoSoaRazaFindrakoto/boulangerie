@@ -44,7 +44,7 @@ public class IngredientsFournisseursController {
 	@PostMapping
 	public String saveIngredientsFournisseurs(@ModelAttribute IngredientsFournisseurs ingredientsFournisseurs) {
 		ingredientsFournisseursService.save(ingredientsFournisseurs);
-		return "redirect:/fournisseur/ingredients-fournisseurs";
+		return "redirect:/fournisseur/"+ingredientsFournisseurs.getFournisseur().getIdFournisseur();
 	}
 
 	@GetMapping("/edit/{id-ingredient}/{id-fournisseur}")

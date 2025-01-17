@@ -3,8 +3,6 @@ package perso.boulangerie.produit.models;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
