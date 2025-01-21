@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.AllArgsConstructor;
 import perso.boulangerie.client.models.Vente;
 import perso.boulangerie.client.models.VenteFacture;
+import perso.boulangerie.client.repos.VenteRepo;
 import perso.boulangerie.client.services.VenteFactureService;
 import perso.boulangerie.produit.repos.FormatRepo;
 import perso.boulangerie.produit.repos.ProduitCategorieRepository;
@@ -21,6 +22,7 @@ import java.util.List;
 public class VenteFactureController {
 
 	private VenteFactureService venteFactureService;
+	private VenteRepo venteRepo;
 	private FormatRepo formatRepository;
 	private ProduitRepo produitRepo;
 	private ProduitCategorieRepository categorieRepository;
@@ -65,10 +67,10 @@ public class VenteFactureController {
 		return "client/vente-facture/detail";
 	}
 
-	@GetMapping("/new")
-	public String createVenteFactureForm(Model model , @SessionAttribute(name = "vente", required = true) Vente vente) {
+	@GetMapping("/new/{id}")
+	public String createVenteFactureForm(Model model,@PathVariable(required = false) Integer id,@SessionAttribute(name = "vente", required = false)Vente vente) {
 		VenteFacture v = new VenteFacture();
-		v.setVente(vente);
+		v.setVente(id == null ? vente : venteRepo.findById(id).get());
 		model.addAttribute("venteFacture", v);
 		model.addAttribute("produitFormats",produitFormatRepo.findAll());
 		return "client/vente-facture/form";
