@@ -18,18 +18,20 @@
             style="max-width: 500px; width: 100%"
           >
             <div class="card-body">
-              <h1 class="mb-4 text-center">Vente du client : ${venteFacture.vente.} le ${venteFacture.vente.dateVente} </h1>
+              <h1 class="mb-4 text-center">Vente Facture</h1>
+              <h4 class="form-control-plaintext">
+                <span th:text="${venteFacture.vente.client.nom}"></span>
+                (<span th:text="${venteFacture.vente.dateVente}"></span>)
+              </h4>
               <form
                 th:action="@{/client/vente-facture}"
-                th:object="${vente}"
+                th:object="${venteFacture}"
                 method="post"
                 class="form form-vertical"
               >
                 <!-- Client -->
                 <div class="form-group mb-4">
-                  <label for="produitFormat" class="form-label"
-                    > Produit</label
-                  >
+                  <label for="produitFormat" class="form-label"> Produit</label>
                   <select
                     id="produitFormat"
                     name="produitFormat"
@@ -46,16 +48,14 @@
                 </div>
                 <!-- Date de vente -->
                 <div class="form-group mb-4">
-                  <label for="quantite" class="form-label"
-                    >Date de vente</label
-                  >
+                  <label for="quantite" class="form-label">Quantite</label>
                   <input
                     type="number"
                     id="quantite"
                     name="quantite"
                     th:field="*{quantite}"
                     class="form-control"
-										value="1"
+                    value="1"
                     required
                   />
                 </div>
