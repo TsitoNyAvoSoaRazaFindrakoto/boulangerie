@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <section
+          class="section d-flex justify-content-center align-items-center min-vh-100"
+        >
+          <div
+            class="card shadow-lg border-0"
+            style="max-width: 500px; width: 100%"
+          >
+            <div class="card-body">
+              <h1 class="mb-4 text-center">Vente du client : ${venteFacture.vente.} le ${venteFacture.vente.dateVente} </h1>
+              <form
+                th:action="@{/client/vente-facture}"
+                th:object="${vente}"
+                method="post"
+                class="form form-vertical"
+              >
+                <!-- Client -->
+                <div class="form-group mb-4">
+                  <label for="produitFormat" class="form-label"
+                    > Produit</label
+                  >
+                  <select
+                    id="produitFormat"
+                    name="produitFormat"
+                    th:field="*{produitFormat.idProduitFormat}"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      th:each="produitFormat : ${produitFormats}"
+                      th:value="${produitFormat.idProduitFormat}"
+                      th:text="${produitFormat.nom} + ' (' + ${produitFormat.prixUnitaire} + ')' "
+                    ></option>
+                  </select>
+                </div>
+                <!-- Date de vente -->
+                <div class="form-group mb-4">
+                  <label for="quantite" class="form-label"
+                    >Date de vente</label
+                  >
+                  <input
+                    type="number"
+                    id="quantite"
+                    name="quantite"
+                    th:field="*{quantite}"
+                    class="form-control"
+										value="1"
+                    required
+                  />
+                </div>
+
+                <!-- Boutons -->
+                <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Enregistrer
+                  </button>
+                  <a
+                    th:href="@{/client/vente/{id}(id=${venteFacture.vente.idVente})}"
+                    class="btn btn-outline-secondary btn-lg"
+                  >
+                    <i class="bi bi-arrow-left"></i> Voir Vente
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

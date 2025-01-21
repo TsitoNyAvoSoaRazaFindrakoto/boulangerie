@@ -1,6 +1,5 @@
 package perso.boulangerie.client.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class VenteService {
 
 	public Vente findVente(Integer id) {
 		Vente v = venteRepo.findById(id).orElseThrow(() -> new RuntimeException("Vente not found with id: " + id));
-		v.setVenteDetails(venteFactureService.findByVente(v));
+		
 		return v;
 	}
 

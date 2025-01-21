@@ -3,6 +3,8 @@ package perso.boulangerie.client.models;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import perso.boulangerie.produit.models.ProduitFormat;
@@ -23,6 +25,7 @@ public class VenteFacture {
 
 	@ManyToOne
 	@JoinColumn(name = "idVente")
+	@JsonBackReference
 	private Vente vente;
 
 	@OneToMany(mappedBy = "venteFacture", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

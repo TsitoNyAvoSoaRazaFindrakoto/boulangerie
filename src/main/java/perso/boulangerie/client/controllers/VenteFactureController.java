@@ -28,36 +28,32 @@ public class VenteFactureController {
 	private ProduitCategorieRepository categorieRepository;
 	private ProduitFormatRepo produitFormatRepo;
 
-	@GetMapping
-	public String getAllVentes(Model model) {
-		List<VenteFacture> venteFactures = venteFactureService.getVenteFactures();
+	public String showList(Model model, List<VenteFacture> venteFactures) {
 		model.addAttribute("venteFactures", venteFactures);
 		model.addAttribute("format", formatRepository.findAll());
 		model.addAttribute("produit", produitRepo.findAll());
 		model.addAttribute("produitCategorie", categorieRepository.findAll());
 		return "client/vente-facture/list";
+	}
+
+	@GetMapping
+	public String getAllVentesFactures(Model model) {
+		List<VenteFacture> venteFactures = venteFactureService.getVenteFactures();
+		return showList(model, venteFactures);
 	}
 
 	@GetMapping("/critere1")
 	public String getVenteCritere1(Model model, @RequestParam(required = false) Integer idProduit,
 			@RequestParam(required = false) Integer IdFormat) {
 		List<VenteFacture> venteFactures = venteFactureService.getProduit(IdFormat, idProduit);
-		model.addAttribute("venteFactures", venteFactures);
-		model.addAttribute("format", formatRepository.findAll());
-		model.addAttribute("produit", produitRepo.findAll());
-		model.addAttribute("produitCategorie", categorieRepository.findAll());
-		return "client/vente-facture/list";
+		return showList(model, venteFactures);
 	}
 
 	@GetMapping("/critere2")
 	public String getVenteCritere2(Model model, @RequestParam(required = false) Integer idCategorie,
 			@RequestParam(required = false) Integer IdFormat) {
 		List<VenteFacture> venteFactures = venteFactureService.getCategorie(IdFormat, idCategorie);
-		model.addAttribute("venteFactures", venteFactures);
-		model.addAttribute("format", formatRepository.findAll());
-		model.addAttribute("produit", produitRepo.findAll());
-		model.addAttribute("produitCategorie", categorieRepository.findAll());
-		return "client/vente-facture/list";
+		return showList(model, venteFactures);
 	}
 
 	@GetMapping("/{id}")
@@ -68,25 +64,26 @@ public class VenteFactureController {
 	}
 
 	@GetMapping("/new/{id}")
-	public String createVenteFactureForm(Model model,@PathVariable(required = false) Integer id,@SessionAttribute(name = "vente", required = false)Vente vente) {
+	public String createVenteFactureForm(Model model, @PathVariable(required = false) Integer id,
+			@SessionAttribute(name = "vente", required = false) Vente vente) {
 		VenteFacture v = new VenteFacture();
 		v.setVente(id == null ? vente : venteRepo.findById(id).get());
 		model.addAttribute("venteFacture", v);
-		model.addAttribute("produitFormats",produitFormatRepo.findAll());
+		model.addAttribute("produitFormats", produitFormatRepo.findAll());
 		return "client/vente-facture/form";
 	}
 
 	@PostMapping
 	public String saveVenteFacture(@ModelAttribute VenteFacture venteFacture) {
 		venteFactureService.save(venteFacture);
-		return "redirect:/client/vente-facture/new";
+		return "redirect:/client/vente-facture/new/"+venteFacture.getVente().getIdVente();
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editVenteFactureForm(@PathVariable Integer id, Model model) {
 		VenteFacture venteFacture = venteFactureService.getVenteFacture(id);
 		model.addAttribute("venteFacture", venteFacture);
-		model.addAttribute("produitFormats",produitFormatRepo.findAll());
+		model.addAttribute("produitFormats", produitFormatRepo.findAll());
 		return "client/vente-facture/form";
 	}
 

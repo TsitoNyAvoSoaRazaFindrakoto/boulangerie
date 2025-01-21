@@ -14,12 +14,14 @@
           <div class="card shadow-sm border-0">
             <div class="card-body">
               <!-- Vente General Details -->
-							<div class="d-flex justify-content-between mb-4">
+              <div class="d-flex justify-content-between mb-4">
                 <div>
                   <h4 th:text="'ID: ' + ${vente.idVente}">Vente ID</h4>
                 </div>
                 <div>
-                  <h4 th:text="'Montant Total: ' + ${vente.montant}">Montant Total</h4>
+                  <h4 th:text="'Montant Total: ' + ${vente.montant}">
+                    Montant Total
+                  </h4>
                 </div>
               </div>
 
@@ -27,10 +29,16 @@
               <div class="row">
                 <div class="col-md-6">
                   <!-- Client Details (left side) with border box -->
-                  <div class="card border" style="border: 2px solid #ccc; padding: 10px;">
+                  <div
+                    class="card border"
+                    style="border: 2px solid #ccc; padding: 10px"
+                  >
                     <div class="card-body">
-                      <h4>Client: <span th:text="${vente.client.nom}">Client Name</span></h4>
-                      
+                      <h4>
+                        Client:
+                        <span th:text="${vente.client.nom}">Client Name</span>
+                      </h4>
+
                       <p th:text="${vente.client.adresse}">Client Contact</p>
                     </div>
                   </div>
@@ -39,9 +47,18 @@
                   <!-- Other General Details (right side) -->
                   <div class="card">
                     <div class="card-body">
-                      <p><strong>Date de Vente:</strong> <span th:text="${vente.dateVente}">Date Vente</span></p>
-                      <p><strong>Date Livree:</strong> <span th:text="${vente.dateLivree}">Date Livree</span></p>
-                      <p><strong>Adresse Livraison:</strong> <span th:text="${vente.adresseLivraison}">Adresse</span></p>
+                      <p>
+                        <strong>Date de Vente:</strong>
+                        <span th:text="${vente.dateVente}">Date Vente</span>
+                      </p>
+                      <p>
+                        <strong>Date Livree:</strong>
+                        <span th:text="${vente.dateLivree}">Date Livree</span>
+                      </p>
+                      <p>
+                        <strong>Adresse Livraison:</strong>
+                        <span th:text="${vente.adresseLivraison}">Adresse</span>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -106,6 +123,7 @@
                     <i class="bi bi-pencil"></i> Modifier Vente
                   </a>
                   <a
+                    th:if="${vente.etat == 0 || vente.etat == 1}"
                     th:href="@{/client/vente-facture/new/{vente-id}(vente-id=${vente.idVente})}"
                     class="btn btn-success"
                   >

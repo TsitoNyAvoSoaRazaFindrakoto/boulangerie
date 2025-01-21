@@ -25,7 +25,7 @@ public class ProduitFormatRecette {
 	@ManyToOne
 	@JoinColumn(name = "idProduitFormat")
 	@JsonBackReference
-	private ProduitFormat produit;
+	private ProduitFormat produitFormat;
 
 	private BigDecimal quantite;
 	private String instruction;
