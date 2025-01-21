@@ -45,8 +45,9 @@ public class VenteController {
 
 	@PostMapping
 	public String createVente(@ModelAttribute Vente vente, HttpSession session) {
-		session.setAttribute("vente", venteService.save(vente));
-		return "redirect:/client/vente-facture/new";
+		Vente newVente = venteService.save(vente);
+		session.setAttribute("vente", newVente);
+		return "redirect:/client/vente"+newVente.getIdVente();
 	}
 
 	@GetMapping("/edit/{id}")
@@ -63,15 +64,15 @@ public class VenteController {
 		return "redirect:/client/vente";
 	}
 
-	@PostMapping("/validate")
-	public String validateVente(@SessionAttribute Vente vente) {
-		venteService.validerVente(vente.getIdVente());
+	@PostMapping("/validate/{id}")
+	public String validateVente(@PathVariable Integer id) {
+		venteService.validerVente(id);
 		return "redirect:/client/vente";
 	}
 
-	@PostMapping("/discard")
-	public String discardVente(@SessionAttribute Vente vente) {
-		venteService.deleteVente(vente.getIdVente());
+	@PostMapping("/discard/{id}")
+	public String discardVente(@PathVariable Integer id) {
+		venteService.deleteVente(id);
 		return "redirect:/client/vente";
 	}
 

@@ -28,4 +28,6 @@ public class ProduitFormat {
 	@ManyToOne
 	@JoinColumn(name = "idFormat")
 	private Format format;
+
+	
 }

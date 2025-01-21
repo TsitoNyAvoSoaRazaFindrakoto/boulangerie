@@ -17,7 +17,7 @@ where
 			Vente_Facture vf
 			JOIN Vente v ON vf.Id_Vente = v.Id_Vente
 		WHERE
-			v.etat > 0
+			v.etat > 1
 	)
 GROUP BY
 	pr.Id_Production

@@ -18,46 +18,46 @@
             style="max-width: 500px; width: 100%"
           >
             <div class="card-body">
-              <h1 class="mb-4 text-center">Créer un Fournisseur</h1>
+              <h1 class="mb-4 text-center">Créer une Vente</h1>
               <form
-                th:action="@{/fournisseur}"
-                th:object="${fournisseur}"
+                th:action="@{/client/vente}"
+                th:object="${vente}"
                 method="post"
                 class="form form-vertical"
               >
-							<!-- ID Fournisseur (hidden) -->
-							<input
-								type="hidden"
-								id="idFournisseur"
-								name="idFournisseur"
-								th:field="*{idFournisseur}"
-							/>
-                <!-- Nom -->
+                <!-- Adresse de Livraison -->
                 <div class="form-group mb-4">
-                  <label for="nom" class="form-label">Nom</label>
+                  <label for="adresseLivraison" class="form-label"
+                    >Adresse de Livraison</label
+                  >
                   <input
                     type="text"
-                    id="nom"
-                    name="nom"
-                    th:field="*{nom}"
+                    id="adresseLivraison"
+                    name="adresseLivraison"
+                    th:field="*{adresseLivraison}"
                     class="form-control"
-                    placeholder="Entrez le nom"
-                    required
+                    placeholder="Entrez l'adresse de livraison"
                   />
                 </div>
 
-                <!-- Contact -->
+                <!-- Client -->
                 <div class="form-group mb-4">
-                  <label for="contact" class="form-label">Contact</label>
-                  <input
-                    type="text"
-                    id="contact"
-                    name="contact"
-                    th:field="*{contact}"
+                  <label for="client" class="form-label"
+                    >Client (adresse habituelle)</label
+                  >
+                  <select
+                    id="client"
+                    name="client"
+                    th:field="*{client.idClient}"
                     class="form-control"
-                    placeholder="Entrez le contact"
                     required
-                  />
+                  >
+                    <option
+                      th:each="client : ${clients}"
+                      th:value="${client.idClient}"
+                      th:text="${client.nom} + ' (' + ${client.adresse} + ')' "
+                    ></option>
+                  </select>
                 </div>
 
                 <!-- Boutons -->
@@ -66,7 +66,7 @@
                     <i class="bi bi-save"></i> Enregistrer
                   </button>
                   <a
-                    th:href="@{/fournisseur}"
+                    th:href="@{/vente}"
                     class="btn btn-outline-secondary btn-lg"
                   >
                     <i class="bi bi-arrow-left"></i> Annuler
