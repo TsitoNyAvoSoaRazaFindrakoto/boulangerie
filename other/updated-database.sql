@@ -63,6 +63,7 @@ CREATE TABLE
 		date_embauche DATE NOT NULL,
 		est_Employe BOOLEAN default true,
 		Id_Type_Employe VARCHAR(10) NOT NULL,
+		commission NUMERIC(15,2) default 0,
 		PRIMARY KEY (Id_Employe),
 		FOREIGN KEY (Id_Type_Employe) REFERENCES Type_Employe (Id_Type_Employe)
 	);

@@ -145,4 +145,3 @@ BEGIN
         VALUES (prod.Id_Produit, id_nature, prod.nom);
     END LOOP;
 END $$;
-

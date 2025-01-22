@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <!-- Section principale -->
+        <div class="container">
+          <!-- Formulaire de recherche multi-critères -->
+          <div class="row mb-5">
+            <div class="col-md-12">
+              <form
+                th:action="@{/employe/search-vendeurs}"
+                method="GET"
+                class="p-3 border rounded"
+              >
+                <h5 class="mb-3">Recherche de Vendeurs</h5>
+
+                <div class="row">
+                  <!-- Commission min -->
+                  <div class="col-md-3 mb-3">
+                    <label for="minCommission" class="form-label">Commission Min</label>
+                    <input
+                      type="number"
+                      id="minCommission"
+                      name="minCommission"
+                      class="form-control"
+                      step="0.01"
+                    />
+                  </div>
+
+                  <!-- Commission max -->
+                  <div class="col-md-3 mb-3">
+                    <label for="maxCommission" class="form-label">Commission Max</label>
+                    <input
+                      type="number"
+                      id="maxCommission"
+                      name="maxCommission"
+                      class="form-control"
+                      step="0.01"
+                    />
+                  </div>
+
+                  <!-- Période min -->
+                  <div class="col-md-3 mb-3">
+                    <label for="minPeriod" class="form-label">Période Début</label>
+                    <input
+                      type="date"
+                      id="minPeriod"
+                      name="minPeriod"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <!-- Période max -->
+                  <div class="col-md-3 mb-3">
+                    <label for="maxPeriod" class="form-label">Période Fin</label>
+                    <input
+                      type="date"
+                      id="maxPeriod"
+                      name="maxPeriod"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Rechercher
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Liste des vendeurs -->
+          <section class="section">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <h1 class="mb-4">Liste des Vendeurs</h1>
+                  <table class="table table-striped" id="table1">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Commission</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="vendeur : ${vendeurs}">
+                        <td th:text="${vendeur.idEmploye}"></td>
+                        <td th:text="${vendeur.nom}"></td>
+                        <td th:text="${vendeur.prenoms}"></td>
+                        <td th:text="${vendeur.commission}"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- Fin de la section principale -->
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

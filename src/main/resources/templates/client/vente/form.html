@@ -44,21 +44,39 @@
                     ></option>
                   </select>
                 </div>
-								<!-- Date de vente -->
+
+                <!-- Employe -->
                 <div class="form-group mb-4">
-                  <label for="dateVente" class="form-label"
-                    >Date de vente</label
+                  <label for="employe" class="form-label">Employé</label>
+                  <select
+                    id="employe"
+                    name="employe"
+                    th:field="*{employe.idEmploye}"
+                    class="form-control"
+                    required
                   >
+                    <option
+                      th:each="employe : ${employes}"
+                      th:value="${employe.idEmploye}"
+                      th:text="${employe.nom}"
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Date de vente -->
+                <div class="form-group mb-4">
+                  <label for="dateVente" class="form-label">Date de vente</label>
                   <input
                     type="datetime-local"
                     id="dateVente"
                     name="dateVente"
                     th:field="*{dateVente}"
                     class="form-control"
-                    placeholder="Entrez l'adresse de livraison"
                     required
                   />
                 </div>
+
+                <!-- Adresse de Livraison -->
                 <div class="form-group mb-4">
                   <label for="adresseLivraison" class="form-label"
                     >Adresse de Livraison</label
@@ -69,7 +87,22 @@
                     name="adresseLivraison"
                     th:field="*{adresseLivraison}"
                     class="form-control"
-                    placeholder="Par defaut : addresse du client"
+                    placeholder="Par défaut : adresse du client"
+                  />
+                </div>
+
+                <!-- Montant -->
+                <div class="form-group mb-4">
+                  <label for="montant" class="form-label">Montant</label>
+                  <input
+                    type="number"
+                    id="montant"
+                    name="montant"
+                    th:field="*{montant}"
+                    class="form-control"
+                    step="0.01"
+                    placeholder="Montant total de la vente"
+                    required
                   />
                 </div>
 

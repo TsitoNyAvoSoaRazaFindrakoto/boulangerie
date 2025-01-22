@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import perso.boulangerie.employe.models.Employe;
 
 @Data
 @Entity
@@ -26,6 +27,10 @@ public class Vente {
     private LocalDateTime dateLivree;
     private String adresseLivraison;
 		private BigDecimal montant;
+
+		@ManyToOne
+		@JoinColumn(name = "id_Employe")
+		private Employe employe;
 
     @ManyToOne
     @JoinColumn(name = "idClient")

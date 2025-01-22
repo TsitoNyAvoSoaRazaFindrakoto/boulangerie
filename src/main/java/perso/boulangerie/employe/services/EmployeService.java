@@ -55,12 +55,14 @@ public class EmployeService {
 
 	// Custom query: Find all vendors
 	public List<Employe> findAllVendeurs() {
-		return employeRepo.findAllVendeurs();
+		return employeRepo.findAllVendeursWithComission();
 	}
 
-	// Custom query: Find vendors by criteria
+	// Custom query: Find vendeurs by criteria
 	public List<Employe> findAllVendeursByCriteria(BigDecimal minCommission, BigDecimal maxCommission,
 			LocalDate minPeriod, LocalDate maxPeriod) {
-		return employeRepo.findAllVendeursByCriteria(minCommission, maxCommission, minPeriod, maxPeriod);
+				String minP = minPeriod == null ? null : minPeriod.toString();
+				String maxP = maxPeriod == null ? null : maxPeriod.toString();
+		return employeRepo.findAllVendeursByCriteria(minCommission, maxCommission, minP, maxP);
 	}
 }

@@ -3,6 +3,7 @@ package perso.boulangerie.employe.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,7 @@ public class Employe {
 	private LocalDate dateNaissance,dateEmbauche;
 	private boolean estEmploye;
 
-	@Transient
+	@Column(insertable = false,updatable = false)
 	private BigDecimal commission;
 
 }

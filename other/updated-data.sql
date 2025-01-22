@@ -161,3 +161,19 @@ INSERT INTO Vente (date_vente, montant, date_livree, adresse_livraison, etat, Id
 ('2025-01-15 17:45:00', 150.00, '2025-01-17 18:00:00', '5 allée des Acacias, Bordeaux', 1, 5);
 
 
+INSERT INTO type_employe (id_Type_Employe, nom) 
+VALUES 
+  ('VENDEUR', 'Vendeur'),
+  ('MANAGER', 'Manager');
+
+INSERT INTO employe (id_Employe, nom, prenoms, id_Type_Employe,date_embauche,date_naissance)
+VALUES 
+  (default, 'Dupont', 'Jean', 'VENDEUR','2000-01-01','2024-03-03'),
+  (default, 'Martin', 'Claire', 'MANAGER','2000-01-01','2024-03-03'),
+  (default, 'Durand', 'Paul', 'VENDEUR','2000-01-01','2024-03-03');
+
+INSERT INTO vente (id_Vente, date_vente, adresse_Livraison, montant, id_Employe, id_Client, etat)
+VALUES 
+  (default, '2025-01-21T10:00:00', '123 Rue Principale', 500.00, 1, 1, 1),
+  (default, '2025-01-21T11:30:00', '456 Avenue des Champs', 750.00, 3, 2, 1),
+  (default, '2025-01-21T14:15:00', '789 Boulevard Sud', 1200.00, 1, 3, 1);

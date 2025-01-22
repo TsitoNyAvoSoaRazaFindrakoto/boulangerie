@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import perso.boulangerie.client.models.Vente;
 import perso.boulangerie.client.services.ClientService;
 import perso.boulangerie.client.services.VenteService;
+import perso.boulangerie.employe.repos.EmployeRepo;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class VenteController {
 
 	private VenteService venteService;
 	private ClientService clientService;
+	private EmployeRepo employeRepo;
 
 	@GetMapping
 	public String getAllVentes(Model model) {
@@ -40,6 +42,7 @@ public class VenteController {
 	public String showCreateForm(Model model) {
 		model.addAttribute("vente", new Vente());
 		model.addAttribute("clients", clientService.getClients());
+		model.addAttribute("employes", employeRepo.findAllVendeurs());
 		return "client/vente/form";
 	}
 
@@ -47,7 +50,7 @@ public class VenteController {
 	public String createVente(@ModelAttribute Vente vente, HttpSession session) {
 		Vente newVente = venteService.save(vente);
 		session.setAttribute("vente", newVente);
-		return "redirect:/client/vente"+newVente.getIdVente();
+		return "redirect:/client/vente/"+newVente.getIdVente();
 	}
 
 	@GetMapping("/edit/{id}")

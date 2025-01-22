@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <section class="section">
+          <!-- Employés Table -->
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <div class="table-responsive">
+                <h1 class="mb-4">Employés</h1>
+                <a href="/employe/create" class="btn btn-success mb-3">
+                  <i class="bi bi-plus-circle"></i> Ajouter un employé
+                </a>
+                <table class="table table-striped text-center" id="table1">
+                  <thead>
+                    <tr>
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Nom</th>
+                      <th class="text-center">Prénoms</th>
+                      <th class="text-center">Type</th>
+                      <th class="text-center">Date de naissance</th>
+                      <th class="text-center">Date d'embauche</th>
+                      <th class="text-center">Employé actif</th>
+                      <th class="text-center">Commission</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="employe : ${employes}">
+                      <td
+                        class="text-center"
+                        th:text="${employe.idEmploye}"
+                      >
+                        1
+                      </td>
+                      <td class="text-center" th:text="${employe.nom}">Nom</td>
+                      <td class="text-center" th:text="${employe.prenoms}">
+                        Prénoms
+                      </td>
+                      <td class="text-center" th:text="${employe.idTypeEmploye}">
+                        Type
+                      </td>
+                      <td
+                        class="text-center"
+                        th:text="${#dates.format(employe.dateNaissance, 'dd/MM/yyyy')}"
+                      >
+                        Date de naissance
+                      </td>
+                      <td
+                        class="text-center"
+                        th:text="${#dates.format(employe.dateEmbauche, 'dd/MM/yyyy')}"
+                      >
+                        Date d'embauche
+                      </td>
+                      <td class="text-center" th:text="${employe.estEmploye ? 'oui' : 'non'}"></td>
+                      <td
+                        class="text-center"
+                        th:text="${employe.commission != null ? employe.commission : 'Non défini'}"
+                      >
+                        Commission
+                      </td>
+                      <td class="text-center">
+                        <a
+                          th:href="@{/employe/edit/{id}(id=${employe.idEmploye})}"
+                          class="btn btn-outline-primary btn-sm"
+                        >
+                          <i class="bi bi-pencil"></i> Modifier
+                        </a>
+                        <a
+                          th:href="@{/employe/delete/{id}(id=${employe.idEmploye})}"
+                          class="btn btn-outline-danger btn-sm"
+                        >
+                          <i class="bi bi-trash"></i> Supprimer
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

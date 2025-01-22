@@ -35,8 +35,8 @@ public class VenteFactureService {
 	public VenteFacture save(VenteFacture venteFacture) {
 		
 		venteFacture.setIdVenteFacture(venteFactureRepo.save(venteFacture).getIdVenteFacture());
-		venteFacture.setFactureDetails(venteFactureDetailsService.createForFacture(venteFacture, true));
-		venteFactureDetailsService.saveAll(venteFacture.getFactureDetails());
+		// venteFacture.setFactureDetails(venteFactureDetailsService.createForFacture(venteFacture, true));
+		// venteFactureDetailsService.saveAll(venteFacture.getFactureDetails());
 
 		return venteFacture;
 	}
