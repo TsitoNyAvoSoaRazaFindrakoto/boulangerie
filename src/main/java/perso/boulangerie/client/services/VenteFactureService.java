@@ -27,7 +27,6 @@ public class VenteFactureService {
 	public VenteFacture getVenteFacture(Integer id) {
 		VenteFacture vf = venteFactureRepo.findById(id)
 				.orElseThrow(() -> new RuntimeException("VenteFacture not found with id: " + id));
-		vf.setFactureDetails(venteFactureDetailsService.findByFacture(vf));
 		return vf;
 	}
 
@@ -55,9 +54,11 @@ public class VenteFactureService {
 	}
 
 	@Transactional
-	public void deleteFactureVente(Integer id) {
+	public Integer deleteFactureVente(Integer id) {
+		Integer idVente = getVenteFacture(id).getVente().getIdVente();
 		venteFactureDetailsService.deleteByIdVenteFacture(id);
 		venteFactureRepo.deleteById(id);
+		return idVente;
 	}
 
 	@Transactional

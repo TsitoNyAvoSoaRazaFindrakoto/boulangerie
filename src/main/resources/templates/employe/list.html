@@ -36,17 +36,17 @@
                   </thead>
                   <tbody>
                     <tr th:each="employe : ${employes}">
-                      <td
-                        class="text-center"
-                        th:text="${employe.idEmploye}"
-                      >
+                      <td class="text-center" th:text="${employe.idEmploye}">
                         1
                       </td>
                       <td class="text-center" th:text="${employe.nom}">Nom</td>
                       <td class="text-center" th:text="${employe.prenoms}">
                         Prénoms
                       </td>
-                      <td class="text-center" th:text="${employe.idTypeEmploye}">
+                      <td
+                        class="text-center"
+                        th:text="${employe.idTypeEmploye}"
+                      >
                         Type
                       </td>
                       <td
@@ -61,7 +61,10 @@
                       >
                         Date d'embauche
                       </td>
-                      <td class="text-center" th:text="${employe.estEmploye ? 'oui' : 'non'}"></td>
+                      <td
+                        class="text-center"
+                        th:text="${employe.estEmploye ? 'oui' : 'non'}"
+                      ></td>
                       <td
                         class="text-center"
                         th:text="${employe.commission != null ? employe.commission : 'Non défini'}"

@@ -19,35 +19,36 @@ import perso.boulangerie.employe.models.Employe;
 @Data
 @Entity
 public class Vente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idVente;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idVente;
 
-    private LocalDateTime dateVente;
-    private LocalDateTime dateLivree;
-    private String adresseLivraison;
-		private BigDecimal montant;
+	private LocalDateTime dateVente;
+	private LocalDateTime dateLivree;
+	private String adresseLivraison;
+	private BigDecimal montant;
 
-		@ManyToOne
-		@JoinColumn(name = "id_Employe")
-		private Employe employe;
+	@ManyToOne
+	@JoinColumn(name = "id_Employe")
+	private Employe employe;
 
-    @ManyToOne
-    @JoinColumn(name = "idClient")
-    private Client client;
+	@ManyToOne
+	@JoinColumn(name = "idClient")
+	private Client client;
 
-		private Integer Etat;
+	private Integer Etat;
 
-		@OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<VenteFacture> venteDetails;
+	@OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<VenteFacture> venteDetails;
 
-		public void setVenteDetails(List<VenteFacture> venteFactures){
-			if (venteFactures != null && !venteFactures.isEmpty() && venteFactures.get(0).getVente() != null || venteFactures==null) {
-				return;
-			}
-			for (VenteFacture venteFacture : venteFactures) {
-				venteFacture.setVente(this);
-			}
-			this.venteDetails = venteFactures;
+	public void setVenteDetails(List<VenteFacture> venteFactures) {
+		if (venteFactures != null && !venteFactures.isEmpty() && venteFactures.get(0).getVente() != null
+				|| venteFactures == null) {
+			return;
 		}
+		for (VenteFacture venteFacture : venteFactures) {
+			venteFacture.setVente(this);
+		}
+		this.venteDetails = venteFactures;
+	}
 }

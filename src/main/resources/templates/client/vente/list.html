@@ -12,43 +12,74 @@
         </header>
 
         <section class="section">
-          <!-- Fournisseurs Table -->
+          <!-- Ventes Table -->
           <div class="card shadow-sm border-0">
             <div class="card-body">
               <div class="table-responsive">
-                <h1 class="mb-4">Fournisseurs</h1>
-                <a href="/fournisseur/new" class="btn btn-success mb-3">
-                  <i class="bi bi-plus-circle"></i> Ajouter un fournisseur
+                <h1 class="mb-4">Ventes</h1>
+                <a th:href="@{/client/vente/new}" class="btn btn-success mb-3">
+                  <i class="bi bi-plus-circle"></i> Ajouter une vente
                 </a>
                 <table class="table table-striped text-center" id="table1">
                   <thead>
                     <tr>
                       <th class="text-center">ID</th>
-                      <th class="text-center">Nom</th>
-                      <th class="text-center">Contact</th>
-                      <th class="text-center">Encore contractant</th>
+                      <th class="text-center">Date de Vente</th>
+                      <th class="text-center">Date de Livraison</th>
+                      <th class="text-center">Adresse Livraison</th>
+                      <th class="text-center">Montant</th>
+                      <th class="text-center">Employé</th>
+                      <th class="text-center">Client</th>
                       <th class="text-center">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="fournisseur : ${fournisseur}">
+                    <tr th:each="vente : ${ventes}">
                       <td
                         class="text-center"
-                        th:text="${fournisseur.idFournisseur}"
+                        th:text="${vente.idVente}"
                       >
                         1
                       </td>
-                      <td class="text-center" th:text="${fournisseur.nom}">
-                        Nom
+                      <td
+                        class="text-center"
+                        th:text="${vente.dateVente}"
+                      >
+                        Date de Vente
                       </td>
-                      <td class="text-center" th:text="${fournisseur.contact}">
-                        Contact
+                      <td
+                        class="text-center"
+                        th:text="${vente.etat == 2 ? vente.dateLivree : 'En cours'}"
+                      >
+                        Date de Livraison
                       </td>
-											<td class="text-center" th:text="${fournisseur.etat ? 'oui' : 'non'}"></td>
-											</td>
+                      <td
+                        class="text-center"
+                        th:text="${vente.adresseLivraison}"
+                      >
+                        Adresse Livraison
+                      </td>
+                      <td
+                        class="text-center"
+                        th:text="${vente.montant}"
+                      >
+                        Montant
+                      </td>
+                      <td
+                        class="text-center"
+                        th:text="${vente.employe.nom}"
+                      >
+                        Employé
+                      </td>
+                      <td
+                        class="text-center"
+                        th:text="${vente.client.nom}"
+                      >
+                        Client
+                      </td>
                       <td class="text-center">
                         <a
-                          th:href="@{/fournisseur/{id}(id=${fournisseur.idFournisseur})}"
+                          th:href="@{/client/vente/{id}(id=${vente.idVente})}"
                           class="btn btn-outline-primary btn-sm"
                         >
                           <i class="bi bi-pencil"></i> Détails

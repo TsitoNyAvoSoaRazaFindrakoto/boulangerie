@@ -33,6 +33,6 @@ public class ProduitFormat {
 	@JoinColumn(name = "idFormat")
 	private Format format;
 
-	@OneToMany(mappedBy = "produitFormat", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "produitFormat", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
 	private List<ProduitFormatRecette> recettes;
 }

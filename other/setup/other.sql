@@ -39,7 +39,7 @@ FROM
 GROUP BY
 	Ent.Id_Ingredient_Entree
 HAVING
-	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 0;
+	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 1;
 
 -- Trigger for ingredient_entree to fetch prix_unitaire from ingredient_fournisseur
 CREATE OR REPLACE FUNCTION update_prix_unitaire_ingredient_entree()
@@ -110,7 +110,6 @@ BEGIN
     UPDATE Vente
     SET montant = (SELECT SUM(montant) FROM Vente_Facture WHERE Id_Vente = NEW.Id_Vente)
     WHERE Id_Vente = NEW.Id_Vente;
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -119,3 +118,21 @@ CREATE TRIGGER trg_update_vente_montant
 AFTER INSERT OR UPDATE ON Vente_Facture
 FOR EACH ROW
 EXECUTE FUNCTION update_vente_montant();
+
+CREATE OR REPLACE FUNCTION calculate_commission_vendeur()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Calcul de la commission : 5% du montant
+    NEW.commission_vendeur := NEW.montant * 0.05;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trg_calculate_commission
+BEFORE INSERT OR UPDATE ON Vente
+FOR EACH ROW
+EXECUTE FUNCTION calculate_commission_vendeur();
+
+create or replace view v_vendeur as
+select * from employe where id_type_employe = 'VENDEUR';

@@ -9,29 +9,30 @@ import lombok.Data;
 @Data
 @Entity
 public class Produit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProduit;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idProduit;
 
-    private String nom;
-    private String description;
-    private BigDecimal prixUnitaire;
+	private String nom;
+	private String description;
+	private BigDecimal prixUnitaire;
 
-    @ManyToOne
-    @JoinColumn(name = "idUnite")
-    private Unite unite;
+	@ManyToOne
+	@JoinColumn(name = "idUnite")
+	private Unite unite;
 
-		@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-		private List<ProduitsRecettes> recettes;
+	@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<ProduitsRecettes> recettes;
 
-		public void setRecettes(List<ProduitsRecettes> recetteslist) {
-			if (recetteslist != null && !recetteslist.isEmpty() && recetteslist.get(0).getProduit() != null || recetteslist==null) {
-				return;
-			}
-			for (ProduitsRecettes recette : recetteslist) {
-				recette.setProduit(this);
-			}
-			this.recettes = recetteslist;
+	public void setRecettes(List<ProduitsRecettes> recetteslist) {
+		if (recetteslist != null && !recetteslist.isEmpty() && recetteslist.get(0).getProduit() != null
+				|| recetteslist == null) {
+			return;
 		}
-		
+		for (ProduitsRecettes recette : recetteslist) {
+			recette.setProduit(this);
+		}
+		this.recettes = recetteslist;
+	}
+
 }

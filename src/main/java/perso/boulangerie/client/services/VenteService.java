@@ -35,12 +35,11 @@ public class VenteService {
 	}
 
 	public List<Vente> getVentes() {
-		return venteRepo.findAll(Sort.by(Sort.Direction.DESC, "id_vente"));
+		return venteRepo.findAll(Sort.by(Sort.Direction.DESC, "idVente"));
 	}
 
 	public Vente findVente(Integer id) {
 		Vente v = venteRepo.findById(id).orElseThrow(() -> new RuntimeException("Vente not found with id: " + id));
-		
 		return v;
 	}
 

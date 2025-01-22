@@ -20,7 +20,7 @@
                 <div class="row mb-5">
                     <!-- Premier formulaire : Recherche par Format et Produit -->
                     <div class="col-md-6">
-                        <form action="/client/vente-facture/critere1" method="GET" class="p-3 border rounded">
+                        <form action="@{/client/vente-facture/critere1}" method="GET" class="p-3 border rounded">
                             <h5 class="mb-3">Recherche par Format et Produit</h5>
 
                             <div class="mb-3">
@@ -51,7 +51,7 @@
 
                     <!-- Deuxième formulaire : Recherche par Format et Catégorie -->
                     <div class="col-md-6">
-                        <form action="/client/vente-facture/critere2" method="GET" class="p-3 border rounded">
+                        <form th:action="@{/client/vente-facture/critere2}" method="GET" class="p-3 border rounded">
                             <h5 class="mb-3">Recherche par Format et Catégorie</h5>
 
                             <div class="mb-3">

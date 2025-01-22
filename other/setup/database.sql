@@ -23,19 +23,6 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Vente (
-		Id_Vente SERIAL,
-		date_vente TIMESTAMP ,
-		montant NUMERIC(22, 2) default 0 ,
-		date_livree TIMESTAMP,
-		adresse_livraison VARCHAR(50),
-		etat INTEGER default 0,
-		Id_Client INTEGER NOT NULL,
-		PRIMARY KEY (Id_Vente),
-		FOREIGN KEY (Id_Client) REFERENCES Client (Id_Client)
-	);
-
-CREATE TABLE
 	Format (
 		Id_Format SERIAL,
 		nom VARCHAR(50) NOT NULL,
@@ -50,6 +37,27 @@ CREATE TABLE
 		nom VARCHAR(50) NOT NULL,
 		description TEXT,
 		PRIMARY KEY (Id_Produit_Categorie)
+	);
+
+CREATE TABLE
+	Type_Employe (
+		Id_Type_Employe VARCHAR(10),
+		nom VARCHAR(50) NOT NULL,
+		description VARCHAR(60),
+		PRIMARY KEY (Id_Type_Employe)
+	);
+
+CREATE TABLE
+	Employe (
+		Id_Employe SERIAL,
+		nom VARCHAR(20) NOT NULL,
+		prenoms VARCHAR(60),
+		date_naissance DATE NOT NULL,
+		date_embauche DATE NOT NULL,
+		est_Employe BOOLEAN default true,
+		Id_Type_Employe VARCHAR(10) NOT NULL,
+		PRIMARY KEY (Id_Employe),
+		FOREIGN KEY (Id_Type_Employe) REFERENCES Type_Employe (Id_Type_Employe)
 	);
 
 CREATE TABLE
@@ -93,6 +101,22 @@ CREATE TABLE
 		PRIMARY KEY (Id_Fournisseur, Id_Ingredient),
 		FOREIGN KEY (Id_Fournisseur) REFERENCES Fournisseur (Id_Fournisseur),
 		FOREIGN KEY (Id_Ingredient) REFERENCES Ingredient (Id_Ingredient)
+	);
+
+CREATE TABLE
+	Vente (
+		Id_Vente SERIAL,
+		date_vente TIMESTAMP NOT NULL,
+		montant NUMERIC(22, 2) NOT NULL,
+		commission_vendeur NUMERIC(15, 2) NOT NULL,
+		date_livree TIMESTAMP,
+		adresse_livraison VARCHAR(50),
+		etat INTEGER NOT NULL,
+		Id_Employe INTEGER NOT NULL,
+		Id_Client INTEGER NOT NULL,
+		PRIMARY KEY (Id_Vente),
+		FOREIGN KEY (Id_Employe) REFERENCES Employe (Id_Employe),
+		FOREIGN KEY (Id_Client) REFERENCES Client (Id_Client)
 	);
 
 CREATE TABLE

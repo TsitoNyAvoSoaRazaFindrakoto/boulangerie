@@ -94,10 +94,9 @@ public class VenteFactureController {
 		return "redirect:/client/vente-facture";
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@GetMapping("/delete/{id}")
 	public String deleteVenteFacture(@PathVariable Integer id) {
-		venteFactureService.deleteFactureVente(id);
-		return "redirect:/client/vente-facture";
+		return "redirect:/client/vente/"+venteFactureService.deleteFactureVente(id);
 	}
 
 }
