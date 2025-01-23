@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import perso.boulangerie.client.models.Vente;
@@ -32,14 +31,11 @@ public class VenteFactureService {
 
 	@Transactional
 	public VenteFacture save(VenteFacture venteFacture) {
-		
 		venteFacture.setIdVenteFacture(venteFactureRepo.save(venteFacture).getIdVenteFacture());
-		// venteFacture.setFactureDetails(venteFactureDetailsService.createForFacture(venteFacture, true));
-		// venteFactureDetailsService.saveAll(venteFacture.getFactureDetails());
-
+		venteFacture.setFactureDetails(venteFactureDetailsService.createForFacture(venteFacture, true));
+		venteFactureDetailsService.saveAll(venteFacture.getFactureDetails());
 		return venteFacture;
 	}
-
 
 	@Transactional
 	public List<VenteFacture> saveAll(List<VenteFacture> venteFactures) {
@@ -67,30 +63,29 @@ public class VenteFactureService {
 		venteFactureRepo.deleteByIdVente(idVente);
 	}
 
-	public List<VenteFacture> getProduit(Integer idFormat,Integer IdProduit) {
-		if(idFormat==null && IdProduit==null)
-		{
+	public List<VenteFacture> getProduit(Integer idFormat, Integer IdProduit) {
+		if (idFormat == null && IdProduit == null) {
 			return getVenteFactures();
 		}
-		if(idFormat==null){
+		if (idFormat == null) {
 			return venteFactureRepo.findByProduit(IdProduit);
 		}
-		if(IdProduit==null){
+		if (IdProduit == null) {
 			return venteFactureRepo.findByFormat(idFormat);
-			
+
 		}
 		return venteFactureRepo.findByProduitFormat(IdProduit, idFormat);
 	}
-	public List<VenteFacture> getCategorie(Integer idFormat,Integer IdCategorie) {
-		if(idFormat==null && IdCategorie==null)
-		{
+
+	public List<VenteFacture> getCategorie(Integer idFormat, Integer IdCategorie) {
+		if (idFormat == null && IdCategorie == null) {
 			return getVenteFactures();
-			
+
 		}
-		if(idFormat==null){
+		if (idFormat == null) {
 			return venteFactureRepo.findByProduit(IdCategorie);
 		}
-		if(IdCategorie==null){
+		if (IdCategorie == null) {
 			return venteFactureRepo.findByFormat(idFormat);
 
 		}

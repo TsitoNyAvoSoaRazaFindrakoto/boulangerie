@@ -33,8 +33,8 @@ CREATE TABLE
 	Format (
 		Id_Format SERIAL,
 		nom VARCHAR(50) NOT NULL,
-		mult_prix NUMERIC(15, 2) NOT NULL,
-		mult_recette NUMERIC(15, 2),
+		mult_prix NUMERIC(15, 2) default 1,
+		mult_recette NUMERIC(15, 2) default 1,
 		PRIMARY KEY (Id_Format)
 	);
 
@@ -63,10 +63,12 @@ CREATE TABLE
 		date_embauche DATE NOT NULL,
 		est_Employe BOOLEAN default true,
 		Id_Type_Employe VARCHAR(10) NOT NULL,
-		commission NUMERIC(15,2) default 0,
 		PRIMARY KEY (Id_Employe),
 		FOREIGN KEY (Id_Type_Employe) REFERENCES Type_Employe (Id_Type_Employe)
 	);
+
+ALTER TABLE Employe
+ADD COLUMN commission NUMERIC(15, 2) DEFAULT 0;
 
 CREATE TABLE
 	Produit (
@@ -119,7 +121,7 @@ CREATE TABLE
 		commission_vendeur NUMERIC(15, 2) NOT NULL,
 		date_livree TIMESTAMP,
 		adresse_livraison VARCHAR(50),
-		etat INTEGER NOT NULL,
+		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1, 
 		Id_Employe INTEGER NOT NULL,
 		Id_Client INTEGER NOT NULL,
 		PRIMARY KEY (Id_Vente),
@@ -154,7 +156,7 @@ CREATE TABLE
 	Produit_Conseil (
 		Id_Produit_Conseil SERIAL,
 		date_debut DATE NOT NULL,
-		date_fin VARCHAR(50) NOT NULL,
+		date_fin DATE NOT NULL,
 		Id_Produit_Format INTEGER NOT NULL,
 		PRIMARY KEY (Id_Produit_Conseil),
 		FOREIGN KEY (Id_Produit_Format) REFERENCES Produit_Format (Id_Produit_Format)
@@ -260,7 +262,7 @@ FROM
 GROUP BY
 	Ent.Id_Ingredient_Entree
 HAVING
-	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 1;
+	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 0;
 
 -- Trigger for ingredient_entree to fetch prix_unitaire from ingredient_fournisseur
 CREATE OR REPLACE FUNCTION update_prix_unitaire_ingredient_entree()
