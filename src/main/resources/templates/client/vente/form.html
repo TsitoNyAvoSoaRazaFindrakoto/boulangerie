@@ -18,45 +18,76 @@
             style="max-width: 500px; width: 100%"
           >
             <div class="card-body">
-              <h1 class="mb-4 text-center">Créer un Fournisseur</h1>
+              <h1 class="mb-4 text-center">Créer une Vente</h1>
               <form
-                th:action="@{/fournisseur}"
-                th:object="${fournisseur}"
+                th:action="@{/client/vente}"
+                th:object="${vente}"
                 method="post"
                 class="form form-vertical"
               >
-							<!-- ID Fournisseur (hidden) -->
-							<input
-								type="hidden"
-								id="idFournisseur"
-								name="idFournisseur"
-								th:field="*{idFournisseur}"
-							/>
-                <!-- Nom -->
+                <!-- Client -->
                 <div class="form-group mb-4">
-                  <label for="nom" class="form-label">Nom</label>
-                  <input
-                    type="text"
-                    id="nom"
-                    name="nom"
-                    th:field="*{nom}"
+                  <label for="client" class="form-label"
+                    >Client (adresse habituelle)</label
+                  >
+                  <select
+                    id="client"
+                    name="client"
+                    th:field="*{client}"
                     class="form-control"
-                    placeholder="Entrez le nom"
+                    required
+                  >
+                    <option
+                      th:each="client : ${clients}"
+                      th:value="${client}"
+                      th:text="${client.nom} + ' (' + ${client.adresse} + ')' "
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Employe -->
+                <div class="form-group mb-4">
+                  <label for="employe" class="form-label">Employé</label>
+                  <select
+                    id="employe"
+                    name="employe"
+                    th:field="*{employe.idEmploye}"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      th:each="employe : ${employes}"
+                      th:value="${employe.idEmploye}"
+                      th:text="${employe.nom}"
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Date de vente -->
+                <div class="form-group mb-4">
+                  <label for="dateVente" class="form-label">Date de vente</label>
+                  <input
+                    type="datetime-local"
+                    id="dateVente"
+                    name="dateVente"
+                    th:field="*{dateVente}"
+                    class="form-control"
                     required
                   />
                 </div>
 
-                <!-- Contact -->
+                <!-- Adresse de Livraison -->
                 <div class="form-group mb-4">
-                  <label for="contact" class="form-label">Contact</label>
+                  <label for="adresseLivraison" class="form-label"
+                    >Adresse de Livraison</label
+                  >
                   <input
                     type="text"
-                    id="contact"
-                    name="contact"
-                    th:field="*{contact}"
+                    id="adresseLivraison"
+                    name="adresseLivraison"
+                    th:field="*{adresseLivraison}"
                     class="form-control"
-                    placeholder="Entrez le contact"
-                    required
+                    placeholder="Par défaut : adresse du client"
                   />
                 </div>
 
@@ -66,7 +97,7 @@
                     <i class="bi bi-save"></i> Enregistrer
                   </button>
                   <a
-                    th:href="@{/fournisseur}"
+                    th:href="@{/client/vente}"
                     class="btn btn-outline-secondary btn-lg"
                   >
                     <i class="bi bi-arrow-left"></i> Annuler

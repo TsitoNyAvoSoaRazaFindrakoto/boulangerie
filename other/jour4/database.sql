@@ -25,11 +25,11 @@ CREATE TABLE
 CREATE TABLE
 	Vente (
 		Id_Vente SERIAL,
-		date_vente TIMESTAMP NOT NULL,
-		montant NUMERIC(22, 2) NOT NULL,
+		date_vente TIMESTAMP ,
+		montant NUMERIC(22, 2) default 0 ,
 		date_livree TIMESTAMP,
 		adresse_livraison VARCHAR(50),
-		etat INTEGER NOT NULL,
+		etat INTEGER default 0,
 		Id_Client INTEGER NOT NULL,
 		PRIMARY KEY (Id_Vente),
 		FOREIGN KEY (Id_Client) REFERENCES Client (Id_Client)

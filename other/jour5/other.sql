@@ -39,7 +39,7 @@ FROM
 GROUP BY
 	Ent.Id_Ingredient_Entree
 HAVING
-	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 0;
+	Ent.quantite - COALESCE(SUM(Pr.quantite), 0) > 1;
 
 -- Trigger for ingredient_entree to fetch prix_unitaire from ingredient_fournisseur
 CREATE OR REPLACE FUNCTION update_prix_unitaire_ingredient_entree()

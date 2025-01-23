@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import perso.boulangerie.client.models.Vente;
 import perso.boulangerie.client.services.ClientService;
 import perso.boulangerie.client.services.VenteService;
+import perso.boulangerie.employe.repos.EmployeRepo;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class VenteController {
 
 	private VenteService venteService;
 	private ClientService clientService;
+	private EmployeRepo employeRepo;
 
 	@GetMapping
 	public String getAllVentes(Model model) {
@@ -40,13 +42,15 @@ public class VenteController {
 	public String showCreateForm(Model model) {
 		model.addAttribute("vente", new Vente());
 		model.addAttribute("clients", clientService.getClients());
+		model.addAttribute("employes", employeRepo.findAllVendeurs());
 		return "client/vente/form";
 	}
 
 	@PostMapping
 	public String createVente(@ModelAttribute Vente vente, HttpSession session) {
-		session.setAttribute("vente", venteService.save(vente));
-		return "redirect:/client/vente-facture/new";
+		Vente newVente = venteService.save(vente);
+		session.setAttribute("vente", newVente);
+		return "redirect:/client/vente/"+newVente.getIdVente();
 	}
 
 	@GetMapping("/edit/{id}")
@@ -63,15 +67,15 @@ public class VenteController {
 		return "redirect:/client/vente";
 	}
 
-	@PostMapping("/validate")
-	public String validateVente(@SessionAttribute Vente vente) {
-		venteService.validerVente(vente.getIdVente());
+	@PostMapping("/validate/{id}")
+	public String validateVente(@PathVariable Integer id) {
+		venteService.validerVente(id);
 		return "redirect:/client/vente";
 	}
 
-	@PostMapping("/discard")
-	public String discardVente(@SessionAttribute Vente vente) {
-		venteService.deleteVente(vente.getIdVente());
+	@PostMapping("/discard/{id}")
+	public String discardVente(@PathVariable Integer id) {
+		venteService.deleteVente(id);
 		return "redirect:/client/vente";
 	}
 

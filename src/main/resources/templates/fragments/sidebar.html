@@ -10,7 +10,7 @@
               alt="Logo"
               srcset=""
             /> -->
-						Dopaina
+            Dopaina
           </a>
         </div>
         <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
@@ -79,48 +79,54 @@
     </div>
     <div class="sidebar-menu">
       <ul class="menu">
+        <!-- Fournisseurs -->
         <li class="sidebar-item">
           <a href="/fournisseur" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
+            <i class="bi bi-truck"></i>
             <span>Fournisseurs</span>
           </a>
         </li>
+
+        <!-- Detail de Facture -->
         <li class="sidebar-item">
           <a href="/client/vente-facture" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
+            <i class="bi bi-receipt"></i>
             <span>Detail de Facture</span>
           </a>
         </li>
-				
+
+        <!-- Produit Conseils -->
         <li class="sidebar-item">
           <a href="/produit/produit-format/conseils" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
+            <i class="bi bi-lightbulb"></i>
             <span>Produit Conseils</span>
           </a>
         </li>
+
+        <!-- Clients -->
         <li class="sidebar-item">
           <a href="/client" class="sidebar-link">
-            <i class="bi bi-grid-fill"></i>
+            <i class="bi bi-people"></i>
             <span>Clients</span>
           </a>
         </li>
-        <!-- <li class="sidebar-item has-sub">
-          <a href="/fourni" class="sidebar-link">
+        <li class="sidebar-item has-sub">
+          <a href="/" class="sidebar-link">
             <i class="bi bi-capsule"></i>
-            <span>Medicament</span>
+            <span>Employes</span>
           </a>
           <ul class="submenu">
             <li class="submenu-item">
-              <a href="/fournisseur" class="submenu-link">Medicament</a>
+              <a th:href="@{/employe}" class="submenu-link">Tous</a>
             </li>
             <li class="submenu-item">
-              <a href="/fournisseur" class="submenu-link">Laboratoire</a>
+              <a th:href="@{/employe/vendeurs}" class="submenu-link">Vendeurs</a>
             </li>
             <li class="submenu-item">
               <a href="/" class="submenu-link">Public cible</a>
             </li>
           </ul>
-        </li> -->
+        </li>
       </ul>
     </div>
   </div>

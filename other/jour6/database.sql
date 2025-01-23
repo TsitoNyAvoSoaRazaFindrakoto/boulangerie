@@ -8,19 +8,10 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Client (
-		Id_Client SERIAL,
-		nom VARCHAR(50) NOT NULL,
-		adresse VARCHAR(50),
-		PRIMARY KEY (Id_Client)
-	);
+	Client (Id_Client SERIAL, nom VARCHAR(50) NOT NULL, adresse VARCHAR(50), PRIMARY KEY (Id_Client));
 
 CREATE TABLE
-	Unite (
-		Id_Unite VARCHAR(5),
-		val VARCHAR(30) NOT NULL,
-		PRIMARY KEY (Id_Unite)
-	);
+	Unite (Id_Unite VARCHAR(5), val VARCHAR(30) NOT NULL, PRIMARY KEY (Id_Unite));
 
 CREATE TABLE
 	Format (
@@ -48,6 +39,9 @@ CREATE TABLE
 	);
 
 CREATE TABLE
+	Sexe (Id_Sexe VARCHAR(1), genre varchar(20), PRIMARY KEY (Id_Sexe));
+
+CREATE TABLE
 	Employe (
 		Id_Employe SERIAL,
 		nom VARCHAR(20) NOT NULL,
@@ -55,8 +49,10 @@ CREATE TABLE
 		date_naissance DATE NOT NULL,
 		date_embauche DATE NOT NULL,
 		est_Employe BOOLEAN default true,
+		Id_Sexe VARCHAR(1),
 		Id_Type_Employe VARCHAR(10) NOT NULL,
 		PRIMARY KEY (Id_Employe),
+		FOREIGN KEY (Id_Sexe) REFERENCES Sexe (Id_Sexe),
 		FOREIGN KEY (Id_Type_Employe) REFERENCES Type_Employe (Id_Type_Employe)
 	);
 
@@ -111,10 +107,10 @@ CREATE TABLE
 		Id_Vente SERIAL,
 		date_vente TIMESTAMP NOT NULL,
 		montant NUMERIC(22, 2) NOT NULL,
-		commission_vendeur NUMERIC(15, 2) NOT NULL,
+		commission_vendeur NUMERIC(15, 2) default 0,
 		date_livree TIMESTAMP,
 		adresse_livraison VARCHAR(50),
-		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1, 
+		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1,
 		Id_Employe INTEGER NOT NULL,
 		Id_Client INTEGER NOT NULL,
 		PRIMARY KEY (Id_Vente),

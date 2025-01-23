@@ -1,5 +1,6 @@
 package perso.boulangerie.client.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
@@ -16,28 +17,29 @@ public class VenteService {
 	private VenteRepo venteRepo;
 	private VenteFactureService venteFactureService;
 
-	public Vente save(Vente Vente) {
-		if (Vente.getAdresseLivraison() == null) {
-			Vente.setDateLivree(Vente.getDateVente());
+	public Vente save(Vente vente) {
+		if (vente.getAdresseLivraison() == null) {
+			vente.setDateLivree(vente.getDateVente());
+			vente.setAdresseLivraison(vente.getClient().getAdresse());
 		}
-		Vente.setEtat(1);
-		return venteRepo.save(Vente);
+		vente.setEtat(1);
+		return venteRepo.save(vente);
 	}
 
 	@Transactional
 	public Vente validerVente(Integer idVente) {
 		Vente vente = findVente(idVente);
+		vente.setDateVente(LocalDateTime.now());
 		vente.setEtat(2);
 		return vente;
 	}
 
 	public List<Vente> getVentes() {
-		return venteRepo.findAll(Sort.by(Sort.Direction.DESC, "id_vente"));
+		return venteRepo.findAll(Sort.by(Sort.Direction.DESC, "idVente"));
 	}
 
 	public Vente findVente(Integer id) {
 		Vente v = venteRepo.findById(id).orElseThrow(() -> new RuntimeException("Vente not found with id: " + id));
-		v.setVenteDetails(venteFactureService.findByVente(v));
 		return v;
 	}
 

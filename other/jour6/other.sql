@@ -122,8 +122,13 @@ EXECUTE FUNCTION update_vente_montant();
 CREATE OR REPLACE FUNCTION calculate_commission_vendeur()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Calcul de la commission : 5% du montant
-    NEW.commission_vendeur := NEW.montant * 0.05;
+    -- Calculate commission only if amount is >= 200,000 AR
+    IF NEW.montant >= 200000 THEN
+        NEW.commission_vendeur := NEW.montant * 0.05;
+    ELSE
+        NEW.commission_vendeur := 0;
+    END IF;
+    
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

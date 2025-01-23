@@ -14,35 +14,41 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import perso.boulangerie.employe.models.Employe;
 
 @Data
 @Entity
 public class Vente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idVente;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idVente;
 
-    private LocalDateTime dateVente;
-    private LocalDateTime dateLivree;
-    private String adresseLivraison;
-		private BigDecimal montant;
+	private LocalDateTime dateVente;
+	private LocalDateTime dateLivree;
+	private String adresseLivraison;
+	private BigDecimal montant;
 
-    @ManyToOne
-    @JoinColumn(name = "idClient")
-    private Client client;
+	@ManyToOne
+	@JoinColumn(name = "id_Employe")
+	private Employe employe;
 
-		private Integer Etat;
+	@ManyToOne
+	@JoinColumn(name = "idClient")
+	private Client client;
 
-		@OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<VenteFacture> venteDetails;
+	private Integer Etat;
 
-		public void setVenteDetails(List<VenteFacture> venteFactures){
-			if (venteFactures != null && !venteFactures.isEmpty() && venteFactures.get(0).getVente() != null || venteFactures==null) {
-				return;
-			}
-			for (VenteFacture venteFacture : venteFactures) {
-				venteFacture.setVente(this);
-			}
-			this.venteDetails = venteFactures;
+	@OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<VenteFacture> venteDetails;
+
+	public void setVenteDetails(List<VenteFacture> venteFactures) {
+		if (venteFactures != null && !venteFactures.isEmpty() && venteFactures.get(0).getVente() != null
+				|| venteFactures == null) {
+			return;
 		}
+		for (VenteFacture venteFacture : venteFactures) {
+			venteFacture.setVente(this);
+		}
+		this.venteDetails = venteFactures;
+	}
 }

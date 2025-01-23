@@ -18,30 +18,56 @@
           <div class="row mb-5">
             <div class="col-md-6">
               <form
-                action="/client/filter"
+                th:action="@{/client/filter}"
                 method="GET"
                 class="p-3 border rounded"
               >
-                <h5 class="mb-3">Recherche par Date de Vente et Livraison</h5>
+                <h5 class="mb-3">Recherche par Intervalle de Date</h5>
 
-                <!-- Champ Date Vente -->
+                <!-- Intervalle Date de Vente -->
                 <div class="mb-3">
-                  <label for="dateVente" class="form-label">Date de Vente</label>
+                  <label for="startDateVente" class="form-label"
+                    >Date de Vente Début</label
+                  >
                   <input
                     type="date"
-                    id="dateVente"
-                    name="dateVente"
+                    id="startDateVente"
+                    name="startDateVente"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="endDateVente" class="form-label"
+                    >Date de Vente Fin</label
+                  >
+                  <input
+                    type="date"
+                    id="endDateVente"
+                    name="endDateVente"
                     class="form-control"
                   />
                 </div>
 
-                <!-- Champ Date Livrée -->
+                <!-- Intervalle Date de Livraison -->
                 <div class="mb-3">
-                  <label for="dateLivree" class="form-label">Date de Livraison</label>
+                  <label for="startDateLivree" class="form-label"
+                    >Date de Livraison Début</label
+                  >
                   <input
                     type="date"
-                    id="dateLivree"
-                    name="dateLivree"
+                    id="startDateLivree"
+                    name="startDateLivree"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="endDateLivree" class="form-label"
+                    >Date de Livraison Fin</label
+                  >
+                  <input
+                    type="date"
+                    id="endDateLivree"
+                    name="endDateLivree"
                     class="form-control"
                   />
                 </div>
