@@ -147,29 +147,33 @@ BEGIN
 END $$;
 
 INSERT INTO Client (nom, adresse) VALUES
-('Lambda', 'sur place'),
+('Alice Dupont', '12 rue des Lilas, Paris'),
 ('Marc Tremblay', '45 avenue des Champs, Lyon'),
 ('Claire Martin', '78 boulevard Haussmann, Marseille'),
 ('Jean Dupuis', '23 rue de la République, Toulouse'),
 ('Sophie Lemaitre', '5 allée des Acacias, Bordeaux');
-
+/* 
+INSERT INTO Vente (date_vente, montant, date_livree, adresse_livraison, etat, Id_Client) VALUES
+('2025-01-10 14:30:00', 120.50, '2025-01-12 10:00:00', '12 rue des Lilas, Paris', 1, 1),
+('2025-01-08 16:00:00', 75.20, NULL, NULL, 0, 2),
+('2025-01-11 09:15:00', 230.00, '2025-01-13 14:30:00', '78 boulevard Haussmann, Marseille', 1, 3),
+('2025-01-09 11:00:00', 45.80, NULL, NULL, 0, 4),
+('2025-01-15 17:45:00', 150.00, '2025-01-17 18:00:00', '5 allée des Acacias, Bordeaux', 1, 5);
+ */
 
 INSERT INTO type_employe (id_Type_Employe, nom) 
 VALUES 
   ('VENDEUR', 'Vendeur'),
   ('MANAGER', 'Manager');
 
-INSERT INTO Sexe (Id_Sexe, genre) VALUES ('M', 'Masculin'), ('F', 'Feminin');
-
-INSERT INTO employe (nom, prenoms, date_naissance, date_embauche, Id_Type_Employe,Id_Sexe)
+INSERT INTO employe (id_Employe, nom, prenoms, id_Type_Employe,date_embauche,date_naissance)
 VALUES 
-  ('Dupont', 'Jean', '1980-05-15', '2000-01-01', 'VENDEUR','M'),
-  ('Martin', 'Claire', '1975-08-22', '2005-06-10', 'MANAGER','F'),
-  ('Durand', 'Paul', '1990-12-01', '2015-03-15', 'VENDEUR','M');
+  (default, 'Dupont', 'Jean', 'VENDEUR','2000-01-01','2024-03-03'),
+  (default, 'Martin', 'Claire', 'MANAGER','2000-01-01','2024-03-03'),
+  (default, 'Durand', 'Paul', 'VENDEUR','2000-01-01','2024-03-03');
 
--- Corrected Vente Inserts
-INSERT INTO vente (date_vente, montant, adresse_livraison, etat, Id_Employe, Id_Client)
+INSERT INTO vente (id_Vente, date_vente, adresse_Livraison, montant, id_Employe, id_Client, etat)
 VALUES 
-  ('2025-01-21 10:00:00', 200000.00, '123 Rue Principale', 1, 1, 1),
-  ('2025-01-21 11:30:00', 130750.00, '456 Avenue des Champs', 1, 3, 2),
-  ('2025-01-21 14:15:00', 1000000.00, '789 Boulevard Sud', 1, 1, 3);
+  (default, '2025-01-21T10:00:00', '123 Rue Principale', 500.00, 1, 1, 1),
+  (default, '2025-01-21T11:30:00', '456 Avenue des Champs', 750.00, 3, 2, 1),
+  (default, '2025-01-21T14:15:00', '789 Boulevard Sud', 1200.00, 1, 3, 1);

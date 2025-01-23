@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <section class="section">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <div class="table-responsive">
+                <h1 class="mb-4">Historique des Entrées d'Ingrédients</h1>
+                <a
+                  th:href="@{/fournisseur/ingredient-entrees/new}"
+                  class="btn btn-success mb-3"
+                >
+                  <i class="bi bi-plus-circle"></i> Nouvelle Entrée
+                </a>
+                <table class="table table-striped" id="table1">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>Fournisseur</th>
+                      <th>Ingrédient</th>
+                      <th>Quantité</th>
+                      <th>Date d'Entrée</th>
+                      <th>Prix Unitaire</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="entree : ${ingredientEntrees}">
+                      <td th:text="${entree.idIngredientEntree}">1</td>
+                      <td th:text="${entree.fournisseur.nom}">
+                        Fournisseur Name
+                      </td>
+                      <td th:text="${entree.ingredient.nom}">
+                        Ingredient Name
+                      </td>
+                      <td
+                        th:text="${entree.quantite} + ' ' + ${entree.ingredient.unite.idUnite}"
+                      >
+                        0.00 KG
+                      </td>
+                      <td
+                        th:text="${#temporals.format(entree.dateEntree, 'dd/MM/yyyy HH:mm')}"
+                      >
+                        01/01/2023
+                      </td>
+                      <td
+                        th:text="${'€' + #numbers.formatDecimal(entree.prixUnitaire, 1, 2)}"
+                      >
+                        0.00
+                      </td>
+                      <td>
+                        <a
+                          th:href="@{/fournisseur/ingredient-entrees/edit/{id}(id=${entree.idIngredientEntree})}"
+                          class="btn btn-warning btn-sm mx-1"
+                        >
+                          <i class="bi bi-pencil"></i>
+                        </a>
+                        <a
+                          th:href="@{/fournisseur/ingredient-entrees/delete/{id}(id=${entree.idIngredientEntree})}"
+                          class="btn btn-danger btn-sm mx-1"
+                        >
+                          <i class="bi bi-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

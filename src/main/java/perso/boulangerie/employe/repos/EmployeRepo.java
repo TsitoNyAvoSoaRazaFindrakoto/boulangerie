@@ -18,12 +18,12 @@ public interface EmployeRepo extends JpaRepository<Employe, Integer> {
 	List<Employe> findAllVendeurs();
 
 	@Query(value = """
-			select vd.id_employe,vd.id_type_employe,vd.nom,vd.prenoms,vd.date_embauche,vd.date_naissance,vd.est_employe,vtc.commission_vendeur as commission from v_vendeur vd join (select id_employe , sum(commission_vendeur) as commission_vendeur from vente group by id_employe) vtc on vd.id_employe = vtc.id_employe
+			select vd.id_employe,vd.id_sexe,vd.id_type_employe,vd.nom,vd.prenoms,vd.date_embauche,vd.date_naissance,vd.est_employe,vtc.commission_vendeur as commission from v_vendeur vd join (select id_employe , sum(commission_vendeur) as commission_vendeur from vente group by id_employe) vtc on vd.id_employe = vtc.id_employe
 			""", nativeQuery = true)
 	List<Employe> findAllVendeursWithComission();
 
 	@Query(value = """
-			    SELECT vd.id_employe, vd.id_type_employe, vd.nom, vd.prenoms, vd.date_embauche, vd.date_naissance, vd.est_employe, vtc.commission_vendeur AS commission
+			    SELECT vd.id_employe,vd.id_sexe, vd.id_type_employe, vd.nom, vd.prenoms, vd.date_embauche, vd.date_naissance, vd.est_employe, vtc.commission_vendeur AS commission
 			    FROM v_vendeur vd
 			    JOIN (
 			        SELECT

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <div th:replace="~{fragments/head.html}"></div>
 
   <body>
@@ -14,68 +14,148 @@
 
         <!-- Section principale -->
         <div class="container">
-          <!-- Formulaire de recherche multi-critères -->
-          <div class="row mb-5">
-            <div class="col-md-12">
-              <form
-                th:action="@{/employe/search-vendeurs}"
-                method="GET"
-                class="p-3 border rounded"
-              >
-                <h5 class="mb-3">Recherche de Vendeurs</h5>
+          <!-- Statistiques par genre -->
+          <div class="row mb-4">
+            <!-- Formulaire de recherche multi-critères -->
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <form
+                  th:action="@{/employe/search-vendeurs}"
+                  method="GET"
+                  class="p-3 border rounded"
+                >
+                  <h5 class="mb-3">Recherche de Vendeurs</h5>
 
-                <div class="row">
-                  <!-- Commission min -->
-                  <div class="col-md-3 mb-3">
-                    <label for="minCommission" class="form-label">Commission Min</label>
-                    <input
-                      type="number"
-                      id="minCommission"
-                      name="minCommission"
-                      class="form-control"
-                      step="0.01"
-                    />
+                  <div class="row">
+                    <!-- Commission min -->
+                    <div class="col-md-3 mb-3">
+                      <label for="minCommission" class="form-label"
+                        >Commission Min</label
+                      >
+                      <input
+                        type="number"
+                        id="minCommission"
+                        name="minCommission"
+                        class="form-control"
+                        step="0.01"
+                      />
+                    </div>
+
+                    <!-- Commission max -->
+                    <div class="col-md-3 mb-3">
+                      <label for="maxCommission" class="form-label"
+                        >Commission Max</label
+                      >
+                      <input
+                        type="number"
+                        id="maxCommission"
+                        name="maxCommission"
+                        class="form-control"
+                        step="0.01"
+                      />
+                    </div>
+
+                    <!-- Période min -->
+                    <div class="col-md-3 mb-3">
+                      <label for="minPeriod" class="form-label"
+                        >Période Début</label
+                      >
+                      <input
+                        type="date"
+                        id="minPeriod"
+                        name="minPeriod"
+                        class="form-control"
+                      />
+                    </div>
+
+                    <!-- Période max -->
+                    <div class="col-md-3 mb-3">
+                      <label for="maxPeriod" class="form-label"
+                        >Période Fin</label
+                      >
+                      <input
+                        type="date"
+                        id="maxPeriod"
+                        name="maxPeriod"
+                        class="form-control"
+                      />
+                    </div>
                   </div>
 
-                  <!-- Commission max -->
-                  <div class="col-md-3 mb-3">
-                    <label for="maxCommission" class="form-label">Commission Max</label>
-                    <input
-                      type="number"
-                      id="maxCommission"
-                      name="maxCommission"
-                      class="form-control"
-                      step="0.01"
-                    />
-                  </div>
-
-                  <!-- Période min -->
-                  <div class="col-md-3 mb-3">
-                    <label for="minPeriod" class="form-label">Période Début</label>
-                    <input
-                      type="date"
-                      id="minPeriod"
-                      name="minPeriod"
-                      class="form-control"
-                    />
-                  </div>
-
-                  <!-- Période max -->
-                  <div class="col-md-3 mb-3">
-                    <label for="maxPeriod" class="form-label">Période Fin</label>
-                    <input
-                      type="date"
-                      id="maxPeriod"
-                      name="maxPeriod"
-                      class="form-control"
-                    />
+                  <button type="submit" class="btn btn-primary">
+                    Rechercher
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  <h5 class="card-title text-primary">
+                    <i class="bi bi-gender-male"></i> Statistiques Masculin
+                  </h5>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="p-3 rounded">
+                        <h6 class="text-muted">Nombre de vendeurs</h6>
+                        <h3
+                          class="text-success"
+                          th:text="${etatGenre.get('Masculin')[0] }"
+                        >
+                          0
+                        </h3>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="p-3 rounded">
+                        <h6 class="text-muted">Commission totale</h6>
+                        <h3 class="text-success">
+                          <span
+                            th:text="${#numbers.formatDecimal(etatGenre.get('Masculin')[1] , 1, 'COMMA', 2, 'POINT')}"
+                            >0.00</span
+                          >
+                          AR
+                        </h3>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary">
-                  Rechercher
-                </button>
-              </form>
+            <div class="col-md-6 mb-3">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  <h5 class="card-title text-danger">
+                    <i class="bi bi-gender-female"></i> Statistiques Féminin
+                  </h5>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="p-3 rounded">
+                        <h6 class="text-muted">Nombre de vendeuses</h6>
+                        <h3
+                          class="text-danger"
+                          th:text="${etatGenre.get('Feminin')[0] }"
+                        >
+                          0
+                        </h3>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="p-3 rounded">
+                        <h6 class="text-muted">Commission totale</h6>
+                        <h3 class="text-danger">
+                          <span
+                            th:text="${#numbers.formatDecimal(etatGenre.get('Feminin')[1] , 1, 'COMMA', 2, 'POINT')}"
+                            >0.00</span
+                          >
+                          AR
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -99,7 +179,9 @@
                         <td th:text="${vendeur.idEmploye}"></td>
                         <td th:text="${vendeur.nom}"></td>
                         <td th:text="${vendeur.prenoms}"></td>
-                        <td th:text="${vendeur.commission}"></td>
+                        <td
+                          th:text="${#numbers.formatDecimal(vendeur.commission , 1, 'COMMA', 2, 'POINT')} + ' AR'"
+                        ></td>
                       </tr>
                     </tbody>
                   </table>

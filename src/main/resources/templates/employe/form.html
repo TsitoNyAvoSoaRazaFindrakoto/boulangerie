@@ -71,6 +71,22 @@
                     ></option>
                   </select>
                 </div>
+								<div class="form-group mb-4">
+                  <label for="sexe" class="form-label">Sexe Employé</label>
+                  <select
+                    id="sexe"
+                    name="sexe"
+                    th:field="*{sexe.idSexe}"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      th:each="sexe : ${sexes}"
+                      th:value="${sexe.idSexe}"
+                      th:text="${sexe.genre}"
+                    ></option>
+                  </select>
+                </div>
 
                 <!-- Date de Naissance -->
                 <div class="form-group mb-4">
@@ -95,17 +111,6 @@
                     th:field="*{dateEmbauche}"
                     class="form-control"
                     required
-                  />
-                </div>
-
-                <!-- Employé Actif -->
-                <div class="form-group mb-4">
-                  <label for="estEmploye" class="form-label">Employé Actif</label>
-                  <input
-                    type="checkbox"
-                    id="estEmploye"
-                    name="estEmploye"
-                    th:field="*{estEmploye}"
                   />
                 </div>
 

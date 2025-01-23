@@ -2,6 +2,7 @@ package perso.boulangerie.employe.services;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,8 +62,36 @@ public class EmployeService {
 	// Custom query: Find vendeurs by criteria
 	public List<Employe> findAllVendeursByCriteria(BigDecimal minCommission, BigDecimal maxCommission,
 			LocalDate minPeriod, LocalDate maxPeriod) {
-				String minP = minPeriod == null ? null : minPeriod.toString();
-				String maxP = maxPeriod == null ? null : maxPeriod.toString();
+		String minP = minPeriod == null ? null : minPeriod.toString();
+		String maxP = maxPeriod == null ? null : maxPeriod.toString();
 		return employeRepo.findAllVendeursByCriteria(minCommission, maxCommission, minP, maxP);
+	}
+
+	public HashMap<String, BigDecimal[]> filterListBySexe(List<Employe> employes) {
+		HashMap<String, BigDecimal[]> filtre = new HashMap<>();
+
+		// Initialize with default values for both genders
+		filtre.put("Masculin", new BigDecimal[] { BigDecimal.ZERO, BigDecimal.ZERO });
+		filtre.put("Feminin", new BigDecimal[] { BigDecimal.ZERO, BigDecimal.ZERO });
+
+		for (Employe employe : employes) {
+			if (employe.getSexe() != null) {
+				String genre = employe.getSexe().getGenre();
+
+				// Handle potential null commission
+				BigDecimal commission = employe.getCommission() != null ? employe.getCommission() : BigDecimal.ZERO;
+
+				if (filtre.containsKey(genre)) {
+					// Get current values
+					BigDecimal count = filtre.get(genre)[0];
+					BigDecimal totalCommission = filtre.get(genre)[1];
+
+					// Update values
+					filtre.get(genre)[0] = count.add(BigDecimal.ONE); // Increment count
+					filtre.get(genre)[1] = totalCommission.add(commission); // Add commission
+				}
+			}
+		}
+		return filtre;
 	}
 }
