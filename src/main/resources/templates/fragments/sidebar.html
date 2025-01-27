@@ -120,12 +120,20 @@
               <a th:href="@{/employe}" class="submenu-link">Tous</a>
             </li>
             <li class="submenu-item">
-              <a th:href="@{/employe/vendeurs}" class="submenu-link">Vendeurs</a>
+              <a th:href="@{/employe/vendeurs}" class="submenu-link"
+                >Vendeurs</a
+              >
             </li>
             <li class="submenu-item">
-              <a href="/" class="submenu-link">Public cible</a>
+              <a th:href="@{/employe/create}" class="submenu-link">Ajouter</a>
             </li>
           </ul>
+        </li>
+        <li class="sidebar-item">
+          <a th:href="@{/client/vente}" class="sidebar-link">
+            <i class="bi bi-currency-dollar fs-5 me-3"></i>
+            <span class="fs-6">Ventes</span>
+          </a>
         </li>
       </ul>
     </div>
