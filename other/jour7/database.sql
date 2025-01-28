@@ -1,10 +1,3 @@
-\c postgres;
-
-drop database if exists boulangerie;
-create database boulangerie;
-
-\c boulangerie;
-
 CREATE TABLE
 	Fournisseur (
 		Id_Fournisseur SERIAL,
@@ -15,19 +8,10 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Client (
-		Id_Client SERIAL,
-		nom VARCHAR(50) NOT NULL,
-		adresse VARCHAR(50),
-		PRIMARY KEY (Id_Client)
-	);
+	Client (Id_Client SERIAL, nom VARCHAR(50) NOT NULL, adresse VARCHAR(50), PRIMARY KEY (Id_Client));
 
 CREATE TABLE
-	Unite (
-		Id_Unite VARCHAR(5),
-		val VARCHAR(30) NOT NULL,
-		PRIMARY KEY (Id_Unite)
-	);
+	Unite (Id_Unite VARCHAR(5), val VARCHAR(30) NOT NULL, PRIMARY KEY (Id_Unite));
 
 CREATE TABLE
 	Format (
@@ -55,11 +39,7 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Sexe (
-		Id_Sexe VARCHAR(1),
-		genre varchar(20),
-		PRIMARY KEY (Id_Sexe)
-	);
+	Sexe (Id_Sexe VARCHAR(1), genre varchar(20), PRIMARY KEY (Id_Sexe));
 
 CREATE TABLE
 	Employe (
@@ -90,6 +70,16 @@ CREATE TABLE
 		PRIMARY KEY (Id_Produit),
 		FOREIGN KEY (Id_Produit_Categorie) REFERENCES Produit_Categorie (Id_Produit_Categorie),
 		FOREIGN KEY (Id_Unite) REFERENCES Unite (Id_Unite)
+	);
+
+CREATE TABLE
+	Prix_Produit (
+		Id_Prix_Produit SERIAL,
+		changement DATE NOT NULL,
+		prix_unitaire NUMERIC(15, 2) NOT NULL,
+		Id_Produit INTEGER NOT NULL,
+		PRIMARY KEY (Id_Prix_Produit),
+		FOREIGN KEY (Id_Produit) REFERENCES Produit (Id_Produit)
 	);
 
 CREATE TABLE
@@ -130,7 +120,7 @@ CREATE TABLE
 		commission_vendeur NUMERIC(15, 2) default 0,
 		date_livree TIMESTAMP,
 		adresse_livraison VARCHAR(50),
-		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1, 
+		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1,
 		Id_Employe INTEGER NOT NULL,
 		Id_Client INTEGER NOT NULL,
 		PRIMARY KEY (Id_Vente),
@@ -229,4 +219,3 @@ CREATE TABLE
 		FOREIGN KEY (Id_Production) REFERENCES Production (Id_Production),
 		FOREIGN KEY (Id_Vente_Facture) REFERENCES Vente_Facture (Id_Vente_Facture)
 	);
-

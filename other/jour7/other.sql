@@ -140,3 +140,23 @@ EXECUTE FUNCTION calculate_commission_vendeur();
 
 create or replace view v_vendeur as
 select * from employe where id_type_employe = 'VENDEUR';
+
+CREATE OR REPLACE FUNCTION update_produit_prix_unitaire()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Vérifie si la date de changement est la plus récente pour ce produit
+    IF NEW.changement = (SELECT MAX(changement) FROM Prix_Produit WHERE Id_Produit = NEW.Id_Produit) THEN
+        -- Met à jour le prix unitaire dans la table Produit
+        UPDATE Produit
+        SET prix_unitaire = NEW.prix_unitaire
+        WHERE Id_Produit = NEW.Id_Produit;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_produit_prix
+AFTER INSERT OR UPDATE ON Prix_Produit
+FOR EACH ROW
+EXECUTE FUNCTION update_produit_prix_unitaire();

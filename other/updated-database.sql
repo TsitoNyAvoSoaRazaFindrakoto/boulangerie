@@ -15,19 +15,10 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Client (
-		Id_Client SERIAL,
-		nom VARCHAR(50) NOT NULL,
-		adresse VARCHAR(50),
-		PRIMARY KEY (Id_Client)
-	);
+	Client (Id_Client SERIAL, nom VARCHAR(50) NOT NULL, adresse VARCHAR(50), PRIMARY KEY (Id_Client));
 
 CREATE TABLE
-	Unite (
-		Id_Unite VARCHAR(5),
-		val VARCHAR(30) NOT NULL,
-		PRIMARY KEY (Id_Unite)
-	);
+	Unite (Id_Unite VARCHAR(5), val VARCHAR(30) NOT NULL, PRIMARY KEY (Id_Unite));
 
 CREATE TABLE
 	Format (
@@ -55,11 +46,7 @@ CREATE TABLE
 	);
 
 CREATE TABLE
-	Sexe (
-		Id_Sexe VARCHAR(1),
-		genre varchar(20),
-		PRIMARY KEY (Id_Sexe)
-	);
+	Sexe (Id_Sexe VARCHAR(1), genre varchar(20), PRIMARY KEY (Id_Sexe));
 
 CREATE TABLE
 	Employe (
@@ -90,6 +77,16 @@ CREATE TABLE
 		PRIMARY KEY (Id_Produit),
 		FOREIGN KEY (Id_Produit_Categorie) REFERENCES Produit_Categorie (Id_Produit_Categorie),
 		FOREIGN KEY (Id_Unite) REFERENCES Unite (Id_Unite)
+	);
+
+CREATE TABLE
+	Prix_Produit (
+		Id_Prix_Produit SERIAL,
+		changement DATE NOT NULL,
+		prix_unitaire NUMERIC(15, 2) NOT NULL,
+		Id_Produit INTEGER NOT NULL,
+		PRIMARY KEY (Id_Prix_Produit),
+		FOREIGN KEY (Id_Produit) REFERENCES Produit (Id_Produit)
 	);
 
 CREATE TABLE
@@ -130,7 +127,7 @@ CREATE TABLE
 		commission_vendeur NUMERIC(15, 2) default 0,
 		date_livree TIMESTAMP,
 		adresse_livraison VARCHAR(50),
-		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1, 
+		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1,
 		Id_Employe INTEGER NOT NULL,
 		Id_Client INTEGER NOT NULL,
 		PRIMARY KEY (Id_Vente),
@@ -372,3 +369,23 @@ EXECUTE FUNCTION calculate_commission_vendeur();
 
 create or replace view v_vendeur as
 select * from employe where id_type_employe = 'VENDEUR';
+
+CREATE OR REPLACE FUNCTION update_produit_prix_unitaire()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Vérifie si la date de changement est la plus récente pour ce produit
+    IF NEW.changement = (SELECT MAX(changement) FROM Prix_Produit WHERE Id_Produit = NEW.Id_Produit) THEN
+        -- Met à jour le prix unitaire dans la table Produit
+        UPDATE Produit
+        SET prix_unitaire = NEW.prix_unitaire
+        WHERE Id_Produit = NEW.Id_Produit;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_produit_prix
+AFTER INSERT OR UPDATE ON Prix_Produit
+FOR EACH ROW
+EXECUTE FUNCTION update_produit_prix_unitaire();
