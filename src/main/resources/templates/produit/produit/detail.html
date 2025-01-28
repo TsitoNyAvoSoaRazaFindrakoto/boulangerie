@@ -1,0 +1,60 @@
+<html lang="en">
+<div th:replace="~{fragments/head.html}"></div>
+
+<body>
+    <div id="app">
+        <div th:replace="~{fragments/sidebar.html}"></div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <section class="section">
+                <div class="card shadow-lg border-0 my-2">
+                    <div class="card-header d-flex justify-content-between align-items-center py-3">
+                        <h4 class="card-title mb-0">Product Details</h4>
+                        <a th:href="@{/client/produits}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Products
+                        </a>
+                    </div>
+                    <div class="card-body px-4 my-2">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Name:</h5>
+                                <p th:text="${produit.nom}"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Category:</h5>
+                                <p th:text="${produit.categorie.nom}"></p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Description:</h5>
+                                <p th:text="${produit.description}"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Unit:</h5>
+                                <p th:text="${produit.unite.val}"></p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5 class="fw-bold">Unit Price:</h5>
+                                <p th:text="'$' + ${#numbers.formatDecimal(produit.prixUnitaire, 1, 2)}"></p>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </section>
+
+            <div th:replace="~{fragments/footer.html}"></div>
+        </div>
+    </div>
+</body>
+
+</html>
