@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.AllArgsConstructor;
 import perso.boulangerie.client.models.Client;
-import perso.boulangerie.client.models.Vente;
 import perso.boulangerie.client.services.ClientService;
 
 @AllArgsConstructor
@@ -28,10 +27,10 @@ public class ClientController {
 	}
 
 	@GetMapping("/filter")
-	public String getFilter(@RequestParam(required = false, name = "startDateVente") LocalDate startDateVente,
-			@RequestParam(required = false, name = "endDateVente") LocalDate endDateVente,
-			@RequestParam(required = false, name = "startDateLivree") LocalDate startDateLivree,
-			@RequestParam(required = false, name = "endDateLivree") LocalDate endDateLivree, Model model) {
+	public String getFilter(@RequestParam(required = false) LocalDate startDateVente,
+			@RequestParam(required = false) LocalDate endDateVente,
+			@RequestParam(required = false) LocalDate startDateLivree,
+			@RequestParam(required = false) LocalDate endDateLivree, Model model) {
 
 		// Call service method to filter based on provided criteria
 		List<Client> clients = clientService.filter(startDateVente, endDateVente, startDateLivree, endDateLivree);

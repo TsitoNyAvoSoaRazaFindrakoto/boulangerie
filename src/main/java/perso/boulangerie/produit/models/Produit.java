@@ -16,7 +16,10 @@ public class Produit {
 	private String nom;
 	private String description;
 	private BigDecimal prixUnitaire;
-
+	
+	@ManyToOne
+	@JoinColumn(name="idProduitCategorie")
+	private ProduitCategorie categorie;
 	@ManyToOne
 	@JoinColumn(name = "idUnite")
 	private Unite unite;

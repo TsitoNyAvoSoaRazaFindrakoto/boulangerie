@@ -3,15 +3,7 @@
     <div class="sidebar-header position-relative">
       <div class="d-flex justify-content-between align-items-center">
         <div class="logo">
-          <a href="/">
-            <!-- <img
-              src="/assets/compiled/png/logo.png"
-              style="width: 60px; height: 50px"
-              alt="Logo"
-              srcset=""
-            /> -->
-            Dopaina
-          </a>
+          <a href="/">Dopaina</a>
         </div>
         <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
           <svg
@@ -71,39 +63,38 @@
           </svg>
         </div>
         <div class="sidebar-toggler x">
-          <a href="#" class="sidebar-hide d-xl-none d-block"
-            ><i class="bi bi-x bi-middle"></i
-          ></a>
+          <a href="#" class="sidebar-hide d-xl-none d-block">
+            <i class="bi bi-x bi-middle"></i>
+          </a>
         </div>
       </div>
     </div>
+
     <div class="sidebar-menu">
       <ul class="menu">
-        <!-- Fournisseurs -->
-        <li class="sidebar-item">
-          <a href="/fournisseur" class="sidebar-link">
-            <i class="bi bi-truck"></i>
-            <span>Fournisseurs</span>
+        <!-- Sales & Invoices Group -->
+        <li class="sidebar-title">Sales Management</li>
+        <li class="sidebar-item has-sub">
+          <a href="#" class="sidebar-link">
+            <i class="bi bi-cash-stack"></i>
+            <span>Transactions</span>
           </a>
+          <ul class="submenu">
+            <li class="submenu-item">
+              <a th:href="@{/client/vente}" class="submenu-link">
+                <i class="bi bi-list-ul me-2"></i>Sales List
+              </a>
+            </li>
+            <li class="submenu-item">
+              <a href="/client/vente-facture" class="submenu-link">
+                <i class="bi bi-receipt me-2"></i>Invoice Details
+              </a>
+            </li>
+          </ul>
         </li>
 
-        <!-- Detail de Facture -->
-        <li class="sidebar-item">
-          <a href="/client/vente-facture" class="sidebar-link">
-            <i class="bi bi-receipt"></i>
-            <span>Detail de Facture</span>
-          </a>
-        </li>
-
-        <!-- Produit Conseils -->
-        <li class="sidebar-item">
-          <a href="/produit/produit-format/conseils" class="sidebar-link">
-            <i class="bi bi-lightbulb"></i>
-            <span>Produit Conseils</span>
-          </a>
-        </li>
-
-        <!-- Clients -->
+        <!-- People Management Group -->
+        <li class="sidebar-title">People Management</li>
         <li class="sidebar-item">
           <a href="/client" class="sidebar-link">
             <i class="bi bi-people"></i>
@@ -111,28 +102,37 @@
           </a>
         </li>
         <li class="sidebar-item has-sub">
-          <a href="/" class="sidebar-link">
-            <i class="bi bi-capsule"></i>
-            <span>Employes</span>
+          <a href="#" class="sidebar-link">
+            <i class="bi bi-person-badge"></i>
+            <span>Employees</span>
           </a>
           <ul class="submenu">
             <li class="submenu-item">
-              <a th:href="@{/employe}" class="submenu-link">Tous</a>
+              <a th:href="@{/employe}" class="submenu-link">All Employees</a>
             </li>
             <li class="submenu-item">
               <a th:href="@{/employe/vendeurs}" class="submenu-link"
-                >Vendeurs</a
+                >Salespeople</a
               >
             </li>
             <li class="submenu-item">
-              <a th:href="@{/employe/create}" class="submenu-link">Ajouter</a>
+              <a th:href="@{/employe/create}" class="submenu-link">Add New</a>
             </li>
           </ul>
         </li>
+
+        <!-- Product Management Group -->
+        <li class="sidebar-title">Product Management</li>
         <li class="sidebar-item">
-          <a th:href="@{/client/vente}" class="sidebar-link">
-            <i class="bi bi-currency-dollar fs-5 me-3"></i>
-            <span class="fs-6">Ventes</span>
+          <a href="/fournisseur" class="sidebar-link">
+            <i class="bi bi-truck"></i>
+            <span>Suppliers</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="/produit/produit-format/conseils" class="sidebar-link">
+            <i class="bi bi-lightbulb"></i>
+            <span>Product Advice</span>
           </a>
         </li>
       </ul>
