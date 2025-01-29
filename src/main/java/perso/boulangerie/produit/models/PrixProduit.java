@@ -6,6 +6,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Data
 @Entity
 public class PrixProduit {
@@ -21,7 +23,7 @@ public class PrixProduit {
     private BigDecimal prixUnitaire;
 
     @ManyToOne
-    @JoinColumn(name = "idProduit", nullable = false)
+    @JoinColumn(name = "idProduit")
     private Produit produit;
 }
 

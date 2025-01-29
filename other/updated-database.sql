@@ -227,7 +227,6 @@ CREATE TABLE
 		FOREIGN KEY (Id_Vente_Facture) REFERENCES Vente_Facture (Id_Vente_Facture)
 	);
 
--- for views, triggers, functions
 CREATE
 OR REPLACE VIEW Stock_Produit AS
 SELECT
@@ -389,3 +388,16 @@ CREATE TRIGGER trigger_update_produit_prix
 AFTER INSERT OR UPDATE ON Prix_Produit
 FOR EACH ROW
 EXECUTE FUNCTION update_produit_prix_unitaire();
+
+CREATE OR REPLACE FUNCTION update_produit_format_prix_unitaire()
+RETURNS TRIGGER AS $$
+BEGIN
+	update produit_format set prix_unitaire = new.prix_unitaire where id_produit = new.id_produit;
+	return NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_produit_prix
+AFTER INSERT OR UPDATE ON Produit
+FOR EACH ROW
+EXECUTE FUNCTION update_produit_format_prix_unitaire();
