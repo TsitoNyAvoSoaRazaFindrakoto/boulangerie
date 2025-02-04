@@ -51,13 +51,13 @@
                       </td>
                       <td
                         class="text-center"
-                        th:text="${#dates.format(employe.dateNaissance, 'dd/MM/yyyy')}"
+                        th:text="${employe.dateNaissance}"
                       >
                         Date de naissance
                       </td>
                       <td
                         class="text-center"
-                        th:text="${#dates.format(employe.dateEmbauche, 'dd/MM/yyyy')}"
+                        th:text="${employe.dateEmbauche}"
                       >
                         Date d'embauche
                       </td>
@@ -77,12 +77,6 @@
                           class="btn btn-outline-primary btn-sm"
                         >
                           <i class="bi bi-pencil"></i> Modifier
-                        </a>
-                        <a
-                          th:href="@{/employe/delete/{id}(id=${employe.idEmploye})}"
-                          class="btn btn-outline-danger btn-sm"
-                        >
-                          <i class="bi bi-trash"></i> Supprimer
                         </a>
                       </td>
                     </tr>

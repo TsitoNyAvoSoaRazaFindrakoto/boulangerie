@@ -1,10 +1,14 @@
 package perso.boulangerie.produit.controllers;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.AllArgsConstructor;
 import perso.boulangerie.produit.models.Produit;
 import perso.boulangerie.produit.services.ProduitService;
 
@@ -12,8 +16,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/produit")
+@AllArgsConstructor
 public class ProduitController {
-	@Autowired
 	private ProduitService produitService;
 
 	@GetMapping
@@ -26,6 +30,7 @@ public class ProduitController {
 	@GetMapping("/{id}")
 	public String getProduitById(@PathVariable Integer id, Model model) {
 		Produit produit = produitService.getProduitById(id);
+		Hibernate.initialize(produit.getPrix());
 		model.addAttribute("produit", produit);
 		return "produit/produit/detail";
 	}

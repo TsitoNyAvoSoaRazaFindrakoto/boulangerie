@@ -16,13 +16,19 @@ public class Produit {
 	private String nom;
 	private String description;
 	private BigDecimal prixUnitaire;
-
+	
+	@ManyToOne
+	@JoinColumn(name="idProduitCategorie")
+	private ProduitCategorie categorie;
 	@ManyToOne
 	@JoinColumn(name = "idUnite")
 	private Unite unite;
 
 	@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<ProduitsRecettes> recettes;
+
+	@OneToMany(mappedBy = "produit",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+	private List<PrixProduit> prix;
 
 	public void setRecettes(List<ProduitsRecettes> recetteslist) {
 		if (recetteslist != null && !recetteslist.isEmpty() && recetteslist.get(0).getProduit() != null

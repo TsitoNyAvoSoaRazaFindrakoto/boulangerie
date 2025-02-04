@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 @AllArgsConstructor
 @Controller
 @RequestMapping("client/vente")
@@ -50,7 +49,7 @@ public class VenteController {
 	public String createVente(@ModelAttribute Vente vente, HttpSession session) {
 		Vente newVente = venteService.save(vente);
 		session.setAttribute("vente", newVente);
-		return "redirect:/client/vente/"+newVente.getIdVente();
+		return "redirect:/client/vente/" + newVente.getIdVente();
 	}
 
 	@GetMapping("/edit/{id}")
@@ -67,20 +66,14 @@ public class VenteController {
 		return "redirect:/client/vente";
 	}
 
-	@PostMapping("/validate/{id}")
+	@GetMapping("/validate/{id}")
 	public String validateVente(@PathVariable Integer id) {
 		venteService.validerVente(id);
 		return "redirect:/client/vente";
 	}
 
-	@PostMapping("/discard/{id}")
-	public String discardVente(@PathVariable Integer id) {
-		venteService.deleteVente(id);
-		return "redirect:/client/vente";
-	}
-
 	@GetMapping("/delete/{id}")
-	public String deleteVente(@PathVariable Integer id,HttpSession session) {
+	public String deleteVente(@PathVariable Integer id, HttpSession session) {
 		venteService.deleteVente(id);
 		session.removeAttribute("vente");
 		return "redirect:/client/vente";

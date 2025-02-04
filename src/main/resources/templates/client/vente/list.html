@@ -12,77 +12,51 @@
         </header>
 
         <section class="section">
-          <!-- Ventes Table -->
-          <div class="card shadow-sm border-0">
-            <div class="card-body">
+          <div class="card shadow-lg border-0 my-2">
+            <div class="card-header d-flex justify-content-between align-items-center py-3">
+              <h4 class="card-title mb-0">Sales List</h4>
+              <a th:href="@{/client/vente/new}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>New Sale
+              </a>
+            </div>
+            <div class="card-body px-4 my-2">
               <div class="table-responsive">
-                <h1 class="mb-4">Ventes</h1>
-                <a th:href="@{/client/vente/new}" class="btn btn-success mb-3">
-                  <i class="bi bi-plus-circle"></i> Ajouter une vente
-                </a>
-                <table class="table table-striped text-center" id="table1">
-                  <thead>
+                <table class="table table-hover mb-0" id="table1">
+                  <thead class="thead-light">
                     <tr>
-                      <th class="text-center">ID</th>
-                      <th class="text-center">Date de Vente</th>
-                      <th class="text-center">Date de Livraison</th>
-                      <th class="text-center">Adresse Livraison</th>
-                      <th class="text-center">Montant</th>
-                      <th class="text-center">Employé</th>
+                      <th class="text-start ps-4">ID</th>
+                      <th class="text-center">Sale Date</th>
+                      <th class="text-center">Delivery Address</th>
+                      <th class="text-end">Amount</th>
+                      <th class="text-center">Employee</th>
                       <th class="text-center">Client</th>
-                      <th class="text-center">Actions</th>
+                      <th class="text-center">Delivery Status</th>
+                      <th class="text-end pe-4">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr th:each="vente : ${ventes}">
-                      <td
-                        class="text-center"
-                        th:text="${vente.idVente}"
-                      >
-                        1
-                      </td>
-                      <td
-                        class="text-center"
-                        th:text="${vente.dateVente}"
-                      >
-                        Date de Vente
-                      </td>
-                      <td
-                        class="text-center"
-                        th:text="${vente.etat == 2 ? vente.dateLivree : 'En cours'}"
-                      >
-                        Date de Livraison
-                      </td>
-                      <td
-                        class="text-center"
-                        th:text="${vente.adresseLivraison}"
-                      >
-                        Adresse Livraison
-                      </td>
-                      <td
-                        class="text-center"
-                        th:text="${vente.montant}"
-                      >
-                        Montant
-                      </td>
-                      <td
-                        class="text-center"
-                        th:text="${vente.employe.nom}"
-                      >
-                        Employé
-                      </td>
-                      <td
-                        class="text-center"
-                        th:text="${vente.client.nom}"
-                      >
-                        Client
-                      </td>
-                      <td class="text-center">
-                        <a
-                          th:href="@{/client/vente/{id}(id=${vente.idVente})}"
-                          class="btn btn-outline-primary btn-sm"
-                        >
-                          <i class="bi bi-pencil"></i> Détails
+                      <td class="text-start ps-4 fw-semibold" th:text="${vente.idVente}"></td>
+                      <td class="text-center" th:text="${#temporals.format(vente.dateVente, 'dd MMM yyyy')}"></td>
+                      <td class="text-center text-truncate" style="max-width: 200px;" 
+											th:text="${vente.adresseLivraison}"></td>
+                      <td class="text-end fw-bold text-primary" 
+											th:text="'$' + ${#numbers.formatDecimal(vente.montant, 1, 2)}"></td>
+                      <td class="text-center" th:text="${vente.employe.nom}"></td>
+                      <td class="text-center" th:text="${vente.client.nom}"></td>
+											<td class="text-center">
+												<span th:if="${vente.etat == 2}" class="badge bg-success">
+													<i class="bi bi-check-circle me-2"></i>
+													<span th:text="${#temporals.format(vente.dateLivree, 'dd MMM yyyy')}"></span>
+												</span>
+												<span th:if="${vente.etat != 2}" class="badge bg-warning">
+													<i class="bi bi-clock-history me-2"></i>Pending
+												</span>
+											</td>
+                      <td class="text-end pe-4">
+												<a th:href="@{/client/vente/{id}(id=${vente.idVente})}" 
+												class="btn btn-outline-light btn-sm">
+                          <i class="bi bi-eye"></i> Details
                         </a>
                       </td>
                     </tr>

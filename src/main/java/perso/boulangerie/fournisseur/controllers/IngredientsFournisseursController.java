@@ -25,14 +25,6 @@ public class IngredientsFournisseursController {
 		this.ingredientService = ingredientService;
 	}
 
-	@GetMapping
-	public String getAllIngredientsFournisseurs(Model model) {
-		List<IngredientsFournisseurs> ingredientsFournisseursList = ingredientsFournisseursService
-				.getIngredientsFournisseurss();
-		model.addAttribute("ingredientsFournisseursList", ingredientsFournisseursList);
-		return "fournisseur/ingredients-fournisseurs/list";
-	}
-
 	@GetMapping("new/{fournisseur-id}")
 	public String showNewForm(@PathVariable("fournisseur-id") Integer fournisseurId, Model model) {
 		model.addAttribute("ingredientsFournisseurs", new IngredientsFournisseurs());
