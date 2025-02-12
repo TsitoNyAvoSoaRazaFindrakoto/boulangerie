@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import perso.boulangerie.models.produit.ProduitsRecettes;
 import perso.boulangerie.models.produit.id.ProduitsRecettesId;
-import perso.boulangerie.services.produit.ProduitsRecettesService;
+import perso.boulangerie.services.produit.RecettesService;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProduitsRecettesController {
 
 	@Autowired
-	private ProduitsRecettesService produitsRecettesService;
+	private RecettesService produitsRecettesService;
 
 	@GetMapping
 	public String getAllProduits(Model model) {
