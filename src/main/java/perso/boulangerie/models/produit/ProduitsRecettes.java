@@ -6,16 +6,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import perso.boulangerie.models.produit.id.ProduitsRecettesId;
 
+@EqualsAndHashCode(callSuper=true)
 @Data
 @Entity
 @IdClass(ProduitsRecettesId.class)
-public class ProduitsRecettes {
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "idIngredient")
-	private Ingredient ingredient;
+public class ProduitsRecettes extends Recette{
 
 	@Id
 	@ManyToOne
@@ -23,6 +21,4 @@ public class ProduitsRecettes {
 	@JsonBackReference
 	private Produit produit;
 
-	private BigDecimal quantite;
-	private String instruction;
 }
