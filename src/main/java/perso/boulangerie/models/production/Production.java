@@ -25,15 +25,12 @@ public class Production {
 	private List<ProductionDetails> productionDetails;
 
 	public void setProductionDetails(List<ProductionDetails> productionDetailslist) {
-		if (productionDetailslist != null && !productionDetailslist.isEmpty()
-				&& productionDetailslist.get(0).getProduction() != null || productionDetailslist == null) {
-			return;
-		}
+		this.productionDetails.clear();
 		if (productionDetailslist != null) {
 			for (ProductionDetails details : productionDetailslist) {
 				details.setProduction(this);
 			}
+			this.productionDetails = productionDetailslist;
 		}
-		this.productionDetails = productionDetailslist;
 	}
 }

@@ -1,6 +1,7 @@
 package perso.boulangerie.models.produit;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -16,29 +17,29 @@ public class Produit {
 	private String nom;
 	private String description;
 	private BigDecimal prixUnitaire;
-	
+
 	@ManyToOne
-	@JoinColumn(name="idProduitCategorie")
+	@JoinColumn(name = "idProduitCategorie")
 	private ProduitCategorie categorie;
 	@ManyToOne
 	@JoinColumn(name = "idUnite")
 	private Unite unite;
 
 	@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<ProduitsRecettes> recettes;
+	private List<ProduitsRecettes> recettes = new ArrayList<>();
 
-	@OneToMany(mappedBy = "produit",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<PrixProduit> prix;
 
 	public void setRecettes(List<ProduitsRecettes> recetteslist) {
-		if (recetteslist != null && !recetteslist.isEmpty() && recetteslist.get(0).getProduit() != null
-				|| recetteslist == null) {
-			return;
+		recettes.clear();
+		if (recetteslist != null) {
+			for (ProduitsRecettes recette : recetteslist) {
+				recette.setProduit(this);
+			}
+			this.recettes = recetteslist;
+
 		}
-		for (ProduitsRecettes recette : recetteslist) {
-			recette.setProduit(this);
-		}
-		this.recettes = recetteslist;
 	}
 
 }

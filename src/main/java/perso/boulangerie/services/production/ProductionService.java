@@ -3,6 +3,7 @@ package perso.boulangerie.services.production;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import perso.boulangerie.models.production.Production;
 import perso.boulangerie.models.produit.ProduitFormat;
 import perso.boulangerie.repositories.production.ProductionRepo;
@@ -13,16 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductionService {
 	private ProductionRepo productionRepo;
 	private ProductionDetailsService productionDetailsService;
 	private ProduitFormatRepo produitFormatRepo;
 
-	public ProductionService(ProductionRepo productionRepo, ProductionDetailsService productionDetailsService, ProduitFormatRepo produitFormatRepo) {
-		this.productionRepo = productionRepo;
-		this.productionDetailsService = productionDetailsService;
-		this.produitFormatRepo = produitFormatRepo;
-	}
 
 	public List<Production> getProductions() {
 		return productionRepo.findAll();
@@ -44,11 +41,9 @@ public class ProductionService {
 
 	@Transactional
 	public Production save(Production production) {
+		production.setProduitFormat(produitFormatRepo.findById(production.getProduitFormat().getIdProduitFormat()).get());
 		production.setProductionDetails(productionDetailsService.createForProduction(production, true));
-		production.setIdProduction(productionRepo.save(production).getIdProduction());
-		productionDetailsService.saveAll(production.getProductionDetails());
-
-		return production;
+		return productionRepo.save(production);
 	}
 
 	public List<Production> getStockProduitFormat(Integer idProduit){
