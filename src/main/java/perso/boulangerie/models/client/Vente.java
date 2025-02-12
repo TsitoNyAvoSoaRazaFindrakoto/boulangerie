@@ -1,6 +1,8 @@
 package perso.boulangerie.models.client;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -38,16 +40,15 @@ public class Vente {
 	private Integer Etat;
 
 	@OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<VenteFacture> venteDetails;
+	private List<VenteFacture> venteDetails = new ArrayList<>();
 
 	public void setVenteDetails(List<VenteFacture> venteFactures) {
-		if (venteFactures != null && !venteFactures.isEmpty() && venteFactures.get(0).getVente() != null
-				|| venteFactures == null) {
-			return;
+		venteDetails.clear();
+		if (venteFactures != null) {
+			for (VenteFacture venteFacture : venteFactures) {
+				venteFacture.setVente(this);
+			}
+			this.venteDetails = venteFactures;
 		}
-		for (VenteFacture venteFacture : venteFactures) {
-			venteFacture.setVente(this);
-		}
-		this.venteDetails = venteFactures;
 	}
 }

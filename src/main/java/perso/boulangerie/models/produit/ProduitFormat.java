@@ -1,6 +1,7 @@
 package perso.boulangerie.models.produit;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -33,6 +34,17 @@ public class ProduitFormat {
 	@JoinColumn(name = "idFormat")
 	private Format format;
 
-	@OneToMany(mappedBy = "produitFormat", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-	private List<ProduitFormatRecette> recettes;
+	@OneToMany(mappedBy = "produitFormat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<ProduitFormatRecette> recettes = new ArrayList<>();
+
+	public void setRecettes(List<ProduitFormatRecette> recettes) {
+		this.recettes.clear();
+		if (recettes != null) {
+			for (ProduitFormatRecette produitFormatRecette : recettes) {
+				produitFormatRecette.setProduitFormat(this);
+			}
+			this.recettes = recettes;
+		}
+	}
+
 }
