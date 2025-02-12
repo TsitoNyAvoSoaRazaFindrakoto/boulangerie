@@ -1,13 +1,10 @@
 package perso.boulangerie.produit.controllers;
 
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
 import perso.boulangerie.produit.models.Produit;
 import perso.boulangerie.produit.services.ProduitService;

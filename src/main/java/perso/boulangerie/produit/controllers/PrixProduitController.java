@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
 import perso.boulangerie.produit.models.PrixProduit;
-import perso.boulangerie.produit.models.Produit;
 import perso.boulangerie.produit.repos.PrixProduitRepo;
 import perso.boulangerie.produit.repos.ProduitRepo;
 

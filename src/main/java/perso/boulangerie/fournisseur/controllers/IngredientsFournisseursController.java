@@ -8,7 +8,6 @@ import perso.boulangerie.fournisseur.services.FournisseurService;
 import perso.boulangerie.fournisseur.services.IngredientsFournisseursService;
 import perso.boulangerie.produit.services.IngredientService;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/fournisseur/ingredients-fournisseurs")
