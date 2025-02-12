@@ -15,7 +15,6 @@ import perso.boulangerie.repositories.production.ProductionDetailsRepo;
 import perso.boulangerie.services.fournisseur.IngredientEntreeService;
 import perso.boulangerie.services.produit.RecettesService;
 
-
 @Service
 public class ProductionDetailsService {
 	private ProductionDetailsRepo productionDetailsRepo;
@@ -23,13 +22,12 @@ public class ProductionDetailsService {
 	private RecettesService recettesService;
 	HashMap<Integer, List<IngredientEntree>> stockIngredient;
 
-
 	public ProductionDetailsService(ProductionDetailsRepo productionDetailsRepo,
 			IngredientEntreeService ingredientEntreeService, RecettesService recettesService) {
 		this.productionDetailsRepo = productionDetailsRepo;
 		this.ingredientEntreeService = ingredientEntreeService;
 		this.recettesService = recettesService;
-		this.stockIngredient =  ingredientEntreeService.getStockGroupByIngrdient();
+		this.stockIngredient = ingredientEntreeService.getStockGroupByIngrdient();
 	}
 
 	public List<ProductionDetails> getProductions() {
@@ -40,7 +38,6 @@ public class ProductionDetailsService {
 		return productionDetailsRepo.findById(id)
 				.orElseThrow(() -> new RuntimeException("Production not found with id: " + id));
 	}
-
 
 	public ProductionDetails save(ProductionDetails productionDetails) {
 		return productionDetailsRepo.save(productionDetails);
@@ -58,7 +55,8 @@ public class ProductionDetailsService {
 
 		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
-		BigDecimal necessesaryQuantity = recette.getQuantite().multiply(p.getProduitFormat().getFormat().getMultRecette()).multiply(new BigDecimal(p.getQuantite()));
+		BigDecimal necessesaryQuantity = recette.getQuantite().multiply(p.getProduitFormat().getFormat().getMultRecette())
+				.multiply(new BigDecimal(p.getQuantite()));
 
 		IngredientEntree ingredientEntree = stockIngredient.get(recette.getIngredient().getIdIngredient()).get(0);
 		while (necessesaryQuantity.compareTo(BigDecimal.ZERO) > 0) {
