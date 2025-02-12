@@ -17,7 +17,7 @@ import perso.boulangerie.models.produit.id.ProduitFormatRecetteId;
 @Entity
 @Data
 @IdClass(ProduitFormatRecetteId.class)
-public class ProduitFormatRecette extends Recettes{
+public class ProduitFormatRecette extends Recette{
 
 	@Id
 	@ManyToOne

@@ -13,7 +13,7 @@ import perso.boulangerie.models.produit.id.ProduitsRecettesId;
 @Data
 @Entity
 @IdClass(ProduitsRecettesId.class)
-public class ProduitsRecettes extends Recettes{
+public class ProduitsRecettes extends Recette{
 
 	@Id
 	@ManyToOne

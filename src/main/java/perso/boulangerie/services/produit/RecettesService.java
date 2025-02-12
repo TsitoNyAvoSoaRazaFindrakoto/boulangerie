@@ -11,7 +11,7 @@ import perso.boulangerie.models.produit.Produit;
 import perso.boulangerie.models.produit.ProduitFormat;
 import perso.boulangerie.models.produit.ProduitFormatRecette;
 import perso.boulangerie.models.produit.ProduitsRecettes;
-import perso.boulangerie.models.produit.Recettes;
+import perso.boulangerie.models.produit.Recette;
 import perso.boulangerie.models.produit.id.ProduitFormatRecetteId;
 import perso.boulangerie.models.produit.id.ProduitsRecettesId;
 import perso.boulangerie.repositories.produit.ProduitFormatsRecettesRepo;
@@ -76,8 +76,8 @@ public class RecettesService {
 		produitFormatsRecettesRepo.deleteById(id);
 	}
 
-	public List<Recettes> findRecetteByProduitFormat(ProduitFormat produitFormat) {
-		List<Recettes> ingredients = new ArrayList<>();
+	public List<Recette> findRecetteByProduitFormat(ProduitFormat produitFormat) {
+		List<Recette> ingredients = new ArrayList<>();
 		ingredients.addAll(findByProduit(produitFormat.getProduit()));
 		ingredients.addAll(findByProduitFormat(produitFormat));
 		return ingredients;

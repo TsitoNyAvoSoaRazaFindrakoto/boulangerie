@@ -10,7 +10,7 @@ import lombok.Data;
 
 @MappedSuperclass
 @Data
-public class Recettes {
+public class Recette {
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "idIngredient")

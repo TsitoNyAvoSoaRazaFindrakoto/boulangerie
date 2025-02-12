@@ -10,26 +10,25 @@ import org.springframework.stereotype.Service;
 import perso.boulangerie.models.fournisseur.IngredientEntree;
 import perso.boulangerie.models.production.Production;
 import perso.boulangerie.models.production.ProductionDetails;
-import perso.boulangerie.models.produit.Produit;
-import perso.boulangerie.models.produit.ProduitsRecettes;
+import perso.boulangerie.models.produit.Recette;
 import perso.boulangerie.repositories.production.ProductionDetailsRepo;
 import perso.boulangerie.services.fournisseur.IngredientEntreeService;
-import perso.boulangerie.services.produit.ProduitService;
+import perso.boulangerie.services.produit.RecettesService;
 
 
 @Service
 public class ProductionDetailsService {
 	private ProductionDetailsRepo productionDetailsRepo;
 	private IngredientEntreeService ingredientEntreeService;
-	private ProduitService produitService;
+	private RecettesService recettesService;
 	HashMap<Integer, List<IngredientEntree>> stockIngredient;
 
 
 	public ProductionDetailsService(ProductionDetailsRepo productionDetailsRepo,
-			IngredientEntreeService ingredientEntreeService, ProduitService produitService) {
+			IngredientEntreeService ingredientEntreeService, RecettesService recettesService) {
 		this.productionDetailsRepo = productionDetailsRepo;
 		this.ingredientEntreeService = ingredientEntreeService;
-		this.produitService = produitService;
+		this.recettesService = recettesService;
 		this.stockIngredient =  ingredientEntreeService.getStockGroupByIngrdient();
 	}
 
@@ -55,7 +54,7 @@ public class ProductionDetailsService {
 		return productionDetailsRepo.findByProduction(p);
 	}
 
-	public List<ProductionDetails> createForRecette(Production p, ProduitsRecettes recette) {
+	public List<ProductionDetails> createForRecette(Production p, Recette recette) {
 
 		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
@@ -93,10 +92,9 @@ public class ProductionDetailsService {
 		if (updateStock)
 			stockIngredient = ingredientEntreeService.getStockGroupByIngrdient();
 
-		Produit produit = produitService.getProduitById(p.getProduitFormat().getProduit().getIdProduit());
 		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
-		for (ProduitsRecettes recette : produit.getRecettes()) {
+		for (Recette recette : recettesService.findRecetteByProduitFormat(p.getProduitFormat())) {
 			productionDetails.addAll(createForRecette(p, recette));
 		}
 
