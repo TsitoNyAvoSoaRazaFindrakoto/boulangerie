@@ -29,7 +29,7 @@ public class Produit {
 	private List<ProduitsRecettes> recettes = new ArrayList<>();
 
 	@OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<PrixProduit> prix;
+	private List<PrixProduit> prix = new ArrayList<>();
 
 	public void setRecettes(List<ProduitsRecettes> recetteslist) {
 		recettes.clear();
@@ -39,6 +39,16 @@ public class Produit {
 			}
 			this.recettes = recetteslist;
 
+		}
+	}
+
+	public void setPrix(List<PrixProduit> prix) {
+		this.prix.clear();
+		if (prix != null) {
+			for (PrixProduit prixProduit : prix) {
+				prixProduit.setProduit(this);
+			}
+			this.prix = prix;
 		}
 	}
 
