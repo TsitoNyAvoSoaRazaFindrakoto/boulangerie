@@ -10,16 +10,14 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import perso.boulangerie.models.produit.id.ProduitFormatRecetteId;
 
+@EqualsAndHashCode(callSuper=true)
 @Entity
 @Data
 @IdClass(ProduitFormatRecetteId.class)
-public class ProduitFormatRecette {
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "idIngredient")
-	private Ingredient ingredient;
+public class ProduitFormatRecette extends Recettes{
 
 	@Id
 	@ManyToOne
@@ -27,6 +25,4 @@ public class ProduitFormatRecette {
 	@JsonBackReference
 	private ProduitFormat produitFormat;
 
-	private BigDecimal quantite;
-	private String instruction;
 }
