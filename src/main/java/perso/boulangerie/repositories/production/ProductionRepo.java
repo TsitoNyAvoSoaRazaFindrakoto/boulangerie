@@ -9,13 +9,15 @@ import perso.boulangerie.models.production.Production;
 import java.util.List;
 import java.time.LocalDateTime;
 
-
-public interface ProductionRepo extends JpaRepository<Production,Integer>{
+public interface ProductionRepo extends JpaRepository<Production, Integer> {
 	List<Production> findByDateProduction(LocalDateTime dateProduction);
 
-	@Query(value = "select * from Stock_Produit ",nativeQuery = true)
+	@Query(value = "select * from Stock_Produit ", nativeQuery = true)
 	List<Production> findStock();
 
-	@Query(value = "select * from Stock_Produit where id_produit_format = :idProduitFormat order by date_production",nativeQuery = true)
+	@Query(value = "select * from Stock_Produit where id_produit_format = :idProduitFormat order by date_production", nativeQuery = true)
 	List<Production> findStockByProduitFormat(@Param("idProduitFormat") Integer idProduitFormat);
+
+	@Query("SELECT p FROM Production p JOIN FETCH p.productionDetails WHERE p.idProduction = :id")
+	Production findByIdWithProductionDetails(Integer id);
 }

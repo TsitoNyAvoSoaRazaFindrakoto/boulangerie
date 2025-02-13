@@ -20,20 +20,17 @@ public class ProductionService {
 	private ProductionDetailsService productionDetailsService;
 	private ProduitFormatRepo produitFormatRepo;
 
-
 	public List<Production> getProductions() {
 		return productionRepo.findAll();
 	}
 
 	public Production findProduction(Integer id) {
-		Production p = productionRepo.findById(id).orElseThrow(() -> new RuntimeException("Production not found with id: " + id));
-		p.setProductionDetails(productionDetailsService.getByProduction(p));
-		return p;
+		return productionRepo.findByIdWithProductionDetails(id);
 	}
 
-	public HashMap<Integer,List<Production>> getStockGroupByProduitFormat(){
-		HashMap<Integer,List<Production>> stock = new HashMap<Integer,List<Production>>();
-		for (ProduitFormat produitFormat : produitFormatRepo.findAll()){
+	public HashMap<Integer, List<Production>> getStockGroupByProduitFormat() {
+		HashMap<Integer, List<Production>> stock = new HashMap<Integer, List<Production>>();
+		for (ProduitFormat produitFormat : produitFormatRepo.findAll()) {
 			stock.put(produitFormat.getIdProduitFormat(), getStockProduitFormat(produitFormat.getIdProduitFormat()));
 		}
 		return stock;
@@ -46,11 +43,11 @@ public class ProductionService {
 		return productionRepo.save(production);
 	}
 
-	public List<Production> getStockProduitFormat(Integer idProduit){
+	public List<Production> getStockProduitFormat(Integer idProduit) {
 		return productionRepo.findStockByProduitFormat(idProduit);
 	}
 
-	public List<Production> findByDate(LocalDateTime dateProd){
+	public List<Production> findByDate(LocalDateTime dateProd) {
 		return productionRepo.findByDateProduction(dateProd);
 	}
 
