@@ -14,8 +14,8 @@ public class Production {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProduction;
 
-	private LocalDateTime dateProduction;
-	private Integer quantite;
+	private LocalDateTime dateProduction = LocalDateTime.now();
+	private Integer quantite = 0;
 
 	@ManyToOne
 	@JoinColumn(name = "idProduitFormat")
