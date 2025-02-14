@@ -5,6 +5,7 @@ import lombok.Data;
 import perso.boulangerie.models.produit.ProduitFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,7 +23,7 @@ public class Production {
 	private ProduitFormat produitFormat;
 
 	@OneToMany(mappedBy = "production", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<ProductionDetails> productionDetails;
+	private List<ProductionDetails> productionDetails = new ArrayList<>();
 
 	public void setProductionDetails(List<ProductionDetails> productionDetailslist) {
 		this.productionDetails.clear();

@@ -43,6 +43,14 @@ public class ProductionService {
 		return productionRepo.save(production);
 	}
 
+	@Transactional
+	public Production update(Integer id,Production production) {
+		
+		production.setProduitFormat(produitFormatRepo.findById(production.getProduitFormat().getIdProduitFormat()).get());
+		production.setProductionDetails(productionDetailsService.createForProduction(production, true));
+		return productionRepo.save(production);
+	}
+
 	public List<Production> getStockProduitFormat(Integer idProduit) {
 		return productionRepo.findStockByProduitFormat(idProduit);
 	}
