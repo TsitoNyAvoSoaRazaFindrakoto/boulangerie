@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <div class="page-content">
+          <div class="card shadow-lg border-0 receipt-container">
+            <div class="card-body">
+              <!-- Receipt Header -->
+              <div class="text-center mb-5">
+                <h2 class="company-name">Dopaina</h2>
+              </div>
+
+              <!-- Production General Details -->
+              <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3"
+                   th:if="${production != null}">
+                <div>
+                  <h3 class="mb-0 text-primary">PRODUCTION</h3>
+                  <small class="text-muted">Production ID: <span th:text="${production.idProduction != null ? production.idProduction : 'N/A'}"></span></small>
+                </div>
+                <div class="text-end" th:if="${production.produitFormat != null}">
+                  <h4 class="mb-0" th:text="${production.produitFormat.nom != null ? production.produitFormat.nom : 'N/A'}">Product</h4>
+                  <small class="text-muted">Product Name</small>
+                </div>
+              </div>
+
+              <!-- Two-column layout for details -->
+              <div class="row mb-4" th:if="${production != null}">
+                <div class="col-md-6">
+                  <div class="border p-3 rounded-3">
+                    <h5 class="mb-3">Product Details:</h5>
+                    <ul class="list-unstyled" th:if="${production.produitFormat != null}">
+                      <li><strong>Product Name:</strong> <span th:text="${production.produitFormat.nom != null ? production.produitFormat.nom : 'N/A'}"></span></li>
+                      <li><strong>Product Type:</strong> <span th:text="${production.produitFormat.produit != null and production.produitFormat.produit.categorie != null ? production.produitFormat.produit.categorie.nom : 'N/A'}"></span></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="border p-3 rounded-3">
+                    <ul class="list-unstyled">
+                      <li><strong>Production Date:</strong> <span th:text="${production.dateProduction != null ? #temporals.format(production.dateProduction, 'dd MMM yyyy HH:mm') : 'N/A'}"></span></li>
+                      <li><strong>Quantity Produced:</strong> <span th:text="${production.quantite != null ? production.quantite : 'N/A'}"></span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Production Details Section -->
+              <h5 class="mt-4 mb-3 border-bottom pb-2">Ingredients Used</h5>
+              <div class="table-responsive">
+                <table class="table receipt-table" id="table1">
+                  <thead>
+                    <tr>
+                      <th>Ingredient</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="detail : ${production.productionDetails}" th:if="${production.productionDetails != null}">
+                      <td th:text="${detail.ingredientEntree != null and detail.ingredientEntree.ingredient != null ? detail.ingredientEntree.ingredient.nom : 'N/A'}">Ingredient Name</td>
+                      <td th:text="${detail.quantite != null ? detail.quantite : 'N/A'}">Quantity</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Actions for Production -->
+              <div class="d-flex justify-content-between mt-4 border-top pt-3" th:if="${production != null}">
+                <div>
+                  <a th:href="@{/production/edit/{id}(id=${production.idProduction})}" 
+                     class="btn btn-primary me-2">
+                    <i class="bi bi-pencil me-2"></i>Edit Production
+                  </a>
+                </div>
+                <div>
+                  <a th:href="@{/production/delete/{id}(id=${production.idProduction})}" 
+                     class="btn btn-danger">
+                    <i class="bi bi-trash me-2"></i>Delete Production
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

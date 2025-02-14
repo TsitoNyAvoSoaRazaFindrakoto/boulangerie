@@ -31,7 +31,7 @@ public class ProductionController {
 	public String getProductionDetails(@PathVariable("id") Integer id, Model model) {
 		Production production = productionService.findProduction(id);
 		model.addAttribute("production", production);
-		return "production/production/details";
+		return "production/production/detail";
 	}
 	@GetMapping("/new")
 	public String showNewProductionForm(Model model) {
@@ -61,7 +61,7 @@ public class ProductionController {
 		return "redirect:/production";
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@GetMapping("/delete/{id}")
 	public String deleteProduction(@PathVariable("id") Integer id) {
 		productionService.delete(id);
 		return "redirect:/production";

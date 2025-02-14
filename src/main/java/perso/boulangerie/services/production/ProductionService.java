@@ -45,9 +45,12 @@ public class ProductionService {
 
 	@Transactional
 	public Production update(Integer id,Production production) {
-		
-		production.setProduitFormat(produitFormatRepo.findById(production.getProduitFormat().getIdProduitFormat()).get());
-		production.setProductionDetails(productionDetailsService.createForProduction(production, true));
+		Production p = findProduction(id);
+		p.setProduitFormat(produitFormatRepo.findById(production.getProduitFormat().getIdProduitFormat()).get());
+		productionDetailsService.deleteAll(p.getProductionDetails());
+		p.setQuantite(production.getQuantite());
+		p.setDateProduction(production.getDateProduction());
+		p.setProductionDetails(productionDetailsService.createForProduction(production, true));
 		return productionRepo.save(production);
 	}
 

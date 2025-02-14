@@ -1,11 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-</head>
-<body>
-	List
-</body>
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <section class="section">
+          <div class="card shadow-lg border-0 my-2">
+            <div class="card-header d-flex justify-content-between align-items-center py-3">
+              <h4 class="card-title mb-0">Productions List</h4>
+              <a th:href="@{/production/new}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>New Production
+              </a>
+            </div>
+            <div class="card-body px-4 my-2">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0" id="table1">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="text-start ps-4">ID</th>
+                      <th class="text-center">Production Date</th>
+                      <th class="text-center">Product</th>
+                      <th class="text-center">Quantity</th>
+                      <th class="text-end pe-4">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="production : ${productions}">
+                      <td class="text-start ps-4 fw-semibold" th:text="${production.idProduction}"></td>
+                      <td class="text-center" th:text="${#temporals.format(production.dateProduction, 'dd MMM yyyy HH:mm')}"></td>
+                      <td class="text-center" th:text="${production.produitFormat.nom}"></td>
+                      <td class="text-center" th:text="${production.quantite}"></td>
+                      <td class="text-end pe-4">
+                        <a th:href="@{/production/{id}(id=${production.idProduction})}" 
+                           class="btn btn-outline-light btn-sm">
+                          <i class="bi bi-eye"></i> Details
+                        </a>
+                        <a th:href="@{/production/edit/{id}(id=${production.idProduction})}"
+                           class="btn btn-outline-warning btn-sm">
+                          <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a th:href="@{/production/delete/{id}(id=${production.idProduction})}"
+                           class="btn btn-outline-danger btn-sm">
+                          <i class="bi bi-trash"></i> Delete
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
 </html>

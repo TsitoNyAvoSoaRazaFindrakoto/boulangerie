@@ -15,7 +15,7 @@ public class Production {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProduction;
 
-	private LocalDateTime dateProduction = LocalDateTime.now();
+	private LocalDateTime dateProduction;
 	private Integer quantite = 0;
 
 	@ManyToOne
@@ -31,6 +31,7 @@ public class Production {
 			for (ProductionDetails details : productionDetailslist) {
 				details.setProduction(this);
 			}
+			System.out.println("created details");
 			this.productionDetails = productionDetailslist;
 		}
 	}

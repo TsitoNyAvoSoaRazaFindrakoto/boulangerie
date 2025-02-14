@@ -20,81 +20,98 @@ import perso.boulangerie.services.produit.RecettesService;
 @AllArgsConstructor
 public class ProductionDetailsService {
 
-    private ProductionDetailsRepo productionDetailsRepo;
-    private IngredientEntreeService ingredientEntreeService;
-    private RecettesService recettesService;
-    HashMap<Integer, List<IngredientEntree>> stockIngredient;
+	private ProductionDetailsRepo productionDetailsRepo;
+	private IngredientEntreeService ingredientEntreeService;
+	private RecettesService recettesService;
+	HashMap<Integer, List<IngredientEntree>> stockIngredient;
 
-    public List<ProductionDetails> getProductions() {
-        return productionDetailsRepo.findAll();
-    }
+	public List<ProductionDetails> getProductions() {
+		return productionDetailsRepo.findAll();
+	}
 
-    public ProductionDetails findProduction(Integer id) {
-        return productionDetailsRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Production not found with id: " + id));
-    }
+	public ProductionDetails findProduction(Integer id) {
+		return productionDetailsRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("Production not found with id: " + id));
+	}
 
-    public ProductionDetails save(ProductionDetails productionDetails) {
-        return productionDetailsRepo.save(productionDetails);
-    }
+	public ProductionDetails save(ProductionDetails productionDetails) {
+		return productionDetailsRepo.save(productionDetails);
+	}
 
-    public List<ProductionDetails> saveAll(List<ProductionDetails> productionDetailsList) {
-        return productionDetailsRepo.saveAll(productionDetailsList);
-    }
 
-    public List<ProductionDetails> getByProduction(Production p) {
-        return productionDetailsRepo.findByProduction(p);
-    }
+	public List<ProductionDetails> saveAll(List<ProductionDetails> productionDetailsList) {
+		return productionDetailsRepo.saveAll(productionDetailsList);
+	}
 
-    public List<ProductionDetails> createForRecette(Production p, Recette recette) {
+	public void  deleteAll(List<ProductionDetails> productionDetailsList) {
+	 productionDetailsRepo.deleteAll(productionDetailsList);
+	}
 
-        List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
-        BigDecimal necessesaryQuantity = recette.getQuantite().multiply(p.getProduitFormat().getFormat().getMultRecette())
-                .multiply(new BigDecimal(p.getQuantite()));
+	public List<ProductionDetails> getByProduction(Production p) {
+		return productionDetailsRepo.findByProduction(p);
+	}
 
-        IngredientEntree ingredientEntree = stockIngredient.get(recette.getIngredient().getIdIngredient()).get(0);
-        while (necessesaryQuantity.compareTo(BigDecimal.ZERO) > 0) {
-            if (stockIngredient.get(recette.getIngredient().getIdIngredient()).isEmpty()
-                    || ingredientEntree.getDateEntree().isAfter(p.getDateProduction())) {
-                throw new IllegalStateException(
-                        "Not enough of (" + recette.getIngredient().getNom() + ") to process the required quantity.");
-            }
+	public List<ProductionDetails> createForRecette(Production p, Recette recette) {
 
-            if (ingredientEntree.getQuantite().compareTo(BigDecimal.ZERO) == 0) {
-                stockIngredient.get(recette.getIngredient().getIdIngredient()).remove(0);
-                ingredientEntree = stockIngredient.get(recette.getIngredient().getIdIngredient()).get(0);
-                continue;
-            }
+		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
 
-            BigDecimal quantity = ingredientEntree.getQuantite().min(necessesaryQuantity);
-            ingredientEntree.setQuantite(ingredientEntree.getQuantite().subtract(quantity));
-            necessesaryQuantity = necessesaryQuantity.subtract(quantity);
+		BigDecimal recetteQuantity = recette.getQuantite();
+		BigDecimal formatMultRecette = p.getProduitFormat().getFormat().getMultRecette();
+		BigDecimal productionQuantity = new BigDecimal(p.getQuantite());
 
-            ProductionDetails pd = new ProductionDetails();
-            pd.setProduction(p);
-            pd.setIngredientEntree(ingredientEntree);
-            pd.setQuantite(quantity);
+		System.out.println("recetteQuantity: " + recetteQuantity);
+		System.out.println("formatMultRecette: " + formatMultRecette);
+		System.out.println("productionQuantity: " + productionQuantity);
 
-            productionDetails.add(pd);
-        }
-        return productionDetails;
-    }
+		BigDecimal necessesaryQuantity = recetteQuantity
+				.multiply(formatMultRecette)
+				.multiply(productionQuantity);
 
-    public List<ProductionDetails> createForProduction(Production p, boolean updateStock) {
-        if (updateStock)
-            stockIngredient = ingredientEntreeService.getStockGroupByIngrdient();
+		System.out.println("Required quantity of " + recette.getIngredient().getNom() + ": " + necessesaryQuantity);
 
-        List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
+		IngredientEntree ingredientEntree = stockIngredient.get(recette.getIngredient().getIdIngredient()).get(0);
+		while (necessesaryQuantity.compareTo(BigDecimal.ZERO) > 0) {
+			if (stockIngredient.get(recette.getIngredient().getIdIngredient()).isEmpty()
+					|| ingredientEntree.getDateEntree().isAfter(p.getDateProduction())) {
+				throw new IllegalStateException(
+						"Not enough of (" + recette.getIngredient().getNom() + ") to process the required quantity.");
+			}
 
-        for (Recette recette : recettesService.findRecetteByProduitFormat(p.getProduitFormat())) {
-            productionDetails.addAll(createForRecette(p, recette));
-        }
+			if (ingredientEntree.getQuantite().compareTo(BigDecimal.ZERO) == 0) {
+				stockIngredient.get(recette.getIngredient().getIdIngredient()).remove(0);
+				ingredientEntree = stockIngredient.get(recette.getIngredient().getIdIngredient()).get(0);
+				continue;
+			}
 
-        return productionDetails;
-    }
+			BigDecimal quantity = ingredientEntree.getQuantite().min(necessesaryQuantity);
+			ingredientEntree.setQuantite(ingredientEntree.getQuantite().subtract(quantity));
+			necessesaryQuantity = necessesaryQuantity.subtract(quantity);
 
-    public void delete(Integer id) {
-        productionDetailsRepo.deleteById(id);
-    }
+			ProductionDetails pd = new ProductionDetails();
+			pd.setProduction(p);
+			pd.setIngredientEntree(ingredientEntree);
+			pd.setQuantite(quantity);
+
+			productionDetails.add(pd);
+		}
+		return productionDetails;
+	}
+
+	public List<ProductionDetails> createForProduction(Production p, boolean updateStock) {
+		if (updateStock)
+			stockIngredient = ingredientEntreeService.getStockGroupByIngrdient();
+
+		List<ProductionDetails> productionDetails = new ArrayList<ProductionDetails>();
+
+		for (Recette recette : recettesService.findRecetteByProduitFormat(p.getProduitFormat())) {
+			productionDetails.addAll(createForRecette(p, recette));
+		}
+
+		return productionDetails;
+	}
+
+	public void delete(Integer id) {
+		productionDetailsRepo.deleteById(id);
+	}
 }
