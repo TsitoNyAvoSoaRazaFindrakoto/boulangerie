@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import perso.boulangerie.models.produit.ProduitFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Production {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProduction;
 
-	private LocalDateTime dateProduction;
+	private LocalDate dateProduction;
 	private Integer quantite = 0;
 
 	@ManyToOne
