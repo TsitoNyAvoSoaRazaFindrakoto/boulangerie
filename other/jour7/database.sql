@@ -115,10 +115,10 @@ CREATE TABLE
 CREATE TABLE
 	Vente (
 		Id_Vente SERIAL,
-		date_vente date NOT NULL,
+		date_vente TIMESTAMP NOT NULL,
 		montant NUMERIC(22, 2) NOT NULL,
 		commission_vendeur NUMERIC(15, 2) default 0,
-		date_livree date,
+		date_livree TIMESTAMP,
 		adresse_livraison VARCHAR(50),
 		etat INTEGER CHECK (etat IN (1, 2, 3)) default 1,
 		Id_Employe INTEGER NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE
 CREATE TABLE
 	Production (
 		Id_Production SERIAL,
-		date_production date NOT NULL,
+		date_production TIMESTAMP NOT NULL,
 		quantite INTEGER NOT NULL,
 		libelle VARCHAR(50),
 		Id_Produit_Format INTEGER NOT NULL,
@@ -176,7 +176,7 @@ CREATE TABLE
 	Ingredient_Entree (
 		Id_Ingredient_Entree SERIAL,
 		quantite NUMERIC(15, 2) NOT NULL,
-		date_entree date NOT NULL,
+		date_entree TIMESTAMP NOT NULL,
 		prix_unitaire NUMERIC(15, 2),
 		libelle VARCHAR(50),
 		Id_Fournisseur INTEGER NOT NULL,
