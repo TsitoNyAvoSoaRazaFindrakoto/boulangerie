@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="~{fragments/head.html}"></div>
+
+<body>
+    <div id="app">
+        <div th:replace="~{fragments/sidebar.html}"></div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <!-- Section principale -->
+            <div class="container mt-5">
+                <h2 class="mb-4">Rechercher des Ventes Factures</h2>
+
+                <!-- Deux formulaires côte à côte -->
+                <div class="row mb-5">
+                    <!-- Premier formulaire : Recherche par Format et Produit -->
+                    <div class="col-md-6">
+                        <form action="@{/client/vente-facture/critere1}" method="GET" class="p-3 border rounded">
+                            <h5 class="mb-3">Recherche par Format et Produit</h5>
+
+                            <div class="mb-3">
+                                <label for="format1" class="form-label">Format :</label>
+                                <select id="format1" name="IdFormat" class="form-select">
+                                    <option value="">Sélectionnez un format</option>
+                                    <option th:each="format : ${format}" 
+                                            th:value="${format.idFormat}" 
+                                            th:text="${format.nom}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="produit" class="form-label">Produit :</label>
+                                <select id="produit" name="idProduit" class="form-select">
+                                    <option value="">Sélectionnez un produit</option>
+                                    <option th:each="produit : ${produit}" 
+                                            th:value="${produit.idProduit}" 
+                                            th:text="${produit.nom}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Rechercher</button>
+                        </form>
+                    </div>
+
+                    <!-- Deuxième formulaire : Recherche par Format et Catégorie -->
+                    <div class="col-md-6">
+                        <form th:action="@{/client/vente-facture/critere2}" method="GET" class="p-3 border rounded">
+                            <h5 class="mb-3">Recherche par Format et Catégorie</h5>
+
+                            <div class="mb-3">
+                                <label for="format2" class="form-label">Format :</label>
+                                <select id="format2" name="IdFormat" class="form-select">
+                                    <option value="">Sélectionnez un format</option>
+                                    <option th:each="format : ${format}" 
+                                            th:value="${format.idFormat}" 
+                                            th:text="${format.nom}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="categorie" class="form-label">Catégorie :</label>
+                                <select id="categorie" name="idCategorie" class="form-select">
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    <option th:each="categorie : ${produitCategorie}" 
+                                            th:value="${categorie.idProduitCategorie}" 
+                                            th:text="${categorie.nom}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Rechercher</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Liste des résultats -->
+                <h3 class="mb-4">Résultats</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="table1">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Quantité</th>
+                                <th>Prix Unitaire</th>
+                                <th>Montant</th>
+                                <th>Produit</th>
+                                <th>Catégorie</th>
+                                <th>Format</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="facture : ${venteFactures}">
+                                <td th:text="${facture.idVenteFacture}"></td>
+                                <td th:text="${facture.quantite}"></td>
+                                <td th:text="${facture.prixUnitaire}"></td>
+                                <td th:text="${facture.montant}"></td>
+                                <td th:text="${facture.produitFormat.produit.nom}"></td>
+                                <td th:text="${facture.produitFormat.produit.categorie.nom}"></td>
+                                <td th:text="${facture.produitFormat.format.nom}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Fin de la section principale -->
+
+            <div th:replace="~{fragments/footer.html}"></div>
+        </div>
+    </div>
+</body>
+</html>

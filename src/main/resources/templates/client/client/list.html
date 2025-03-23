@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <div th:replace="~{fragments/head.html}"></div>
+
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <!-- Section principale -->
+        <div class="container">
+          <!-- Formulaire de recherche -->
+          <div class="row mb-5">
+            <div class="col-md-6">
+              <form
+                th:action="@{/client/filter}"
+                method="GET"
+                class="p-3 border rounded"
+              >
+                <h5 class="mb-3">Recherche par Intervalle de Date</h5>
+
+                <!-- Intervalle Date de Vente -->
+                <div class="mb-3">
+                  <label for="startDateVente" class="form-label"
+                    >Date de Vente Début</label
+                  >
+                  <input
+                    type="date"
+                    id="startDateVente"
+                    name="startDateVente"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="endDateVente" class="form-label"
+                    >Date de Vente Fin</label
+                  >
+                  <input
+                    type="date"
+                    id="endDateVente"
+                    name="endDateVente"
+                    class="form-control"
+                  />
+                </div>
+
+                <!-- Intervalle Date de Livraison -->
+                <div class="mb-3">
+                  <label for="startDateLivree" class="form-label"
+                    >Date de Livraison Début</label
+                  >
+                  <input
+                    type="date"
+                    id="startDateLivree"
+                    name="startDateLivree"
+                    class="form-control"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="endDateLivree" class="form-label"
+                    >Date de Livraison Fin</label
+                  >
+                  <input
+                    type="date"
+                    id="endDateLivree"
+                    name="endDateLivree"
+                    class="form-control"
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  Rechercher
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Liste des Clients -->
+          <section class="section">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <h1 class="mb-4">Liste des Clients</h1>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Adresse</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="client : ${ventes}">
+                        <td th:text="${client.idClient}"></td>
+                        <td th:text="${client.nom}"></td>
+                        <td th:text="${client.adresse}"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- Fin de la section principale -->
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

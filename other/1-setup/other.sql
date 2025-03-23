@@ -1,1 +1,0 @@
--- for views, triggers, functions

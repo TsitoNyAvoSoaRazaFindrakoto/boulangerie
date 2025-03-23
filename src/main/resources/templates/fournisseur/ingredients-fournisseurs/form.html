@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<div th:replace="~{fragments/head.html}"></div>
+	<body>
+		<div id="app">
+			<div th:replace="~{fragments/sidebar.html}"></div>
+			<div id="main">
+				<header class="mb-3">
+					<a href="#" class="burger-btn d-block d-xl-none">
+						<i class="bi bi-justify fs-3"></i>
+					</a>
+				</header>
+				<section
+					class="section d-flex justify-content-center align-items-center min-vh-100"
+				>
+					<div
+						class="card shadow-lg border-0"
+						style="max-width: 500px; width: 100%"
+					>
+						<div class="card-body">
+							<h1 class="mb-4 text-center">New Ingredient Fournisseur</h1>
+							<form
+								th:action="@{/fournisseur/ingredients-fournisseurs/save}"
+								th:object="${ingredientsFournisseurs}"
+								method="post"
+								class="form form-vertical"
+							>
+								<!-- ID Fournisseur (hidden) -->
+								<input
+									type="hidden"
+									th:field="*{fournisseur.idFournisseur}"
+								/>
+								<!-- Ingredient -->
+								<div class="form-group mb-4">
+									<label for="ingredient" class="form-label">Ingredient</label>
+									<select
+										id="ingredient"
+										name="ingredient"
+										th:field="*{ingredient.idIngredient}"
+										class="form-control"
+										required
+									>
+										<option
+											th:each="ingredient : ${ingredients}"
+											th:value="${ingredient.idIngredient}"
+											th:text="${ingredient.nom}"
+										></option>
+									</select>
+								</div>
+
+								<!-- Prix Unitaire -->
+								<div class="form-group mb-4">
+									<label for="prixUnitaire" class="form-label">Prix Unitaire</label>
+									<input
+										type="number"
+										id="prixUnitaire"
+										name="prixUnitaire"
+										th:field="*{prixUnitaire}"
+										class="form-control"
+										step="0.01"
+										required
+									/>
+								</div>
+
+								<!-- Boutons -->
+								<div class="d-flex justify-content-between">
+									<button type="submit" class="btn btn-primary btn-lg">
+										<i class="bi bi-save"></i> Save
+									</button>
+									<a
+										th:href="@{/fournisseur/ingredients-fournisseurs}"
+										class="btn btn-outline-secondary btn-lg"
+									>
+										<i class="bi bi-arrow-left"></i> Cancel
+									</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</section>
+
+				<div th:replace="~{fragments/footer.html}"></div>
+			</div>
+		</div>
+	</body>
+</html>
+</html>

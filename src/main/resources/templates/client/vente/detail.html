@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <div class="page-content">
+          <div class="card shadow-lg border-0 receipt-container">
+            <div class="card-body">
+              <!-- Receipt Header -->
+              <div class="text-center mb-5">
+                <h2 class="company-name">Dopaina</h2>
+              </div>
+
+              <!-- Vente General Details -->
+              <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div>
+                  <h3 class="mb-0 text-primary">INVOICE</h3>
+                  <small class="text-muted">Transaction ID: <span th:text="${vente.idVente}"></span></small>
+                </div>
+                <div class="text-end">
+                  <h4 class="mb-0" th:text="'$' + ${#numbers.formatDecimal(vente.montant, 1, 2)}">Montant Total</h4>
+                  <small class="text-muted">Total Amount</small>
+                </div>
+              </div>
+
+              <!-- Two-column layout for details -->
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <div class="border p-3 rounded-3">
+                    <h5 class="mb-3">Bill To:</h5>
+                    <ul class="list-unstyled">
+                      <li><strong th:text="${vente.client.nom}">Client Name</strong></li>
+                      <li th:text="${vente.client.adresse}">Client Address</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="border p-3 rounded-3">
+                    <ul class="list-unstyled">
+                      <li><strong>Date de Vente:</strong> <span th:text="${vente.dateVente}"></span></li>
+                      <li><strong>Date Livree:</strong> <span th:text="${vente.dateLivree}"></span></li>
+                      <li><strong>Adresse Livraison:</strong> <span th:text="${vente.adresseLivraison}"></span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Print Button -->
+              <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/client/vente/validate/{id}(id=${vente.idVente})}" class="btn btn-outline-primary">
+                  <i class="bi bi-printer me-2"></i>Valider vente
+								</a>
+              </div>
+
+              <!-- Vente Factures Section -->
+              <h5 class="mt-4 mb-3 border-bottom pb-2">Items</h5>
+              <div class="table-responsive">
+                <table class="table receipt-table" id="table1">
+                  <thead>
+                    <tr>
+                      <th>Produit</th>
+                      <th>Quantite</th>
+                      <th>Prix Unitaire</th>
+                      <th>Montant</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="facture : ${vente.venteDetails}">
+                      <td th:text="${facture.produitFormat.produit.nom}">Produit Name</td>
+                      <td th:text="${facture.quantite}">Quantite</td>
+                      <td th:text="${#numbers.formatDecimal(facture.prixUnitaire, 1, 2)}">Prix Unitaire</td>
+                      <td th:text="${#numbers.formatDecimal(facture.montant, 1, 2)}">Montant</td>
+                      <td>
+                        <a th:href="@{/client/vente-facture/edit/{id}(id=${facture.idVenteFacture})}" 
+                           class="btn btn-sm btn-outline-warning me-1">
+                          <i class="bi bi-pencil"></i>
+                        </a>
+                        <form th:action="@{/client/vente-facture/delete/{id}(id=${facture.idVenteFacture})}" 
+                              method="get" class="d-inline">
+                          <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Actions for Vente -->
+              <div class="d-flex justify-content-between mt-4 border-top pt-3">
+                <div>
+                  <a th:href="@{/vente/edit/{id}(id=${vente.idVente})}" 
+                     class="btn btn-primary me-2">
+                    <i class="bi bi-pencil me-2"></i>Modifier Vente
+                  </a>
+                  <a th:if="${vente.etat == 1}"
+                     th:href="@{/client/vente-facture/new/{vente-id}(vente-id=${vente.idVente})}" 
+                     class="btn btn-success">
+                    <i class="bi bi-plus me-2"></i>Ajouter Facture
+                  </a>
+                </div>
+                <div>
+                  <a th:href="@{/client/vente/delete/{id}(id=${vente.idVente})}" 
+                     class="btn btn-danger">
+                    <i class="bi bi-trash me-2"></i>Annuler Vente
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

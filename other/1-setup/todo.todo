@@ -1,5 +1,0 @@
-initialisation backend:
-	☐ configurer `application.properties`
-	☐ creer la base de donnees
-	☐ creer les classes entity
-	☐ lancer le projet 

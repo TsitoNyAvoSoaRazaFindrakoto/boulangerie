@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <section
+          class="section d-flex justify-content-center align-items-center min-vh-100"
+        >
+          <div
+            class="card shadow-lg border-0"
+            style="max-width: 500px; width: 100%"
+          >
+            <div class="card-body">
+              <h1 class="mb-4 text-center">Créer une Vente</h1>
+              <form
+                th:action="@{/client/vente}"
+                th:object="${vente}"
+                method="post"
+                class="form form-vertical"
+              >
+                <!-- Client -->
+                <div class="form-group mb-4">
+                  <label for="client" class="form-label"
+                    >Client (adresse habituelle)</label
+                  >
+                  <select
+                    id="client"
+                    name="client"
+                    th:field="*{client}"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      th:each="client : ${clients}"
+                      th:value="${client}"
+                      th:text="${client.nom} + ' (' + ${client.adresse} + ')' "
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Employe -->
+                <div class="form-group mb-4">
+                  <label for="employe" class="form-label">Employé</label>
+                  <select
+                    id="employe"
+                    name="employe"
+                    th:field="*{employe.idEmploye}"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      th:each="employe : ${employes}"
+                      th:value="${employe.idEmploye}"
+                      th:text="${employe.nom}"
+                    ></option>
+                  </select>
+                </div>
+
+                <!-- Date de vente -->
+                <div class="form-group mb-4">
+                  <label for="dateVente" class="form-label">Date de vente</label>
+                  <input
+                    type="datetime-local"
+                    id="dateVente"
+                    name="dateVente"
+                    th:field="*{dateVente}"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <!-- Adresse de Livraison -->
+                <div class="form-group mb-4">
+                  <label for="adresseLivraison" class="form-label"
+                    >Adresse de Livraison</label
+                  >
+                  <input
+                    type="text"
+                    id="adresseLivraison"
+                    name="adresseLivraison"
+                    th:field="*{adresseLivraison}"
+                    class="form-control"
+                    placeholder="Par défaut : adresse du client"
+                  />
+                </div>
+
+                <!-- Boutons -->
+                <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Enregistrer
+                  </button>
+                  <a
+                    th:href="@{/client/vente}"
+                    class="btn btn-outline-secondary btn-lg"
+                  >
+                    <i class="bi bi-arrow-left"></i> Annuler
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <section class="section">
+          <div class="card shadow-lg border-0 my-2">
+            <div class="card-header d-flex justify-content-between align-items-center py-3">
+              <h4 class="card-title mb-0">Sales List</h4>
+              <a th:href="@{/client/vente/new}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i>New Sale
+              </a>
+            </div>
+            <div class="card-body px-4 my-2">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0" id="table1">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="text-start ps-4">ID</th>
+                      <th class="text-center">Sale Date</th>
+                      <th class="text-center">Delivery Address</th>
+                      <th class="text-end">Amount</th>
+                      <th class="text-center">Employee</th>
+                      <th class="text-center">Client</th>
+                      <th class="text-center">Delivery Status</th>
+                      <th class="text-end pe-4">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="vente : ${ventes}">
+                      <td class="text-start ps-4 fw-semibold" th:text="${vente.idVente}"></td>
+                      <td class="text-center" th:text="${#temporals.format(vente.dateVente, 'dd MMM yyyy')}"></td>
+                      <td class="text-center text-truncate" style="max-width: 200px;" 
+											th:text="${vente.adresseLivraison}"></td>
+                      <td class="text-end fw-bold text-primary" 
+											th:text="'$' + ${#numbers.formatDecimal(vente.montant, 1, 2)}"></td>
+                      <td class="text-center" th:text="${vente.employe.nom}"></td>
+                      <td class="text-center" th:text="${vente.client.nom}"></td>
+											<td class="text-center">
+												<span th:if="${vente.etat == 2}" class="badge bg-success">
+													<i class="bi bi-check-circle me-2"></i>
+													<span th:text="${#temporals.format(vente.dateLivree, 'dd MMM yyyy')}"></span>
+												</span>
+												<span th:if="${vente.etat != 2}" class="badge bg-warning">
+													<i class="bi bi-clock-history me-2"></i>Pending
+												</span>
+											</td>
+                      <td class="text-end pe-4">
+												<a th:href="@{/client/vente/{id}(id=${vente.idVente})}" 
+												class="btn btn-outline-light btn-sm">
+                          <i class="bi bi-eye"></i> Details
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

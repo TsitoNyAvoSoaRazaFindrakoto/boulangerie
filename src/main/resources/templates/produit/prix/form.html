@@ -1,0 +1,91 @@
+<!-- File: src/main/resources/templates/produit/prix/form.html -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <div th:replace="~{fragments/head.html}"></div>
+
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+
+        <div class="page-heading">
+          <div class="page-title">
+            <h3
+              th:text="${prixProduit.idPrixProduit != null} ? 'Edit Price' : 'New Price'"
+            ></h3>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <form
+              th:action="${prixProduit.idPrixProduit != null} ? 
+                        @{/produit/prix/update/{id}(id=${prixProduit.idPrixProduit})} : @{/produit/prix}"
+              method="post"
+							th:object="${prixProduit}"
+            >
+              <!-- Hidden produit ID -->
+              <input
+                type="hidden"
+                name="produit"
+                th:field="*{produit.idProduit}"
+                th:value="${prixProduit.produit.idProduit}"
+              />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Product</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      th:value="${prixProduit.produit.nom}"
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      th:field="*{changement}"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Price</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      th:field="*{prixUnitaire}"
+                      step="0.01"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-save me-2"></i>Save
+                </button>
+                <a th:href="@{/produit/prix}" class="btn btn-light">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>

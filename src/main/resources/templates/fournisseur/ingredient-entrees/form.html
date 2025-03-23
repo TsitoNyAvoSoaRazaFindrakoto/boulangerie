@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:replace="~{fragments/head.html}"></div>
+  <body>
+    <div id="app">
+      <div th:replace="~{fragments/sidebar.html}"></div>
+      <div id="main">
+        <header class="mb-3">
+          <a href="#" class="burger-btn d-block d-xl-none">
+            <i class="bi bi-justify fs-3"></i>
+          </a>
+        </header>
+        <section class="section d-flex justify-content-center align-items-center min-vh-100">
+          <div class="card shadow-lg border-0" style="max-width: 440px; width: 100%">
+            <div class="card-body p-4">
+              <!-- Header Section -->
+              <div class="text-center mb-5">
+                <h3 class="card-title text-primary">Nouvelle Entrée d'Ingrédient</h3>
+                <p class="text-muted">Renseignez les détails de l'entrée en stock</p>
+              </div>
+
+              <form th:action="@{/fournisseur/ingredient-entrees}" th:object="${ingredientEntree}" method="post" class="form form-vertical">
+                <!-- Hidden Fields -->
+                <input type="hidden" name="idIngredient" th:field="*{ingredient.idIngredient}">
+                <input type="hidden" name="idFournisseur" th:field="*{fournisseur.idFournisseur}">
+                <input type="hidden" name="prixUnitaire" th:field="*{prixUnitaire}">
+
+                <!-- Fournisseur Input -->
+                <div class="mb-4">
+                  <label class="form-label d-flex align-items-center">
+                    <i class="bi bi-building me-2"></i>Fournisseur
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" 
+                           th:value="${ingredientEntree.fournisseur.nom}" 
+                           readonly
+                           >
+                    <span class="input-group-text">
+                      <i class="bi bi-lock text-muted"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Ingredient Input -->
+                <div class="mb-4">
+                  <label class="form-label d-flex align-items-center">
+                    <i class="bi bi-box-seam me-2"></i>Ingrédient
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" 
+                           th:value="${ingredientEntree.ingredient.nom}" 
+                           readonly
+                           >
+                    <span class="input-group-text">
+                      <i class="bi bi-lock text-muted"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Quantité Input -->
+                <div class="mb-4">
+                  <label class="form-label d-flex align-items-center">
+                    <i class="bi bi-boxes me-2"></i>Quantité
+                  </label>
+                  <div class="input-group" th:classappend="${#fields.hasErrors('quantite')} ? 'has-validation'">
+                    <span class="input-group-text">
+                      <i class="bi bi-123"></i>
+                    </span>
+                    <input type="number" 
+                           id="quantite"
+                           name="quantite"
+                           th:field="*{quantite}"
+                           class="form-control"
+                           step="0.01"
+                           min="0"
+                           required
+                           th:classappend="${#fields.hasErrors('quantite')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('quantite')}">
+                      <span th:errors="*{quantite}"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Date Input -->
+                <div class="mb-4">
+                  <label class="form-label d-flex align-items-center">
+                    <i class="bi bi-calendar-date me-2"></i>Date d'entrée
+                  </label>
+                  <div class="input-group" th:classappend="${#fields.hasErrors('dateEntree')} ? 'has-validation'">
+                    <span class="input-group-text">
+                      <i class="bi bi-clock-history"></i>
+                    </span>
+                    <input type="datetime-local"
+                           id="dateEntree"
+                           name="dateEntree"
+                           th:field="*{dateEntree}"
+                           class="form-control"
+                           required
+                           th:classappend="${#fields.hasErrors('dateEntree')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('dateEntree')}">
+                      <span th:errors="*{dateEntree}"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="d-flex justify-content-between mt-5">
+                  <a th:href="@{/fournisseur/ingredient-entrees}" 
+                     class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="bi bi-arrow-left me-2"></i>Annuler
+                  </a>
+                  <button type="submit" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-save me-2"></i>Enregistrer
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <div th:replace="~{fragments/footer.html}"></div>
+      </div>
+    </div>
+  </body>
+</html>
